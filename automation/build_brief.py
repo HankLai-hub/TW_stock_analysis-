@@ -81,7 +81,200 @@ def metric(live, key):
     return (live.get('metrics') or {}).get(key) or {}
 
 
-def daily_brief(live, global_data=None):
+
+def _bool_state(condition):
+    if condition is True:
+        return "met"
+    if condition is False:
+        return "not_met"
+    return "unknown"
+
+
+def build_risk_trend(history, live, limit=8):
+    rows = []
+    if isinstance(history, list):
+        rows.extend(x for x in history if isinstance(x, dict))
+    if isinstance(live, dict):
+        rows.append(live)
+
+    points = []
+    seen = set()
+    for row in rows:
+        risk = row.get("risk") or {}
+        score = risk.get("score")
+        ts = str(row.get("generatedAt") or "")
+        if not isinstance(score, (int, float)) or not ts:
+            continue
+        key = (ts, float(score))
+        if key in seen:
+            continue
+        seen.add(key)
+        points.append({
+            "at": ts,
+            "score": round(float(score), 1),
+            "label": risk.get("label") or risk_bucket(score),
+        })
+
+    points = sorted(points, key=lambda x: x["at"])[-limit:]
+    if len(points) < 2:
+        return {
+            "points": points,
+            "direction": "collecting",
+            "delta": None,
+            "note": "風險趨勢仍在累積中。",
+        }
+
+    delta = round(points[-1]["score"] - points[0]["score"], 1)
+    if delta >= 5:
+        direction = "improving"
+        note = f"最近 {len(points)} 次更新 Risk Score 改善 {delta:+.1f} 分。"
+    elif delta <= -5:
+        direction = "worsening"
+        note = f"最近 {len(points)} 次更新 Risk Score 惡化 {delta:+.1f} 分。"
+    else:
+        direction = "flat"
+        note = f"最近 {len(points)} 次更新 Risk Score 變化 {delta:+.1f} 分，整體偏持平。"
+
+    return {
+        "points": points,
+        "direction": direction,
+        "delta": delta,
+        "note": note,
+    }
+
+
+def build_scenarios(live, global_data):
+    risk = live.get("risk") or {}
+    local = risk.get("score") if isinstance(risk.get("score"), (int, float)) else None
+    global_score = (global_data.get("risk") or {}).get("score")
+    if not isinstance(global_score, (int, float)):
+        global_score = None
+
+    taiex_pct = pct(metric(live, "taiex").get("change"))
+    otc_pct = pct(metric(live, "otc").get("change"))
+    b_ratio = breadth_ratio(metric(live, "breadth").get("value"))
+    fspot = num(metric(live, "foreignSpot").get("value"))
+    ftx = num(metric(live, "foreignTx").get("value"))
+
+    facts = {
+        "local": local,
+        "global": global_score,
+        "taiex": taiex_pct,
+        "otc": otc_pct,
+        "breadth": b_ratio,
+        "foreignSpot": fspot,
+        "foreignTx": ftx,
+    }
+
+    def cond(label, value, description):
+        return {"label": label, "state": _bool_state(value), "description": description}
+
+    bull_conditions = [
+        cond("台股 Risk Score ≥ 55", None if local is None else local >= 55,
+             f"目前 {local:.0f}" if local is not None else "資料不足"),
+        cond("Global Macro Score ≥ 45", None if global_score is None else global_score >= 45,
+             f"目前 {global_score:.0f}" if global_score is not None else "資料不足"),
+        cond("市場廣度 ≥ 50%", None if b_ratio is None else b_ratio >= 0.50,
+             f"目前 {b_ratio*100:.1f}%" if b_ratio is not None else "資料不足"),
+        cond("外資現貨非賣超", None if fspot is None else fspot >= 0,
+             f"目前 {fspot:+,.0f} 億" if fspot is not None else "資料不足"),
+        cond("外資 TX 淨空低於 8 萬口", None if ftx is None else ftx > -80000,
+             f"目前 {ftx:+,.0f} 口" if ftx is not None else "資料不足"),
+        cond("TAIEX 日變動 ≥ 0", None if taiex_pct is None else taiex_pct >= 0,
+             f"目前 {taiex_pct:+.2f}%" if taiex_pct is not None else "資料不足"),
+    ]
+
+    bear_conditions = [
+        cond("台股 Risk Score < 35", None if local is None else local < 35,
+             f"目前 {local:.0f}" if local is not None else "資料不足"),
+        cond("Global Macro Score < 35", None if global_score is None else global_score < 35,
+             f"目前 {global_score:.0f}" if global_score is not None else "資料不足"),
+        cond("市場廣度 < 40%", None if b_ratio is None else b_ratio < 0.40,
+             f"目前 {b_ratio*100:.1f}%" if b_ratio is not None else "資料不足"),
+        cond("外資現貨賣超", None if fspot is None else fspot < 0,
+             f"目前 {fspot:+,.0f} 億" if fspot is not None else "資料不足"),
+        cond("外資 TX 淨空 ≥ 8 萬口", None if ftx is None else ftx <= -80000,
+             f"目前 {ftx:+,.0f} 口" if ftx is not None else "資料不足"),
+        cond("TAIEX 日變動 < 0", None if taiex_pct is None else taiex_pct < 0,
+             f"目前 {taiex_pct:+.2f}%" if taiex_pct is not None else "資料不足"),
+    ]
+
+    base_conditions = [
+        cond("台股 Risk Score 位於 30–55", None if local is None else 30 <= local <= 55,
+             f"目前 {local:.0f}" if local is not None else "資料不足"),
+        cond("Global Macro Score 位於 30–55", None if global_score is None else 30 <= global_score <= 55,
+             f"目前 {global_score:.0f}" if global_score is not None else "資料不足"),
+        cond("市場廣度位於 40–55%", None if b_ratio is None else 0.40 <= b_ratio <= 0.55,
+             f"目前 {b_ratio*100:.1f}%" if b_ratio is not None else "資料不足"),
+        cond("TAIEX 與櫃買未全面同向強勢",
+             None if taiex_pct is None or otc_pct is None else not (taiex_pct > 0 and otc_pct > 0),
+             (f"TAIEX {taiex_pct:+.2f}% / 櫃買 {otc_pct:+.2f}%"
+              if taiex_pct is not None and otc_pct is not None else "資料不足")),
+    ]
+
+    def raw_score(conditions):
+        known = [c for c in conditions if c["state"] != "unknown"]
+        if not known:
+            return 1.0
+        met = sum(1 for c in known if c["state"] == "met")
+        # Keep a small floor so no scenario is shown as impossible.
+        return 1.0 + 9.0 * met / len(known)
+
+    raw = {
+        "bull": raw_score(bull_conditions),
+        "base": raw_score(base_conditions),
+        "bear": raw_score(bear_conditions),
+    }
+    total = sum(raw.values()) or 1.0
+    match = {k: round(v / total * 100) for k, v in raw.items()}
+
+    # Normalize rounding to exactly 100.
+    diff = 100 - sum(match.values())
+    if diff:
+        leader = max(match, key=match.get)
+        match[leader] += diff
+
+    scenarios = [
+        {
+            "key": "bull",
+            "title": "Bull Case",
+            "match": match["bull"],
+            "tone": "good",
+            "summary": "資金、廣度與全球金融條件同步改善時，風險承擔才較完整。",
+            "conditions": bull_conditions,
+            "result": "若成立，市場型態偏向風險擴張與成長／高 Beta 資產重新取得優勢。",
+        },
+        {
+            "key": "base",
+            "title": "Base Case",
+            "match": match["base"],
+            "tone": "neutral",
+            "summary": "訊號分歧時，以區間、輪動與事件驅動為主要假設。",
+            "conditions": base_conditions,
+            "result": "若成立，優先看產業輪動、權值與中小型股相對強弱，而非追逐單一指數方向。",
+        },
+        {
+            "key": "bear",
+            "title": "Bear Case",
+            "match": match["bear"],
+            "tone": "bad",
+            "summary": "本地資金與全球金融條件同向偏空時，風險控制優先。",
+            "conditions": bear_conditions,
+            "result": "若成立，高估值、高 Beta 與槓桿集中標的通常承受較高估值／流動性壓力。",
+        },
+    ]
+
+    active = max(scenarios, key=lambda x: x["match"])
+    return {
+        "active": active["key"],
+        "activeTitle": active["title"],
+        "activeMatch": active["match"],
+        "note": "此處為規則式「模型匹配度」，不是未來情境發生機率。",
+        "scenarios": scenarios,
+        "facts": facts,
+    }
+
+def daily_brief(live, global_data=None, history=None):
     risk = live.get('risk') or {}
     score = risk.get('score') if isinstance(risk.get('score'), (int, float)) else None
     label = risk.get('label') or risk_bucket(score)
@@ -219,6 +412,9 @@ def daily_brief(live, global_data=None):
             rnote = '本地與全球訊號未完全同向，降低單一訊號權重。'
         resonance = {'label': rlabel, 'tone': rtone, 'score': combined, 'note': rnote}
 
+    scenarios = build_scenarios(live, global_data)
+    risk_trend = build_risk_trend(history or [], live)
+
     warnings = len(live.get('errors') or [])
     data_note = f'模型完整度 {confidence:.0f}%；目前 {warnings} 個來源 warning。' if warnings else f'模型完整度 {confidence:.0f}%；本次來源無 warning。'
 
@@ -231,6 +427,8 @@ def daily_brief(live, global_data=None):
         'tone': tone_from_score(score),
         'headline': headline,
         'resonance': resonance,
+        'scenarios': scenarios,
+        'riskTrend': risk_trend,
         'quickTake': bullets[:4],
         'shortView': short_view,
         'swingView': swing_view,
@@ -326,9 +524,9 @@ def weekly_brief(history, live):
         'status': 'ready',
         'generatedAt': live.get('generatedAt'),
         'headline': headline,
-        'resonance': resonance,
         'quickTake': quick[:4],
         'stats': stats,
+        'riskTrend': build_risk_trend(history, live, limit=8),
         'dataNote': f'使用最近 {len(recent)} 個不同完整交易日；同一交易日只取最後有效快照。',
     }
 
@@ -343,7 +541,7 @@ def main():
     obj = {
         'schemaVersion': 1,
         'generatedAt': live.get('generatedAt'),
-        'daily': daily_brief(live, global_data),
+        'daily': daily_brief(live, global_data, hist),
         'weekly': weekly_brief(hist, live),
     }
     write_json(OUT, obj)
