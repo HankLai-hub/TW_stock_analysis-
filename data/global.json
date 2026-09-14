@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T22:49:34+08:00",
+  "generatedAt": "2026-09-15T04:18:29+08:00",
   "macro": {
     "us2y": {
-      "value": 4.63,
-      "display": "4.63%",
-      "change": "+7 bp",
-      "asOf": "2026-09-11",
+      "value": 4.65,
+      "display": "4.65%",
+      "change": "+2 bp",
+      "asOf": "2026-09-14",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us10y": {
-      "value": 4.96,
-      "display": "4.96%",
+      "value": 4.97,
+      "display": "4.97%",
       "change": "+1 bp",
-      "asOf": "2026-09-11",
+      "asOf": "2026-09-14",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us30y": {
-      "value": 5.35,
-      "display": "5.35%",
-      "change": "-2 bp",
-      "asOf": "2026-09-11",
+      "value": 5.34,
+      "display": "5.34%",
+      "change": "-1 bp",
+      "asOf": "2026-09-14",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "spread2s10s": {
-      "value": 33.00000000000001,
-      "display": "+33 bp",
+      "value": 31.99999999999994,
+      "display": "+32 bp",
       "change": "10Y - 2Y",
-      "asOf": "2026-09-11",
+      "asOf": "2026-09-14",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
@@ -38,57 +38,17 @@
       "value": 2.6,
       "display": "2.60%",
       "change": "10Y real yield",
-      "asOf": "2026-09-11",
+      "asOf": "2026-09-14",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "broadDollar": {
-      "value": 118.0732,
-      "display": "118.07",
-      "change": "-0.05%",
-      "asOf": "Sep. 4",
+      "value": 118.2126,
+      "display": "118.21",
+      "change": "+0.11%",
+      "asOf": "Sep. 11",
       "source": "Federal Reserve H.10",
       "state": "official_weekly"
-    },
-    "cpi": {
-      "value": 3.3965478924364856,
-      "display": "3.4% YoY",
-      "change": "+0.4% MoM",
-      "asOf": "2026-08",
-      "source": "U.S. BLS",
-      "state": "official_monthly"
-    },
-    "coreCpi": {
-      "value": 2.4459799375700753,
-      "display": "2.4% YoY",
-      "change": "+0.3% MoM",
-      "asOf": "2026-08",
-      "source": "U.S. BLS",
-      "state": "official_monthly"
-    },
-    "unemployment": {
-      "value": 4.1,
-      "display": "4.1%",
-      "change": "Unemployment rate",
-      "asOf": "2026-08",
-      "source": "U.S. BLS",
-      "state": "official_monthly"
-    },
-    "payrolls": {
-      "value": 162.0,
-      "display": "+162k",
-      "change": "Nonfarm payroll monthly change",
-      "asOf": "2026-08",
-      "source": "U.S. BLS",
-      "state": "official_monthly"
-    },
-    "ahe": {
-      "value": 3.085745494265435,
-      "display": "3.1% YoY",
-      "change": "+0.3% MoM",
-      "asOf": "2026-08",
-      "source": "U.S. BLS",
-      "state": "official_monthly"
     }
   },
   "equity": {
@@ -307,18 +267,18 @@
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
       "美10Y單日上升 1bp。",
-      "Fed Broad Dollar最新週資料走弱 0.05%。"
+      "Fed Broad Dollar最新週資料走強 0.11%。"
     ]
   },
   "risk": {
     "score": 28,
     "label": "Risk-Off",
-    "confidence": 75,
+    "confidence": 50,
     "drivers": [
       {
         "name": "美債10Y",
         "direction": "negative",
-        "reason": "4.96%：偏不利科技估值"
+        "reason": "4.97%：偏不利科技估值"
       },
       {
         "name": "10Y實質利率",
@@ -332,48 +292,47 @@
     {
       "name": "U.S. Treasury yield curve",
       "status": "ok",
-      "asOf": "2026-09-11"
+      "asOf": "2026-09-14"
     },
     {
       "name": "U.S. Treasury real yields",
       "status": "ok",
-      "asOf": "2026-09-11"
+      "asOf": "2026-09-14"
     },
     {
       "name": "Federal Reserve H.10 broad dollar",
       "status": "ok",
-      "asOf": "Sep. 4"
-    },
-    {
-      "name": "U.S. BLS Public Data API",
-      "status": "ok",
-      "asOf": "2026-08"
+      "asOf": "Sep. 11"
     },
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-14T22:49:36+08:00"
+      "asOf": "2026-09-15T04:18:30+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-14T22:49:36+08:00"
+      "asOf": "2026-09-15T04:18:30+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-14T22:49:36+08:00"
+      "asOf": "2026-09-15T04:18:30+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-14T22:49:36+08:00"
+      "asOf": "2026-09-15T04:18:31+08:00"
     }
   ],
   "errors": [
     {
       "source": "U.S. EIA crude spot prices",
       "message": "EIA daily date headers not recognized"
+    },
+    {
+      "source": "U.S. BLS macro data",
+      "message": "BLS API status: REQUEST_NOT_PROCESSED ['Request could not be serviced, as the daily threshold for total number of requests allocated to the user with registration key  has been reached.']"
     }
   ]
 }
