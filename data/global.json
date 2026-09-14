@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T20:44:39+08:00",
+  "generatedAt": "2026-09-14T21:55:26+08:00",
   "macro": {
     "us2y": {
       "value": 4.63,
@@ -200,6 +200,116 @@
       "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
     }
   ],
+  "events": [
+    {
+      "source": "U.S. BLS",
+      "title": "U.S. Import and Export Price Indexes",
+      "scheduledAt": "2026-09-16T20:30+08:00",
+      "category": "通膨",
+      "impact": 3,
+      "watch": "進口價格對商品通膨的邊際影響。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 15–16）",
+      "scheduledAt": "2026-09-17T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 16–17）",
+      "scheduledAt": "2026-09-18T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "State Employment and Unemployment (Monthly)",
+      "scheduledAt": "2026-09-18T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 17–18）",
+      "scheduledAt": "2026-09-19T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 19–20）",
+      "scheduledAt": "2026-09-21T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 20–21）",
+      "scheduledAt": "2026-09-22T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "FOMC 利率決策（September 21–22）",
+      "scheduledAt": "2026-09-23T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+      "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "Employee Tenure",
+      "scheduledAt": "2026-09-24T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "Job Flexibilities and Work Schedules",
+      "scheduledAt": "2026-09-24T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "Employee Benefits in the United States",
+      "scheduledAt": "2026-09-25T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    }
+  ],
+  "reaction": {
+    "label": "跨資產訊號分歧",
+    "tone": "neutral",
+    "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
+    "bullets": [
+      "美10Y單日上升 1bp。",
+      "Fed Broad Dollar最新週資料走弱 0.05%。"
+    ]
+  },
   "risk": {
     "score": 28,
     "label": "Risk-Off",
@@ -242,12 +352,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-14T20:44:41+08:00"
+      "asOf": "2026-09-14T21:55:28+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-14T20:44:41+08:00"
+      "asOf": "2026-09-14T21:55:28+08:00"
+    },
+    {
+      "name": "U.S. BLS official release calendar",
+      "status": "ok",
+      "asOf": "2026-09-14T21:55:28+08:00"
+    },
+    {
+      "name": "Federal Reserve FOMC calendar",
+      "status": "ok",
+      "asOf": "2026-09-14T21:55:28+08:00"
     }
   ],
   "errors": [
