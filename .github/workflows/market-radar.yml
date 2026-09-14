@@ -37,6 +37,7 @@ jobs:
     env:
       INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
       INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
+      INTRADAY_PUBLIC_DISPLAY: ${{ secrets.INTRADAY_PUBLIC_DISPLAY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -216,6 +217,9 @@ jobs:
         working-directory: automation
         run: python fetch_market.py --kind "${{ steps.mode.outputs.kind }}"
 
+      - name: Build automatic daily and weekly brief
+        run: python automation/build_brief.py
+
       - name: Validate static research data
         run: npm run check
 
@@ -228,7 +232,7 @@ jobs:
         run: |
           git config user.name "tw-market-radar-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/live.json data/live-history.json history/
+          git add data/live.json data/live-history.json data/auto-brief.json history/
           if git diff --cached --quiet; then
             echo "No market-data changes to commit."
           else
