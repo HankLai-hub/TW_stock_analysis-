@@ -1,1 +1,249 @@
+name: TW Market Radar Auto Update
 
+on:
+  workflow_dispatch:
+    inputs:
+      update_kind:
+        description: "資料更新模式"
+        required: true
+        default: "afterhours"
+        type: choice
+        options:
+          - intraday
+          - afterhours
+          - deploy-only
+  schedule:
+    # GitHub cron 使用 UTC。台北時間 = UTC+8。
+    # 盤中：09:07、10:07、11:07、12:07、13:07（週一至週五）
+    - cron: "7 1-5 * * 1-5"
+    # 盤後：15:17、18:17、21:17，以及當晚/隔日 00:17、03:17、06:17
+    - cron: "17 7,10,13,16,19,22 * * 1-5"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: tw-market-radar-pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
+      INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Repair TPEx TWCA certificate chain
+        shell: bash
+        run: |
+          set -u
+
+          TPEx_URL="https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index"
+
+          echo "Checking TPEx HTTPS certificate validation..."
+          if python - <<'PY'
+          import urllib.request
+          with urllib.request.urlopen(
+              "https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index",
+              timeout=20,
+          ) as r:
+              print("TPEx TLS already valid:", r.status)
+          PY
+          then
+            echo "TPEx certificate chain is already trusted."
+            exit 0
+          fi
+
+          echo "TPEx server is not sending a complete chain to this runner."
+          echo "Attempting a pinned TWCA SSL CA repair."
+
+          # Read only the TPEx leaf certificate. Trust is NOT granted here.
+          if ! (openssl s_client \
+              -connect www.tpex.org.tw:443 \
+              -servername www.tpex.org.tw \
+              -showcerts </dev/null 2>/dev/null || true) \
+              | awk '
+                /-----BEGIN CERTIFICATE-----/ {n++}
+                n==1 {print}
+                /-----END CERTIFICATE-----/ && n==1 {exit}
+              ' > /tmp/tpex-leaf.pem
+          then
+            echo "::warning::Unable to inspect TPEx certificate. Continuing without TPEx."
+            exit 0
+          fi
+
+          if [[ ! -s /tmp/tpex-leaf.pem ]]; then
+            echo "::warning::TPEx leaf certificate was empty. Continuing without TPEx."
+            exit 0
+          fi
+
+          ISSUER_URI="$(
+            openssl x509 -in /tmp/tpex-leaf.pem -noout -text \
+            | sed -n 's/.*CA Issuers - URI:\(.*\)/\1/p' \
+            | head -n 1
+          )"
+
+          if [[ -z "${ISSUER_URI}" ]]; then
+            echo "::warning::TPEx leaf has no CA Issuers URI. Continuing without TPEx."
+            exit 0
+          fi
+
+          echo "Issuer URI: ${ISSUER_URI}"
+
+          # AIA may use HTTP. Integrity is enforced below by an exact
+          # audited SHA-256 fingerprint before the certificate is trusted.
+          if ! curl -fsSL --retry 3 --retry-delay 2 \
+              "${ISSUER_URI}" -o /tmp/tpex-issuer.bin
+          then
+            echo "::warning::Unable to download TPEx issuer. Continuing without TPEx."
+            exit 0
+          fi
+
+          if openssl x509 -inform DER \
+            -in /tmp/tpex-issuer.bin -noout >/dev/null 2>&1
+          then
+            openssl x509 -inform DER \
+              -in /tmp/tpex-issuer.bin -out /tmp/tpex-issuer.pem
+          elif openssl x509 \
+            -in /tmp/tpex-issuer.bin -noout >/dev/null 2>&1
+          then
+            cp /tmp/tpex-issuer.bin /tmp/tpex-issuer.pem
+          else
+            echo "::warning::TPEx issuer is not a recognized X.509 certificate."
+            exit 0
+          fi
+
+          SUBJECT="$(
+            openssl x509 -in /tmp/tpex-issuer.pem \
+              -noout -subject -nameopt RFC2253
+          )"
+          ISSUER="$(
+            openssl x509 -in /tmp/tpex-issuer.pem \
+              -noout -issuer -nameopt RFC2253
+          )"
+          ACTUAL_SHA256="$(
+            openssl x509 -in /tmp/tpex-issuer.pem \
+              -noout -fingerprint -sha256 \
+            | cut -d= -f2 \
+            | tr -d ':' \
+            | tr '[:upper:]' '[:lower:]'
+          )"
+
+          # TWCA SSL Certification Authority, issued by TWCA CYBER Root CA.
+          # WebTrust audited SHA-256:
+          # 01AF2324D098098F5E0CDF6FAABADA430B21CCE777F47EACB26248B2FDA3E531
+          EXPECTED_SHA256="01af2324d098098f5e0cdf6faabada430b21cce777f47eacb26248b2fda3e531"
+
+          echo "Issuer subject: ${SUBJECT}"
+          echo "Issuer issuer : ${ISSUER}"
+          echo "Issuer SHA256 : ${ACTUAL_SHA256}"
+
+          if [[ "${ACTUAL_SHA256}" != "${EXPECTED_SHA256}" ]]; then
+            echo "::warning::Unexpected TWCA issuer fingerprint. Refusing to trust it; continuing without TPEx."
+            exit 0
+          fi
+
+          if [[ "${SUBJECT}" != *"CN=TWCA SSL Certification Authority"* ]] || \
+             [[ "${SUBJECT}" != *"O=TAIWAN-CA"* ]] || \
+             [[ "${ISSUER}" != *"CN=TWCA CYBER Root CA"* ]]
+          then
+            echo "::warning::TWCA issuer identity did not match the pinned certificate. Continuing without TPEx."
+            exit 0
+          fi
+
+          # The certificate is now pinned by its audited SHA-256 and identity.
+          # Install it as a runner-local trust anchor for this ephemeral CI job.
+          sudo cp /tmp/tpex-issuer.pem \
+            /usr/local/share/ca-certificates/twca-tpex-ssl-ca.crt
+          sudo update-ca-certificates
+
+          echo "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt" \
+            >> "$GITHUB_ENV"
+
+          if python - <<'PY'
+          import urllib.request
+          with urllib.request.urlopen(
+              "https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index",
+              timeout=20,
+          ) as r:
+              print("TPEx TLS repaired:", r.status)
+          PY
+          then
+            echo "TPEx certificate repair succeeded."
+          else
+            echo "::warning::TPEx TLS still cannot be validated. Continuing with TPEx fields as N/A."
+          fi
+
+      - name: Decide update mode
+        id: mode
+        shell: bash
+        run: |
+          KIND="deploy-only"
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            if [[ "${{ github.event.schedule }}" == "7 1-5 * * 1-5" ]]; then
+              KIND="intraday"
+            else
+              KIND="afterhours"
+            fi
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            KIND="${{ inputs.update_kind }}"
+          fi
+          echo "kind=$KIND" >> "$GITHUB_OUTPUT"
+          echo "Update mode: $KIND"
+
+      - name: Fetch official market data
+        if: steps.mode.outputs.kind != 'deploy-only'
+        working-directory: automation
+        run: python fetch_market.py --kind "${{ steps.mode.outputs.kind }}"
+
+      - name: Validate static research data
+        run: npm run check
+
+      - name: Validate live data
+        run: python automation/validate_live.py
+
+      - name: Save updated snapshots to repository
+        if: steps.mode.outputs.kind != 'deploy-only'
+        shell: bash
+        run: |
+          git config user.name "tw-market-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live.json data/live-history.json history/
+          if git diff --cached --quiet; then
+            echo "No market-data changes to commit."
+          else
+            git commit -m "chore: auto market data update [skip ci]"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
