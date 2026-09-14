@@ -105,6 +105,233 @@ def _latest_dated_row(rows):
     return rows[-1] if rows else None
 
 
+def _same_day_target(kind: str) -> str | None:
+    """Return today's Taipei date only when same-day post-close data may exist."""
+    now = now_taipei()
+    if kind not in {"afterhours", "manual"}:
+        return None
+    if now.weekday() >= 5:
+        return None
+    if (now.hour, now.minute) < (13, 40):
+        return None
+    return now.strftime("%Y-%m-%d")
+
+
+def _iter_twse_tables(payload):
+    """Yield TWSE RWD tables across both modern tables[] and legacy dataN shapes."""
+    if not isinstance(payload, dict):
+        return
+    tables = payload.get("tables") or []
+    for t in tables:
+        if isinstance(t, dict):
+            yield t.get("title", ""), t.get("fields") or [], t.get("data") or []
+    # Compatibility with older response shape.
+    for i in range(1, 30):
+        fields = payload.get(f"fields{i}")
+        data = payload.get(f"data{i}")
+        if fields and data:
+            yield payload.get(f"title{i}", ""), fields, data
+
+
+def _field_index(fields, candidates):
+    from common import compact
+    normalized = [compact(x) for x in fields]
+    # Exact matches first. Never let a short generic field such as "指數"
+    # match the more specific candidate "收盤指數".
+    for candidate in candidates:
+        c = compact(candidate)
+        for i, value in enumerate(normalized):
+            if c and c == value:
+                return i
+    for candidate in candidates:
+        c = compact(candidate)
+        for i, value in enumerate(normalized):
+            if c and c in value:
+                return i
+    return None
+
+
+def _parse_twse_same_day_index(payload, target_iso):
+    for _title, fields, data in _iter_twse_tables(payload):
+        for row in data:
+            if not isinstance(row, list) or not row:
+                continue
+            if not any("發行量加權股價指數" in str(x) for x in row[:2]):
+                continue
+            close_i = _field_index(fields, ["收盤指數", "收盤"])
+            sign_i = _field_index(fields, ["漲跌(+/-)", "漲跌符號", "漲跌"])
+            pct_i = _field_index(fields, ["漲跌百分比", "漲跌幅"])
+            value = to_float(row[close_i] if close_i is not None and close_i < len(row) else (row[1] if len(row) > 1 else None))
+            pct_raw = row[pct_i] if pct_i is not None and pct_i < len(row) else (row[4] if len(row) > 4 else None)
+            sign_raw = row[sign_i] if sign_i is not None and sign_i < len(row) else (row[2] if len(row) > 2 else None)
+            pct = signed_number(pct_raw, sign_raw)
+            if value is None:
+                raise ValueError("TWSE targeted TAIEX close field not recognized")
+            return value, pct, target_iso
+    raise ValueError("TWSE targeted TAIEX row not found")
+
+
+def _parse_twse_same_day_breadth(payload, target_iso):
+    for title, fields, data in _iter_twse_tables(payload):
+        if "漲跌證券數合計" not in str(title):
+            continue
+        stock_col = 2
+        if isinstance(fields, list) and "股票" in fields:
+            stock_col = fields.index("股票")
+        labels = {str(r[0]).strip(): r[stock_col] for r in data if isinstance(r, list) and len(r) > stock_col}
+        up = _parse_count_cell(next((v for k, v in labels.items() if k.startswith("上漲")), None))
+        down = _parse_count_cell(next((v for k, v in labels.items() if k.startswith("下跌")), None))
+        flat = _parse_count_cell(labels.get("持平"))
+        if up is None or down is None:
+            raise ValueError("TWSE targeted breadth counts not recognized")
+        return up, down, flat, target_iso
+    raise ValueError("TWSE targeted breadth table not found")
+
+
+def _parse_twse_same_day_turnover(payload, target_iso):
+    if not isinstance(payload, dict) or str(payload.get("stat", "")).upper() != "OK":
+        raise ValueError("TWSE targeted FMTQIK unavailable")
+    fields = payload.get("fields") or []
+    data = payload.get("data") or []
+    date_i = _field_index(fields, ["日期", "Date"])
+    amount_i = _field_index(fields, ["成交金額", "成交值", "TradeValue"])
+    for row in data:
+        if not isinstance(row, list):
+            continue
+        row_iso = roc_to_iso(row[date_i]) if date_i is not None and date_i < len(row) else None
+        if row_iso == target_iso:
+            amount = to_float(row[amount_i] if amount_i is not None and amount_i < len(row) else (row[2] if len(row) > 2 else None))
+            if amount is None:
+                raise ValueError("TWSE targeted turnover amount not recognized")
+            return amount, target_iso
+    raise ValueError(f"TWSE targeted turnover row not found for {target_iso}")
+
+
+def fetch_twse_same_day_close(snap, kind: str):
+    """Override lagging OpenAPI snapshots with date-targeted TWSE official close data.
+
+    TWSE OpenAPI can lag the same-day RWD pages after the close. This function is
+    intentionally best-effort: if today's official endpoint is not ready yet, the
+    previous verified snapshot remains visible and a pending source status is kept.
+    """
+    target = _same_day_target(kind)
+    if not target:
+        return
+    ymd = target.replace("-", "")
+    try:
+        payload = http_json(f"{TWSE_WEB}/afterTrading/MI_INDEX?{urlencode({'date': ymd, 'type': 'ALL', 'response': 'json'})}")
+        if not isinstance(payload, dict) or str(payload.get("stat", "")).upper() != "OK":
+            raise ValueError(f"TWSE same-day MI_INDEX not ready for {target}")
+        value, pct, date = _parse_twse_same_day_index(payload, target)
+        snap["metrics"]["taiex"] = metric(fmt_number(value), fmt_pct(pct), date, "official_close", "TWSE")
+        source_ok(snap, "TWSE same-day TAIEX", date, "date-targeted official RWD")
+
+        try:
+            up, down, flat, bdate = _parse_twse_same_day_breadth(payload, target)
+            snap["metrics"]["breadth"] = metric(
+                f"{up}↑ / {down}↓", f"平盤 {flat}" if flat is not None else "",
+                bdate, "official_close", "TWSE 股票"
+            )
+            source_ok(snap, "TWSE same-day breadth", bdate, "date-targeted official RWD")
+        except Exception as breadth_exc:
+            snap["sourceStatus"].append({"name":"TWSE same-day breadth","state":"pending","asOf":"","detail":str(breadth_exc)[:260]})
+    except Exception as exc:
+        snap["sourceStatus"].append({"name":"TWSE same-day close","state":"pending","asOf":"","detail":str(exc)[:260]})
+
+    try:
+        fmt = http_json(f"{TWSE_WEB}/afterTrading/FMTQIK?{urlencode({'date': ymd, 'response': 'json'})}")
+        amount, date = _parse_twse_same_day_turnover(fmt, target)
+        snap["metrics"]["turnover"] = metric(f"{amount / 1e8:,.0f} 億", "", date, "official_close", "TWSE")
+        source_ok(snap, "TWSE same-day turnover", date, "date-targeted official RWD")
+    except Exception as exc:
+        snap["sourceStatus"].append({"name":"TWSE same-day turnover","state":"pending","asOf":"","detail":str(exc)[:260]})
+
+
+def _parse_bfi82u_payload(payload, target_iso=None):
+    if not isinstance(payload, dict) or str(payload.get("stat", "")).upper() != "OK":
+        raise ValueError("BFI82U official JSON unavailable")
+    fields = payload.get("fields") or []
+    data = payload.get("data") or []
+    date = roc_to_iso(payload.get("date")) or _roc_date_from_text(payload.get("title", "")) or target_iso or "最新官方盤後"
+    target = None
+    for row in data:
+        if isinstance(row, list) and row and str(row[0]).strip().startswith("外資及陸資"):
+            target = row
+            break
+    if not target:
+        raise ValueError("foreign investor row not found in BFI82U JSON")
+    net = None
+    if fields and "買賣差額" in fields:
+        idx = fields.index("買賣差額")
+        if idx < len(target):
+            net = to_float(target[idx])
+    if net is None and len(target) >= 4:
+        net = to_float(target[-1])
+    if net is None:
+        raise ValueError("foreign investor net field not recognized")
+    return net, date
+
+
+def fetch_twse_same_day_afterhours(snap, kind: str):
+    target = _same_day_target(kind)
+    if not target:
+        return
+    ymd = target.replace("-", "")
+
+    # Foreign spot: explicit dayDate prevents a lagging latest endpoint from
+    # silently carrying Friday's value into Monday evening.
+    try:
+        payload = http_json(f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'json','type':'day','dayDate':ymd})}")
+        net, date = _parse_bfi82u_payload(payload, target)
+        if date != target:
+            raise ValueError(f"BFI82U returned {date}, expected {target}")
+        snap["metrics"]["foreignSpot"] = metric(f"{net / 1e8:+,.2f} 億", "上市市場", date, "official_afterhours", "TWSE")
+        source_ok(snap, "TWSE same-day BFI82U", date, "date-targeted official RWD")
+    except Exception as exc:
+        snap["sourceStatus"].append({"name":"TWSE same-day BFI82U","state":"pending","asOf":"","detail":str(exc)[:260]})
+
+    # Margin: it is often published later than cash-market close. Override only
+    # when the returned document explicitly contains today's date.
+    try:
+        import csv, io
+        url = f"{TWSE_WEB}/marginTrading/MI_MARGN?{urlencode({'response':'csv','selectType':'MS','date':ymd})}"
+        raw = http_text(url, accept="text/csv,text/plain,*/*")
+        date = _roc_date_from_text(raw)
+        if date != target:
+            raise ValueError(f"MI_MARGN returned {date or 'unknown'}, expected {target}")
+        rows = list(csv.reader(io.StringIO(raw)))
+        row = next((r for r in rows if r and "融資金額" in str(r[0])), None)
+        if not row:
+            raise ValueError("same-day TWSE margin amount row not found")
+        nums = [to_float(v) for v in row[1:]]
+        nums = [v for v in nums if v is not None]
+        if not nums:
+            raise ValueError("same-day TWSE margin balance not recognized")
+        amount_100m = nums[-1] / 100000.0
+        old = snap["metrics"].get("margin", {})
+        tpex_text = str(old.get("change") or "")
+        snap["metrics"]["margin"] = metric(
+            f"上市 {amount_100m:,.2f} 億", tpex_text,
+            target, "official_afterhours", "TWSE / TPEx（不同單位）"
+        )
+        source_ok(snap, "TWSE same-day margin", target, "date-targeted official CSV")
+    except Exception as exc:
+        snap["sourceStatus"].append({"name":"TWSE same-day margin","state":"pending","asOf":"","detail":str(exc)[:260]})
+
+
+def _latest_rows_for_date(rows, predicate):
+    candidates = [r for r in rows or [] if isinstance(r, dict) and predicate(r)]
+    if not candidates:
+        return []
+    dates = [row_date(r) for r in candidates if row_date(r)]
+    if dates:
+        latest = max(dates)
+        same = [r for r in candidates if row_date(r) == latest]
+        if same:
+            return same
+    return candidates
+
+
 def fetch_twse_close(snap):
     try:
         rows = http_json(f"{TWSE}/exchangeReport/MI_INDEX")
@@ -278,6 +505,8 @@ def fetch_tpex_summary(snap):
             raise ValueError("empty TPEx daily trading index")
         row = _latest_dated_row(rows)
         date = row_date(row) or "最新官方收盤"
+        if target_date and date != target_date:
+            raise ValueError(f"TPEx OpenAPI latest date {date} is not same-day target {target_date}")
         value = to_float(find_exact(row, ["TPEXIndex", "Close", "Index", "IndexValue", "收盤指數", "指數", "ClosingIndex"]))
         change_pts = signed_number(find_exact(row, ["Change", "漲跌", "ChangePoint"]))
         pct = to_float(find_exact(row, ["ChangePercent", "ChangePercentage", "漲跌幅", "漲跌百分比"]))
@@ -684,7 +913,12 @@ def fetch_taifex(snap):
             rows = http_json(f"{TAIFEX}/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate")
             if not isinstance(rows, list):
                 raise ValueError("TAIFEX institutional endpoint not list")
-            row = next((r for r in rows if str(find_value(r, ["ContractCode", "商品名稱", "Contract"]) or "").strip() in {"臺股期貨", "TX"} and "外資" in str(find_value(r, ["Item", "身份別", "Identity"]) or "")), None)
+            candidates = _latest_rows_for_date(
+                rows,
+                lambda r: str(find_value(r, ["ContractCode", "商品名稱", "Contract"]) or "").strip() in {"臺股期貨", "TX"}
+                and "外資" in str(find_value(r, ["Item", "身份別", "Identity"]) or "")
+            )
+            row = candidates[0] if candidates else None
             if not row:
                 raise ValueError("TX foreign row not found")
             net = to_int(find_value(row, ["OpenInterest(Net)", "OpenInterestNet", "未平倉多空淨額", "未平倉淨額"]))
@@ -716,7 +950,7 @@ def fetch_taifex(snap):
         rows = http_json(f"{TAIFEX}/PutCallRatio")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty PutCallRatio")
-        row = rows[0]
+        row = _latest_dated_row(rows) or rows[0]
         vol = to_float(find_value(row, ["PutCallVolumeRatio", "Put/Call Volume Ratio", "買賣權成交量比率", "成交量比率"]))
         oi = to_float(find_value(row, ["PutCallOpenInterestRatio", "Put/Call OI Ratio", "買賣權未平倉量比率", "未平倉量比率"]))
         date = row_date(row) or "最新官方盤後"
@@ -734,6 +968,10 @@ def fetch_taifex(snap):
         tx_rows = [r for r in rows if str(find_value(r, ["Contract", "契約"]) or "").strip() == "TX"]
         if not tx_rows:
             raise ValueError("TX daily market row not found")
+        dated = [row_date(r) for r in tx_rows if row_date(r)]
+        if dated:
+            latest_date = max(dated)
+            tx_rows = [r for r in tx_rows if row_date(r) == latest_date]
         # Prefer day session and nearest YYYYMM contract.
         tx_rows.sort(key=lambda r: str(find_value(r, ["ContractMonth(Week)", "到期月份(週別)"]) or ""))
         row = next((r for r in tx_rows if "一般" in str(find_value(r, ["TradingSession", "交易時段"]) or "")), tx_rows[0])
@@ -1062,12 +1300,16 @@ def main():
     fetch_twse_close(snap)
     fetch_twse_turnover(snap)
     fetch_twse_breadth(snap)
+    # After the close, prefer TWSE's explicit date-targeted RWD endpoints.
+    # This prevents a lagging OpenAPI snapshot from leaving Friday data on Monday night.
+    fetch_twse_same_day_close(snap, args.kind)
     fetch_tpex_summary(snap)
     fetch_cbc(snap)
     fetch_taifex(snap)
     if args.kind in {"afterhours", "manual"}:
         fetch_twse_institutional(snap)
         fetch_margin(snap)
+        fetch_twse_same_day_afterhours(snap, args.kind)
     if args.kind == "intraday":
         fetch_intraday_feed(snap)
 
