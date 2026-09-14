@@ -28,6 +28,8 @@ FED_H10 = "https://www.federalreserve.gov/releases/h10/current/"
 BLS_API = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 FED_MONETARY_RSS = "https://www.federalreserve.gov/feeds/press_monetary.xml"
 BLS_LATEST_RSS = "https://www.bls.gov/feed/bls_latest.rss"
+BLS_ICS = "https://www.bls.gov/schedule/news_release/bls.ics"
+FOMC_CALENDAR = "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
 
 USER_AGENT = "TW-Market-Radar/7.0 (+public research dashboard; official sources only)"
 
@@ -233,29 +235,57 @@ def parse_eia_daily(html: str) -> dict:
 
     def find_price(keyword: str):
         target = None
+        label_idx = None
         for row in rows:
-            if row and keyword.lower() in row[0].lower():
-                target = row
+            for idx, cell in enumerate(row):
+                if keyword.lower() in cell.lower():
+                    target = row
+                    label_idx = idx
+                    break
+            if target:
                 break
+
+        # Fallback: EIA legacy HTML can place row labels in nested cells that
+        # do not survive as the first parsed cell. Search raw HTML around label.
         if not target:
-            raise ValueError(f"EIA row not found: {keyword}")
+            m = re.search(
+                re.escape(keyword) + r"[\s\S]{0,2500}",
+                html,
+                flags=re.I,
+            )
+            if not m:
+                raise ValueError(f"EIA row not found: {keyword}")
+            fragment = re.sub(r"<[^>]+>", " ", m.group(0))
+            vals = [to_float(x) for x in re.findall(r"(?<!\d)(\d{1,3}\.\d{2,3})(?!\d)", fragment)]
+            vals = [x for x in vals if x is not None]
+            if len(vals) < 2:
+                raise ValueError(f"EIA values not found: {keyword}")
+            vals = vals[:len(header_dates)]
+            pairs = list(zip(header_dates[:len(vals)], vals))
+            return pairs[-1], pairs[-2] if len(pairs) >= 2 else (None, None)
+
         nums = []
-        for cell in target[1:]:
+        # Only read cells after the matched label when possible.
+        cells = target[(label_idx + 1):] if label_idx is not None else target
+        for cell in cells:
             v = to_float(cell)
-            nums.append(v)
-        # Keep the alignment from the right because the first cell is the row label.
+            if v is not None:
+                nums.append(v)
+
         if len(nums) < len(header_dates):
             nums = [None] * (len(header_dates) - len(nums)) + nums
         elif len(nums) > len(header_dates):
             nums = nums[-len(header_dates):]
+
         pairs = [(d, v) for d, v in zip(header_dates, nums) if v is not None]
         if not pairs:
             raise ValueError(f"EIA values not found: {keyword}")
         return pairs[-1], pairs[-2] if len(pairs) >= 2 else (None, None)
 
-    wti = find_price("WTI - Cushing")
-    brent = find_price("Brent - Europe")
-    return {"wti": wti, "brent": brent}
+    return {
+        "wti": find_price("WTI - Cushing"),
+        "brent": find_price("Brent - Europe"),
+    }
 
 
 def fetch_eia(out: dict) -> None:
@@ -544,6 +574,246 @@ def fetch_official_news(out: dict) -> None:
     out["news"] = unique[:8]
 
 
+
+def _unfold_ics(text: str) -> list[str]:
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    out = []
+    for line in lines:
+        if line.startswith((" ", "\t")) and out:
+            out[-1] += line[1:]
+        else:
+            out.append(line)
+    return out
+
+
+def _parse_ics_datetime(prop: str, value: str):
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
+    tz = None
+    m = re.search(r"TZID=([^;:]+)", prop)
+    if m:
+        try:
+            tz = ZoneInfo(m.group(1))
+        except Exception:
+            tz = None
+
+    value = value.strip()
+    try:
+        if value.endswith("Z"):
+            return datetime.strptime(value, "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
+        if "T" in value:
+            dt = datetime.strptime(value, "%Y%m%dT%H%M%S")
+        else:
+            dt = datetime.strptime(value, "%Y%m%d")
+        return dt.replace(tzinfo=tz or ZoneInfo("America/New_York"))
+    except Exception:
+        return None
+
+
+def _event_meta(title: str, source: str):
+    low = title.lower()
+    category, impact = "官方事件", 3
+    watch = "觀察利率、美元與風險偏好的實際反應。"
+
+    if "fomc" in low or "federal open market committee" in low:
+        category, impact = "貨幣政策", 5
+        watch = "政策利率、Dot Plot／SEP、記者會語氣與10Y殖利率反應。"
+    elif "consumer price" in low or re.search(r"\bcpi\b", low):
+        category, impact = "通膨", 5
+        watch = "Core CPI、服務通膨與美債殖利率反應。"
+    elif "employment situation" in low:
+        category, impact = "就業", 5
+        watch = "非農、失業率、平均時薪與Fed定價。"
+    elif "producer price" in low:
+        category, impact = "通膨", 4
+        watch = "上游通膨是否改變利率預期。"
+    elif "job openings" in low or "jolts" in low:
+        category, impact = "就業", 4
+        watch = "職缺與勞動需求是否持續過熱。"
+    elif "import and export price" in low:
+        category, impact = "通膨", 3
+        watch = "進口價格對商品通膨的邊際影響。"
+
+    return category, impact, watch
+
+
+def fetch_event_calendar(out: dict) -> None:
+    from datetime import timedelta
+    from zoneinfo import ZoneInfo
+
+    now = now_taipei()
+    horizon = now + timedelta(days=14)
+    events = []
+
+    # BLS official ICS calendar.
+    try:
+        text = http_text(BLS_ICS, accept="text/calendar,text/plain,*/*")
+        current = None
+        for line in _unfold_ics(text):
+            if line == "BEGIN:VEVENT":
+                current = {}
+            elif line == "END:VEVENT":
+                if current:
+                    dt = current.get("dt")
+                    title = current.get("summary", "")
+                    if dt and title:
+                        local = dt.astimezone(TZ)
+                        if now <= local <= horizon:
+                            cat, impact, watch = _event_meta(title, "U.S. BLS")
+                            if impact >= 3:
+                                events.append({
+                                    "source": "U.S. BLS",
+                                    "title": title,
+                                    "scheduledAt": local.isoformat(timespec="minutes"),
+                                    "category": cat,
+                                    "impact": impact,
+                                    "watch": watch,
+                                    "link": "https://www.bls.gov/schedule/",
+                                })
+                current = None
+            elif current is not None and ":" in line:
+                prop, value = line.split(":", 1)
+                upper = prop.upper()
+                if upper.startswith("DTSTART"):
+                    current["dt"] = _parse_ics_datetime(prop, value)
+                elif upper == "SUMMARY":
+                    current["summary"] = value.replace("\\,", ",").replace("\\n", " ").strip()
+
+        out["sources"].append({
+            "name": "U.S. BLS official release calendar",
+            "status": "ok",
+            "asOf": iso_now(),
+        })
+    except Exception as exc:
+        out["errors"].append({"source": "U.S. BLS release calendar", "message": str(exc)[:300]})
+
+    # Fed official FOMC meeting calendar. Create decision-time events at 2pm ET
+    # on the final day of each scheduled meeting.
+    try:
+        html = http_text(FOMC_CALENDAR)
+        plain_parser = TableParser()
+        plain_parser.feed(html)
+        text = " ".join(" ".join(r) for r in plain_parser.rows)
+        # TableParser may not capture non-table headings; use a raw-tag stripped fallback.
+        if len(text) < 200:
+            text = re.sub(r"<[^>]+>", " ", html)
+        text = " ".join(unescape(text).split())
+
+        year = now.year
+        months = {
+            "January": 1, "February": 2, "March": 3, "April": 4,
+            "May": 5, "June": 6, "July": 7, "August": 8,
+            "September": 9, "October": 10, "November": 11, "December": 12,
+        }
+
+        # Restrict to the current-year segment when possible.
+        ymark = f"{year} FOMC Meetings"
+        idx = text.find(ymark)
+        segment = text[idx:idx + 7000] if idx >= 0 else text
+
+        for month_name, mnum in months.items():
+            # Matches "September 15-16*" etc.
+            for mm in re.finditer(
+                rf"\b{month_name}\b\s+(\d{{1,2}})(?:\s*[-–]\s*(\d{{1,2}}))?\*?",
+                segment,
+            ):
+                d1 = int(mm.group(1))
+                d2 = int(mm.group(2) or d1)
+                try:
+                    et = datetime(year, mnum, d2, 14, 0, tzinfo=ZoneInfo("America/New_York"))
+                except Exception:
+                    continue
+                local = et.astimezone(TZ)
+                if now <= local <= horizon:
+                    events.append({
+                        "source": "Federal Reserve",
+                        "title": f"FOMC 利率決策（{month_name} {d1}–{d2}）",
+                        "scheduledAt": local.isoformat(timespec="minutes"),
+                        "category": "貨幣政策",
+                        "impact": 5,
+                        "watch": "政策利率、SEP／Dot Plot、記者會語氣與美債殖利率。",
+                        "link": FOMC_CALENDAR,
+                    })
+
+        out["sources"].append({
+            "name": "Federal Reserve FOMC calendar",
+            "status": "ok",
+            "asOf": iso_now(),
+        })
+    except Exception as exc:
+        out["errors"].append({"source": "Federal Reserve FOMC calendar", "message": str(exc)[:300]})
+
+    # Deduplicate + sort.
+    uniq = {}
+    for e in events:
+        key = (e.get("source"), e.get("title"), e.get("scheduledAt"))
+        uniq[key] = e
+    out["events"] = sorted(uniq.values(), key=lambda x: x.get("scheduledAt", ""))[:12]
+
+
+def build_official_reaction(out: dict) -> None:
+    macro = out.get("macro") or {}
+
+    def n(key):
+        try:
+            return float((macro.get(key) or {}).get("value"))
+        except Exception:
+            return None
+
+    def change_num(key):
+        text = str((macro.get(key) or {}).get("change") or "")
+        m = re.search(r"([+-]?\d+(?:\.\d+)?)", text.replace(",", ""))
+        return float(m.group(1)) if m else None
+
+    y10_bp = change_num("us10y")
+    brent_pct = change_num("brent")
+    dollar_pct = change_num("broadDollar")
+
+    bullets = []
+    pressure = 0
+
+    if y10_bp is not None:
+        direction = "上升" if y10_bp > 0 else ("下降" if y10_bp < 0 else "持平")
+        bullets.append(f"美10Y單日{direction} {abs(y10_bp):.0f}bp。")
+        if y10_bp >= 5:
+            pressure += 1
+        elif y10_bp <= -5:
+            pressure -= 1
+
+    if brent_pct is not None:
+        direction = "上漲" if brent_pct > 0 else ("下跌" if brent_pct < 0 else "持平")
+        bullets.append(f"Brent最新官方日資料{direction} {abs(brent_pct):.2f}%。")
+        if brent_pct >= 2:
+            pressure += 1
+        elif brent_pct <= -2:
+            pressure -= 1
+
+    if dollar_pct is not None:
+        direction = "走強" if dollar_pct > 0 else ("走弱" if dollar_pct < 0 else "持平")
+        bullets.append(f"Fed Broad Dollar最新週資料{direction} {abs(dollar_pct):.2f}%。")
+        if dollar_pct >= 0.5:
+            pressure += 1
+        elif dollar_pct <= -0.5:
+            pressure -= 1
+
+    if pressure >= 2:
+        label, tone = "再通膨／估值壓力共振", "negative"
+        note = "殖利率、能源或美元同向偏緊，對高估值科技資產較不利。"
+    elif pressure <= -2:
+        label, tone = "金融條件邊際改善", "positive"
+        note = "殖利率、能源或美元壓力同步緩和，風險資產環境改善。"
+    else:
+        label, tone = "跨資產訊號分歧", "neutral"
+        note = "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。"
+
+    out["reaction"] = {
+        "label": label,
+        "tone": tone,
+        "note": note,
+        "bullets": bullets[:3],
+    }
+
 def fetch_authorized_equity_feed(out: dict) -> None:
     url = os.environ.get("GLOBAL_EQUITY_FEED_URL", "").strip()
     token = os.environ.get("GLOBAL_EQUITY_FEED_TOKEN", "").strip() or None
@@ -659,6 +929,8 @@ def main():
         "equity": {},
         "equityFeed": {},
         "news": [],
+        "events": [],
+        "reaction": {},
         "risk": {},
         "sources": [],
         "errors": [],
@@ -668,8 +940,10 @@ def main():
     fetch_fed_h10(out)
     fetch_bls(out)
     fetch_official_news(out)
+    fetch_event_calendar(out)
     fetch_authorized_equity_feed(out)
     build_global_risk(out)
+    build_official_reaction(out)
     write_json(OUT, out)
     print(f"✓ global.json generated · {len(out['errors'])} warning(s)")
 

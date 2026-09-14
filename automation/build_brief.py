@@ -192,6 +192,33 @@ def daily_brief(live, global_data=None):
             '外資現貨轉賣且外資 TX 淨空同步擴大。',
         ]
 
+    local_score = score
+    global_score = (global_data.get('risk') or {}).get('score')
+    resonance = {
+        'label': '資料不足',
+        'tone': 'neutral',
+        'score': None,
+        'note': '需同時取得台股與全球宏觀分數。',
+    }
+    if isinstance(local_score, (int, float)) and isinstance(global_score, (int, float)):
+        combined = round((float(local_score) + float(global_score)) / 2)
+        if local_score < 35 and global_score < 35:
+            rlabel, rtone = '雙重 Risk-Off 共振', 'bad'
+            rnote = '台股資金面與全球金融條件同時偏空，反彈優先視為風險修復。'
+        elif local_score >= 55 and global_score >= 55:
+            rlabel, rtone = 'Risk-On 共振', 'good'
+            rnote = '台股與全球宏觀環境同時改善，風險承擔條件較完整。'
+        elif local_score < 35 and global_score >= 45:
+            rlabel, rtone = '台股偏弱、全球相對中性', 'warn'
+            rnote = '主要壓力偏向台灣資金／籌碼面，需觀察外資與廣度是否回穩。'
+        elif global_score < 35 and local_score >= 45:
+            rlabel, rtone = '全球逆風、台股相對抗跌', 'warn'
+            rnote = '全球金融條件偏緊，台股若續強需靠基本面與本地資金抵銷。'
+        else:
+            rlabel, rtone = '多空分歧', 'neutral'
+            rnote = '本地與全球訊號未完全同向，降低單一訊號權重。'
+        resonance = {'label': rlabel, 'tone': rtone, 'score': combined, 'note': rnote}
+
     warnings = len(live.get('errors') or [])
     data_note = f'模型完整度 {confidence:.0f}%；目前 {warnings} 個來源 warning。' if warnings else f'模型完整度 {confidence:.0f}%；本次來源無 warning。'
 
@@ -203,6 +230,7 @@ def daily_brief(live, global_data=None):
         'label': label,
         'tone': tone_from_score(score),
         'headline': headline,
+        'resonance': resonance,
         'quickTake': bullets[:4],
         'shortView': short_view,
         'swingView': swing_view,
@@ -298,6 +326,7 @@ def weekly_brief(history, live):
         'status': 'ready',
         'generatedAt': live.get('generatedAt'),
         'headline': headline,
+        'resonance': resonance,
         'quickTake': quick[:4],
         'stats': stats,
         'dataNote': f'使用最近 {len(recent)} 個不同完整交易日；同一交易日只取最後有效快照。',
