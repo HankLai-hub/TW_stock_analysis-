@@ -15,6 +15,7 @@ from common import (
 TWSE = "https://openapi.twse.com.tw/v1"
 TWSE_WEB = "https://www.twse.com.tw/rwd/zh"
 TPEX = "https://www.tpex.org.tw/openapi/v1"
+TPEX_LEGACY = "https://wwwov.tpex.org.tw/web/stock"
 TAIFEX = "https://openapi.taifex.com.tw/v1"
 CBC = "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01"
 CBC_CSV = "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/BP01D01.csv"
@@ -190,7 +191,87 @@ def fetch_twse_turnover(snap):
     except Exception as exc:
         source_error(snap, "TWSE turnover", exc)
 
+def _iso_to_roc_date(value: str, month_only: bool = False) -> str | None:
+    import re
+    m = re.fullmatch(r"(20\d{2})-(\d{2})-(\d{2})", str(value or ""))
+    if not m:
+        return None
+    y, mo, d = map(int, m.groups())
+    roc = y - 1911
+    return f"{roc:03d}/{mo:02d}" if month_only else f"{roc:03d}/{mo:02d}/{d:02d}"
+
+
+def _tpex_target_date(snap) -> str | None:
+    # Taiwan markets share the same trading calendar; use the already verified
+    # TWSE official date rather than guessing a date during holidays/weekends.
+    date = str(snap.get("metrics", {}).get("taiex", {}).get("asOf", ""))
+    if len(date) == 10 and date[4] == "-" and date[7] == "-":
+        return date
+    return None
+
+
+def _fetch_tpex_legacy_market(target_date: str) -> dict[str, Any]:
+    """Official TPEx legacy post-close endpoints on the wwwov host.
+
+    These endpoints expose the same post-close data published by TPEx and are
+    used only if the modern OpenAPI host cannot be TLS-verified by the runner.
+    SSL verification remains enabled.
+    """
+    roc_day = _iso_to_roc_date(target_date)
+    roc_month = _iso_to_roc_date(target_date, month_only=True)
+    if not roc_day or not roc_month:
+        raise ValueError("TPEx fallback target date unavailable")
+
+    # Daily trading amount/index: [date, volume, amount, transactions, index, change]
+    idx_url = (
+        f"{TPEX_LEGACY}/aftertrading/daily_trading_index/st41_result.php?"
+        + urlencode({"l": "zh-tw", "d": roc_month, "o": "json"})
+    )
+    idx_payload = http_json(idx_url)
+    idx_row = None
+    for row in (idx_payload.get("aaData", []) if isinstance(idx_payload, dict) else []):
+        if isinstance(row, list) and row:
+            if roc_to_iso(row[0]) == target_date:
+                idx_row = row
+                break
+    if not idx_row:
+        raise ValueError(f"TPEx legacy index row not found for {target_date}")
+
+    value = to_float(idx_row[4] if len(idx_row) > 4 else None)
+    change = signed_number(idx_row[5] if len(idx_row) > 5 else None)
+    amount = to_float(idx_row[2] if len(idx_row) > 2 else None)
+    pct = None
+    if value is not None and change is not None and (value - change) != 0:
+        pct = change / (value - change) * 100
+
+    # Market highlight: breadth and a second independent index/turnover check.
+    hi_url = (
+        f"{TPEX_LEGACY}/aftertrading/market_highlight/highlight_result.php?"
+        + urlencode({"l": "zh-tw", "o": "json", "d": roc_day})
+    )
+    hi = http_json(hi_url)
+    if not isinstance(hi, dict) or to_int(hi.get("iTotalRecords")) in {None, 0}:
+        raise ValueError(f"TPEx legacy highlight unavailable for {target_date}")
+
+    return {
+        "date": roc_to_iso(hi.get("reportDate")) or target_date,
+        "index": value if value is not None else to_float(hi.get("close")),
+        "change": change if change is not None else signed_number(hi.get("change")),
+        "pct": pct,
+        "trade_amount": amount,
+        "up": to_int(hi.get("upNum")),
+        "down": to_int(hi.get("downNum")),
+        "flat": to_int(hi.get("noChangeNum")),
+        "limit_up": to_int(hi.get("upStopNum")),
+        "limit_down": to_int(hi.get("downStopNum")),
+    }
+
 def fetch_tpex_summary(snap):
+    target_date = _tpex_target_date(snap)
+    modern_exc = None
+    legacy = None
+
+    # 1) Preferred modern official OpenAPI.
     try:
         rows = http_json(f"{TPEX}/tpex_daily_trading_index")
         if not isinstance(rows, list) or not rows:
@@ -205,12 +286,27 @@ def fetch_tpex_summary(snap):
         if value is None:
             raise ValueError(f"TPEx index field not recognized: {list(row)[:16]}")
         snap["metrics"]["otc"] = metric(fmt_number(value), fmt_pct(pct), date, "official_close", "TPEx")
-        source_ok(snap, "TPEx daily trading index", date)
+        source_ok(snap, "TPEx daily trading index", date, "OpenAPI")
     except Exception as exc:
-        source_error(snap, "TPEx daily trading index", exc)
+        modern_exc = exc
+        try:
+            if not target_date:
+                raise ValueError("verified Taiwan trading date unavailable for TPEx fallback")
+            legacy = _fetch_tpex_legacy_market(target_date)
+            value = legacy["index"]
+            pct = legacy["pct"]
+            if pct is None and value is not None and legacy["change"] is not None and (value - legacy["change"]) != 0:
+                pct = legacy["change"] / (value - legacy["change"]) * 100
+            if value is None:
+                raise ValueError("TPEx legacy index value missing")
+            snap["metrics"]["otc"] = metric(
+                fmt_number(value), fmt_pct(pct), legacy["date"], "official_close", "TPEx"
+            )
+            source_ok(snap, "TPEx daily trading index", legacy["date"], "official wwwov fallback")
+        except Exception as fallback_exc:
+            source_error(snap, "TPEx daily trading index", f"OpenAPI: {modern_exc}; fallback: {fallback_exc}")
 
-    # Add TPEx stock breadth to the TWSE stock breadth only when the official
-    # highlight endpoint exposes unambiguous daily counts for the same date.
+    # 2) Breadth. Prefer OpenAPI, then reuse legacy highlight fallback.
     try:
         rows = http_json(f"{TPEX}/tpex_mainborad_highlight")
         if not isinstance(rows, list) or not rows:
@@ -220,22 +316,39 @@ def fetch_tpex_summary(snap):
         up = to_int(find_exact(row, ["UpNum", "RiseNum", "RisingStocks", "上漲家數"]))
         down = to_int(find_exact(row, ["DownNum", "FallNum", "FallingStocks", "下跌家數"]))
         flat = to_int(find_exact(row, ["NoChangeNum", "FlatNum", "Unchanged", "持平家數"]))
-        current = snap["metrics"].get("breadth", {})
-        if up is not None and down is not None and current.get("value") not in {None, "", "N/A"}:
-            import re
-            m = re.search(r"([\d,]+)↑\s*/\s*([\d,]+)↓", str(current.get("value", "")))
-            if m and str(current.get("asOf")) == date:
-                twse_up = int(m.group(1).replace(",", "")); twse_down = int(m.group(2).replace(",", ""))
-                flat_m = re.search(r"平盤\s*([\d,]+)", str(current.get("change", "")))
-                twse_flat = int(flat_m.group(1).replace(",", "")) if flat_m else 0
-                snap["metrics"]["breadth"] = metric(
-                    f"{twse_up + up}↑ / {twse_down + down}↓",
-                    f"平盤 {twse_flat + (flat or 0)}",
-                    date, "official_close", "TWSE/TPEx 股票"
-                )
-        source_ok(snap, "TPEx market highlight", date)
+        if up is None or down is None:
+            raise ValueError("TPEx OpenAPI breadth fields not recognized")
+        tpex_breadth = (date, up, down, flat)
+        source_ok(snap, "TPEx market highlight", date, "OpenAPI")
     except Exception as exc:
-        source_error(snap, "TPEx market highlight", exc)
+        try:
+            if legacy is None:
+                if not target_date:
+                    raise ValueError("verified Taiwan trading date unavailable for TPEx fallback")
+                legacy = _fetch_tpex_legacy_market(target_date)
+            if legacy["up"] is None or legacy["down"] is None:
+                raise ValueError("TPEx legacy breadth fields missing")
+            tpex_breadth = (legacy["date"], legacy["up"], legacy["down"], legacy["flat"])
+            source_ok(snap, "TPEx market highlight", legacy["date"], "official wwwov fallback")
+        except Exception as fallback_exc:
+            tpex_breadth = None
+            source_error(snap, "TPEx market highlight", f"OpenAPI: {exc}; fallback: {fallback_exc}")
+
+    current = snap["metrics"].get("breadth", {})
+    if tpex_breadth and current.get("value") not in {None, "", "N/A"}:
+        import re
+        date, up, down, flat = tpex_breadth
+        m = re.search(r"([\d,]+)↑\s*/\s*([\d,]+)↓", str(current.get("value", "")))
+        if m and str(current.get("asOf")) == date:
+            twse_up = int(m.group(1).replace(",", ""))
+            twse_down = int(m.group(2).replace(",", ""))
+            flat_m = re.search(r"平盤\s*([\d,]+)", str(current.get("change", "")))
+            twse_flat = int(flat_m.group(1).replace(",", "")) if flat_m else 0
+            snap["metrics"]["breadth"] = metric(
+                f"{twse_up + up}↑ / {twse_down + down}↓",
+                f"平盤 {twse_flat + (flat or 0)}",
+                date, "official_close", "TWSE/TPEx 股票"
+            )
 
 def fetch_cbc(snap):
     """Fetch the latest official USD/TWD closing rate from CBC.
@@ -413,33 +526,60 @@ def fetch_margin(snap):
     except Exception as exc:
         source_error(snap, "TWSE margin market total", exc)
 
+    tpex_amount_100m = None
     try:
         rows = http_json(f"{TPEX}/tpex_mainboard_margin_balance")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty TPEx margin payload")
-        balances = []
+        # OpenAPI is per-security. If a monetary balance field is present, sum it;
+        # otherwise fall back to the official legacy market-total endpoint below.
+        money_values = []
         tpex_dates = []
         for r in rows:
-            val = to_float(find_value(r, [
-                "MarginPurchaseTodayBalance", "MarginPurchaseBalance",
-                "融資今日餘額", "融資餘額", "MarginPurchaseBalanceToday",
+            val = to_float(find_exact(r, [
+                "MarginPurchaseTodayBalanceValue", "MarginPurchaseBalanceValue",
+                "融資金額今日餘額", "融資金額餘額",
             ]))
             if val is not None:
-                balances.append(val)
+                money_values.append(val)
             d = row_date(r)
             if d:
                 tpex_dates.append(d)
-        if balances:
-            tpex_units = sum(balances)
-        if tpex_dates:
-            dates.extend(tpex_dates)
-        source_ok(snap, "TPEx margin", max(tpex_dates) if tpex_dates else "最新官方盤後", "交易單位/股數口徑，不與億元相加")
+        if money_values:
+            # TPEx monetary fields are expected in thousand NTD.
+            tpex_amount_100m = sum(money_values) / 100000.0
+            if tpex_dates:
+                dates.extend(tpex_dates)
+            source_ok(snap, "TPEx margin", max(tpex_dates) if tpex_dates else "最新官方盤後", "OpenAPI 金額口徑")
+        else:
+            raise ValueError("TPEx OpenAPI monetary margin total unavailable")
     except Exception as exc:
-        source_error(snap, "TPEx margin", exc)
+        try:
+            target_date = _tpex_target_date(snap)
+            roc_day = _iso_to_roc_date(target_date or "")
+            if not target_date or not roc_day:
+                raise ValueError("verified Taiwan trading date unavailable for TPEx margin fallback")
+            url = (
+                f"{TPEX_LEGACY}/margin_trading/margin_balance/margin_bal_result.php?"
+                + urlencode({"l": "zh-tw", "o": "json", "d": roc_day, "s": "0,asc"})
+            )
+            payload = http_json(url)
+            if not isinstance(payload, dict) or to_int(payload.get("iTotalRecords")) in {None, 0}:
+                raise ValueError("TPEx legacy margin payload unavailable")
+            totals = payload.get("tfootData_two") or []
+            today_thousand = to_float(totals[4] if len(totals) > 4 else None)
+            if today_thousand is None:
+                raise ValueError("TPEx legacy margin monetary balance missing")
+            tpex_amount_100m = today_thousand / 100000.0
+            date = roc_to_iso(payload.get("reportDate")) or target_date
+            dates.append(date)
+            source_ok(snap, "TPEx margin", date, "official wwwov fallback; 融資金額(仟元)→億元")
+        except Exception as fallback_exc:
+            source_error(snap, "TPEx margin", f"OpenAPI: {exc}; fallback: {fallback_exc}")
 
-    if twse_amount_100m is not None or tpex_units is not None:
+    if twse_amount_100m is not None or tpex_amount_100m is not None:
         value = f"上市 {twse_amount_100m:,.2f} 億" if twse_amount_100m is not None else "上市 N/A"
-        change = f"上櫃融資餘額 {tpex_units:,.0f}（來源原始交易單位）" if tpex_units is not None else "上櫃 N/A"
+        change = f"上櫃 {tpex_amount_100m:,.2f} 億" if tpex_amount_100m is not None else "上櫃 N/A"
         snap["metrics"]["margin"] = metric(
             value, change, max(dates) if dates else "最新官方盤後",
             "official_afterhours", "TWSE / TPEx",
