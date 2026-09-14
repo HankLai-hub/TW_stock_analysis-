@@ -1,21 +1,259 @@
 {
   "schemaVersion": 1,
-  "generatedAt": null,
-  "macro": {},
-  "equity": {},
+  "generatedAt": "2026-09-14T20:44:39+08:00",
+  "macro": {
+    "us2y": {
+      "value": 4.63,
+      "display": "4.63%",
+      "change": "+7 bp",
+      "asOf": "2026-09-11",
+      "source": "U.S. Treasury",
+      "state": "official_daily"
+    },
+    "us10y": {
+      "value": 4.96,
+      "display": "4.96%",
+      "change": "+1 bp",
+      "asOf": "2026-09-11",
+      "source": "U.S. Treasury",
+      "state": "official_daily"
+    },
+    "us30y": {
+      "value": 5.35,
+      "display": "5.35%",
+      "change": "-2 bp",
+      "asOf": "2026-09-11",
+      "source": "U.S. Treasury",
+      "state": "official_daily"
+    },
+    "spread2s10s": {
+      "value": 33.00000000000001,
+      "display": "+33 bp",
+      "change": "10Y - 2Y",
+      "asOf": "2026-09-11",
+      "source": "U.S. Treasury",
+      "state": "official_daily"
+    },
+    "real10y": {
+      "value": 2.6,
+      "display": "2.60%",
+      "change": "10Y real yield",
+      "asOf": "2026-09-11",
+      "source": "U.S. Treasury",
+      "state": "official_daily"
+    },
+    "broadDollar": {
+      "value": 118.0732,
+      "display": "118.07",
+      "change": "-0.05%",
+      "asOf": "Sep. 4",
+      "source": "Federal Reserve H.10",
+      "state": "official_weekly"
+    },
+    "cpi": {
+      "value": 3.3965478924364856,
+      "display": "3.4% YoY",
+      "change": "+0.4% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "coreCpi": {
+      "value": 2.4459799375700753,
+      "display": "2.4% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "unemployment": {
+      "value": 4.1,
+      "display": "4.1%",
+      "change": "Unemployment rate",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "payrolls": {
+      "value": 162.0,
+      "display": "+162k",
+      "change": "Nonfarm payroll monthly change",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "ahe": {
+      "value": 3.085745494265435,
+      "display": "3.1% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    }
+  },
+  "equity": {
+    "sp500": {
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "S&P 500",
+      "state": "authorization_required"
+    },
+    "nasdaq": {
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "Nasdaq Composite",
+      "state": "authorization_required"
+    },
+    "sox": {
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "SOX",
+      "state": "authorization_required"
+    },
+    "vix": {
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "VIX",
+      "state": "authorization_required"
+    }
+  },
   "equityFeed": {
     "state": "not_configured",
     "label": "全球股票指數授權源尚未設定",
     "note": "S&P 500／Nasdaq／SOX／VIX 為授權型指數；公開網站不以未授權來源重新散布。"
   },
-  "news": [],
+  "news": [
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Board's discount rate meetings on July 20 and July 29, 2026",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260825a.htm",
+      "publishedAt": "2026-08-26T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 4,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Federal Open Market Committee, July 28–29, 2026",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260819a.htm",
+      "publishedAt": "2026-08-20T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 4,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve issues FOMC statement",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm",
+      "publishedAt": "2026-07-30T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Board's discount rate meetings on June 8 and June 17, 2026",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260714a.htm",
+      "publishedAt": "2026-07-15T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 4,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve announces the leadership and objectives of its task forces to advance the conduct of monetary policy",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260709a.htm",
+      "publishedAt": "2026-07-10T03:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Federal Open Market Committee, June 16-17, 2026",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260708a.htm",
+      "publishedAt": "2026-07-09T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 4,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the June 16-17 FOMC meeting",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617b.htm",
+      "publishedAt": "2026-06-18T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Board's discount rate meeting on April 20 and 29, 2026",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260526a.htm",
+      "publishedAt": "2026-05-27T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 4,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    }
+  ],
   "risk": {
-    "score": null,
-    "label": "資料不足",
-    "confidence": 0,
-    "drivers": [],
-    "note": "完成第一次 GitHub Actions 更新後自動建立。"
+    "score": 28,
+    "label": "Risk-Off",
+    "confidence": 75,
+    "drivers": [
+      {
+        "name": "美債10Y",
+        "direction": "negative",
+        "reason": "4.96%：偏不利科技估值"
+      },
+      {
+        "name": "10Y實質利率",
+        "direction": "negative",
+        "reason": "2.60%：長久期資產壓力"
+      }
+    ],
+    "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
   },
-  "sources": [],
-  "errors": []
+  "sources": [
+    {
+      "name": "U.S. Treasury yield curve",
+      "status": "ok",
+      "asOf": "2026-09-11"
+    },
+    {
+      "name": "U.S. Treasury real yields",
+      "status": "ok",
+      "asOf": "2026-09-11"
+    },
+    {
+      "name": "Federal Reserve H.10 broad dollar",
+      "status": "ok",
+      "asOf": "Sep. 4"
+    },
+    {
+      "name": "U.S. BLS Public Data API",
+      "status": "ok",
+      "asOf": "2026-08"
+    },
+    {
+      "name": "Federal Reserve monetary-policy RSS",
+      "status": "ok",
+      "asOf": "2026-09-14T20:44:41+08:00"
+    },
+    {
+      "name": "U.S. BLS RSS",
+      "status": "ok",
+      "asOf": "2026-09-14T20:44:41+08:00"
+    }
+  ],
+  "errors": [
+    {
+      "source": "U.S. EIA crude spot prices",
+      "message": "EIA daily date headers not recognized"
+    }
+  ]
 }
