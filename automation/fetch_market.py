@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 
 from common import (
     DATA_DIR, append_history, archive_snapshot, atomic_write_json, find_exact, find_value,
-    fmt_number, fmt_pct, http_json, iso_now, metric, now_taipei, read_json,
+    fmt_number, fmt_pct, http_json, http_text, iso_now, metric, now_taipei, read_json,
     row_date, signed_number, to_float, to_int,
 )
 
@@ -17,6 +17,7 @@ TWSE_WEB = "https://www.twse.com.tw/rwd/zh"
 TPEX = "https://www.tpex.org.tw/openapi/v1"
 TAIFEX = "https://openapi.taifex.com.tw/v1"
 CBC = "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01"
+CBC_CSV = "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/BP01D01.csv"
 
 
 def blank_snapshot(kind: str) -> dict[str, Any]:
@@ -230,113 +231,113 @@ def fetch_tpex_summary(snap):
         source_error(snap, "TPEx market highlight", exc)
 
 def fetch_cbc(snap):
+    """Fetch USD/TWD from the CBC official open-data CSV.
+
+    The newer CBC DataAPI wraps observations in a multidimensional structure that
+    has changed over time.  The official CSV is simpler, documented by the CBC,
+    and contains the same BP01D01 daily series.
+    """
+    import csv
+    import io
     try:
-        payload = http_json(CBC)
-        dataset = payload.get("DataSet") if isinstance(payload, dict) else None
-        rows = None
-        if isinstance(dataset, list):
-            rows = dataset
-        elif isinstance(dataset, dict):
-            for key in ("Data", "data", "Series", "Observations"):
-                if isinstance(dataset.get(key), list):
-                    rows = dataset.get(key); break
-            if rows is None:
-                # Some CBC API responses wrap one list one level deeper.
-                for v in dataset.values():
-                    if isinstance(v, list) and v and isinstance(v[0], dict):
-                        rows = v; break
-        if not isinstance(rows, list) or not rows:
-            raise ValueError("CBC DataSet rows not recognized")
+        text = http_text(CBC_CSV, accept="text/csv,text/plain,*/*")
+        rows = list(csv.DictReader(io.StringIO(text)))
+        if not rows:
+            raise ValueError("CBC BP01D01 CSV empty")
 
         candidates = []
         for r in rows:
             if not isinstance(r, dict):
                 continue
-            date = row_date(r) or str(find_exact(r, ["TIME_PERIOD", "Period", "時間", "日期", "Date"]) or "")
-            value = to_float(find_exact(r, ["NTD/USD", "NTDUSD", "USD/TWD", "USDTWD", "新臺幣", "新台幣", "TWD"]))
-            if value is None:
-                # Only accept a unique FX-like number; never guess among several values.
-                nums = []
-                for k, v in r.items():
-                    if compact(k) in {"timeperiod", "period", "date", "日期", "時間"}:
-                        continue
-                    f = to_float(v)
-                    if f is not None and 20 <= f <= 50:
-                        nums.append(f)
-                if len(nums) == 1:
-                    value = nums[0]
-            if value is not None:
-                iso = roc_to_iso(date) or date.replace("/", "-")
-                candidates.append((iso, value))
+            date_raw = find_exact(r, ["期間", "日期", "Date", "Period"])
+            value = find_exact(r, ["新台幣NTD/USD", "新臺幣NTD/USD", "NTD/USD", "NTDUSD"])
+            f = to_float(value)
+            iso = roc_to_iso(date_raw)
+            if f is not None and iso:
+                candidates.append((iso, f))
         if not candidates:
-            raise ValueError("USD/TWD value not recognized without ambiguity")
-        candidates.sort(key=lambda x: str(x[0]))
+            raise ValueError(f"CBC BP01D01 columns not recognized: {list(rows[0])[:12]}")
+        candidates.sort(key=lambda x: x[0])
         date, value = candidates[-1]
         snap["metrics"]["usdTwd"] = metric(fmt_number(value, 3), "", date, "official_daily", "CBC")
-        source_ok(snap, "CBC USD/TWD", date)
+        source_ok(snap, "CBC USD/TWD", date, "BP01D01 official CSV")
     except Exception as exc:
         source_error(snap, "CBC USD/TWD", exc)
 
+def _roc_date_from_text(text: str) -> str | None:
+    import re
+    m = re.search(r"(?:民國)?\s*(\d{3})[年/-](\d{1,2})[月/-](\d{1,2})", str(text or ""))
+    if m:
+        return f"{int(m.group(1))+1911:04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    m = re.search(r"(\d{4})[/-](\d{1,2})[/-](\d{1,2})", str(text or ""))
+    if m:
+        return f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    return None
+
+
 def fetch_twse_institutional(snap):
+    """Fetch TWSE foreign-investor net trading from the official CSV export.
+
+    Parsing by row text is intentionally tolerant of TWSE's 2026 label changes
+    (for example the addition of the Foreign Dealers row).
+    """
+    import csv
+    import io
     try:
-        url = f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'json','type':'day'})}"
-        payload = http_json(url)
-        fields = payload.get("fields", []) if isinstance(payload, dict) else []
-        data = payload.get("data", []) if isinstance(payload, dict) else []
-        if not fields or not data:
-            raise ValueError("BFI82U no fields/data")
-        rows = [dict(zip(fields, r)) for r in data]
-        row = next((r for r in rows if "外資及陸資" in str(find_value(r, ["單位名稱", "名稱"]) or "") and "自營商" not in str(find_value(r, ["單位名稱", "名稱"]) or "")), None)
-        if not row:
-            raise ValueError("foreign investor row not found")
-        net = to_float(find_value(row, ["買賣差額", "買賣超金額", "差額"]))
-        date_raw = payload.get("date") or payload.get("title") or "最新官方盤後"
-        date = str(date_raw)
-        value = f"{net / 1e8:+,.2f} 億" if net is not None else "N/A"
+        url = f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'csv','type':'day'})}"
+        text = http_text(url, accept="text/csv,text/plain,*/*")
+        parsed = list(csv.reader(io.StringIO(text)))
+        if not parsed:
+            raise ValueError("BFI82U CSV empty")
+
+        date = _roc_date_from_text(text) or "最新官方盤後"
+        target = None
+        for row in parsed:
+            joined = " ".join(str(x) for x in row)
+            if "外資及陸資" in joined and "外資自營商" not in joined and "合計" not in joined:
+                target = row
+                break
+        if not target:
+            raise ValueError("foreign investor row not found in official CSV")
+
+        nums = [to_float(v) for v in target[1:]]
+        nums = [v for v in nums if v is not None]
+        if not nums:
+            raise ValueError(f"foreign investor numeric fields not recognized: {target}")
+        net = nums[-1]
+        value = f"{net / 1e8:+,.2f} 億"
         snap["metrics"]["foreignSpot"] = metric(value, "上市市場", date, "official_afterhours", "TWSE")
-        source_ok(snap, "TWSE BFI82U", date)
+        source_ok(snap, "TWSE BFI82U", date, "official CSV")
     except Exception as exc:
         source_error(snap, "TWSE BFI82U", exc)
 
 
 def fetch_margin(snap):
-    """Fetch market-level margin data without mixing incompatible units.
+    """Fetch TWSE market-level margin amount from the official CSV export.
 
-    TWSE's market summary exposes 融資金額 in thousand NTD; that is converted to 億元.
-    TPEx's public OpenAPI exposes per-security margin balance in trading units/shares, so it
-    is shown separately as a supplemental quantity rather than added to TWSE money balance.
+    TPEx remains a separate quantity because its OpenAPI balance is not in NTD
+    and must not be added to the TWSE monetary balance.
     """
+    import csv
+    import io
     twse_amount_100m = None
     tpex_units = None
     dates = []
 
     try:
-        payload = http_json("https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=MS")
-        fields = payload.get("creditFields", []) if isinstance(payload, dict) else []
-        data = payload.get("creditList", []) if isinstance(payload, dict) else []
-        if not fields or not data:
-            raise ValueError("TWSE MI_MARGN market summary missing creditFields/creditList")
-
-        rows = [dict(zip(fields, row)) for row in data]
-        amount_row = next(
-            (r for r in rows if "融資金額" in str(find_value(r, ["項目", "Item", fields[0]]) or "")),
-            None,
-        )
-        if not amount_row:
-            raise ValueError("TWSE margin amount row not found")
-
-        today = to_float(find_value(amount_row, ["今日餘額", "TodayBalance", "餘額"]))
-        if today is None:
-            # Field names have changed before; fall back to the last numeric column in the row.
-            nums = [to_float(v) for k, v in amount_row.items() if k != fields[0]]
-            nums = [v for v in nums if v is not None]
-            today = nums[-1] if nums else None
-        if today is None:
+        url = "https://www.twse.com.tw/rwd/zh/marginTrading/MI_MARGN?response=csv&selectType=MS"
+        text = http_text(url, accept="text/csv,text/plain,*/*")
+        rows = list(csv.reader(io.StringIO(text)))
+        date = _roc_date_from_text(text) or "最新官方盤後"
+        target = next((r for r in rows if r and "融資金額" in str(r[0])), None)
+        if not target:
+            raise ValueError("TWSE margin amount row not found in official CSV")
+        nums = [to_float(v) for v in target[1:]]
+        nums = [v for v in nums if v is not None]
+        if not nums:
             raise ValueError("TWSE margin balance not recognized")
-
-        # Official field is 千元. 1 億元 = 100,000 千元.
+        today = nums[-1]  # 今日餘額，官方單位為仟元
         twse_amount_100m = today / 100000.0
-        date = str(payload.get("date") or payload.get("stat") or "最新官方盤後")
         dates.append(date)
         source_ok(snap, "TWSE margin market total", date, "融資金額(仟元)→億元")
     except Exception as exc:
@@ -367,17 +368,11 @@ def fetch_margin(snap):
         source_error(snap, "TPEx margin", exc)
 
     if twse_amount_100m is not None or tpex_units is not None:
-        if twse_amount_100m is not None:
-            value = f"上市 {twse_amount_100m:,.2f} 億"
-        else:
-            value = "上市 N/A"
+        value = f"上市 {twse_amount_100m:,.2f} 億" if twse_amount_100m is not None else "上市 N/A"
         change = f"上櫃融資餘額 {tpex_units:,.0f}（來源原始交易單位）" if tpex_units is not None else "上櫃 N/A"
         snap["metrics"]["margin"] = metric(
-            value,
-            change,
-            max(dates) if dates else "最新官方盤後",
-            "official_afterhours",
-            "TWSE / TPEx",
+            value, change, max(dates) if dates else "最新官方盤後",
+            "official_afterhours", "TWSE / TPEx",
         )
 
 def fetch_taifex(snap):

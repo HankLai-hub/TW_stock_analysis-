@@ -48,8 +48,8 @@ def read_json(path: Path, default: Any) -> Any:
         return default
 
 
-def http_json(url: str, *, token: str | None = None, retries: int = 3, timeout: int = 25) -> Any:
-    headers = {"User-Agent": UA, "Accept": "application/json, text/plain, */*"}
+def http_text(url: str, *, token: str | None = None, retries: int = 3, timeout: int = 25, accept: str = "text/plain, text/csv, application/json, */*") -> str:
+    headers = {"User-Agent": UA, "Accept": accept}
     if token:
         headers["Authorization"] = f"Bearer {token}"
         headers["X-API-Key"] = token
@@ -58,13 +58,28 @@ def http_json(url: str, *, token: str | None = None, retries: int = 3, timeout: 
         try:
             req = Request(url, headers=headers)
             with urlopen(req, timeout=timeout) as resp:
-                raw = resp.read().decode("utf-8-sig", errors="replace")
-                return json.loads(raw)
-        except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as exc:
+                raw = resp.read()
+                # Official TW/CBC endpoints are generally UTF-8. Keep a Big5 fallback
+                # for legacy CSV downloads rather than silently replacing Chinese labels.
+                for enc in ("utf-8-sig", "utf-8", "cp950", "big5"):
+                    try:
+                        return raw.decode(enc)
+                    except UnicodeDecodeError:
+                        pass
+                return raw.decode("utf-8", errors="replace")
+        except (HTTPError, URLError, TimeoutError) as exc:
             last_error = exc
             if attempt + 1 < retries:
                 time.sleep(1.4 * (attempt + 1))
     raise RuntimeError(f"fetch failed: {url}: {last_error}")
+
+
+def http_json(url: str, *, token: str | None = None, retries: int = 3, timeout: int = 25) -> Any:
+    raw = http_text(url, token=token, retries=retries, timeout=timeout, accept="application/json, text/plain, */*")
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"invalid JSON from {url}: {exc}") from exc
 
 
 def compact(s: Any) -> str:
