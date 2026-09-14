@@ -176,6 +176,11 @@
           <div><span>即時判讀</span><strong>${esc(daily.label || '資料不足')}</strong></div>
           <div class="auto-brief-score">${daily.score == null ? 'N/A' : esc(Number(daily.score).toFixed(0))}</div>
         </div>
+        ${daily.resonance ? `<div class="auto-resonance" data-tone="${esc(daily.resonance.tone || 'neutral')}">
+          <div><span>CROSS-MARKET RESONANCE</span><strong>${esc(daily.resonance.label || '')}</strong></div>
+          <div class="auto-resonance-score">${daily.resonance.score == null ? 'N/A' : esc(Number(daily.resonance.score).toFixed(0))}</div>
+          <p>${esc(daily.resonance.note || '')}</p>
+        </div>` : ''}
         <p class="auto-brief-headline">${esc(daily.headline || '')}</p>
         <div class="auto-brief-bullets">${bullets.map(x => `<div><span>•</span><p>${esc(x)}</p></div>`).join('')}</div>
         <div class="auto-brief-outlook">
@@ -242,6 +247,8 @@
     const equity = globalData?.equity || {};
     const risk = globalData?.risk || {};
     const news = Array.isArray(globalData?.news) ? globalData.news : [];
+    const events = Array.isArray(globalData?.events) ? globalData.events : [];
+    const reaction = globalData?.reaction || {};
     const errors = Array.isArray(globalData?.errors) ? globalData.errors : [];
     const equityFeed = globalData?.equityFeed || {};
     const riskScore = typeof risk.score === 'number' ? risk.score : null;
@@ -273,6 +280,27 @@
         ${globalMetricCard('Brent', macro.brent)}
         ${globalMetricCard('美國CPI', macro.cpi)}
         ${globalMetricCard('失業率', macro.unemployment)}
+      </div>
+
+      <div class="auto-global-section-title"><span>官方跨資產反應</span><em>不使用未授權股價指數</em></div>
+      <div class="auto-global-reaction" data-tone="${esc(reaction.tone || 'neutral')}">
+        <strong>${esc(reaction.label || '資料累積中')}</strong>
+        <p>${esc(reaction.note || '')}</p>
+        <div>${(Array.isArray(reaction.bullets) ? reaction.bullets : []).map(x => `<span>${esc(x)}</span>`).join('')}</div>
+      </div>
+
+      <div class="auto-global-section-title"><span>未來 1–2 週官方事件</span><em>台北時間</em></div>
+      <div class="auto-event-calendar">
+        ${events.length ? events.slice(0, 8).map(e => `
+          <article>
+            <time>${esc(e.scheduledAt || '')}</time>
+            <div>
+              <div><span>${esc(e.source || '')}</span><em>${'★'.repeat(Math.max(1, Math.min(5, Number(e.impact) || 1)))}</em></div>
+              <a href="${esc(e.link || '#')}" target="_blank" rel="noopener noreferrer">${esc(e.title || '')}</a>
+              <p>${esc(e.watch || '')}</p>
+            </div>
+          </article>
+        `).join('') : '<div class="auto-news-empty">未來 14 天沒有符合目前篩選條件的高影響官方事件。</div>'}
       </div>
 
       <div class="auto-global-equity-notice" data-state="${esc(equityFeed.state || 'not_configured')}">
