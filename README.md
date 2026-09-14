@@ -47,3 +47,4 @@ npm run serve
 `TWSE / TPEx / TAIFEX / CBC / Fed / BLS → ETL → validation → daily.json / weekly.json → 前端`
 
 網站目前故意保持靜態，原因是部署成本低、速度快、GitHub Pages 直接可用；等資料管線穩定後再切 API。
+Website deployment
