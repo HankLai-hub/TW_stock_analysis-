@@ -7,7 +7,7 @@ from typing import Any
 from urllib.parse import urlencode
 
 from common import (
-    DATA_DIR, append_history, archive_snapshot, atomic_write_json, find_value,
+    DATA_DIR, append_history, archive_snapshot, atomic_write_json, find_exact, find_value,
     fmt_number, fmt_pct, http_json, iso_now, metric, now_taipei, read_json,
     row_date, signed_number, to_float, to_int,
 )
@@ -83,6 +83,19 @@ def source_error(snap, name, exc):
     snap["errors"].append({"source": name, "message": text[:500]})
 
 
+def _latest_dated_row(rows):
+    dated = []
+    for r in rows or []:
+        if isinstance(r, dict):
+            d = row_date(r)
+            if d:
+                dated.append((d, r))
+    if dated:
+        dated.sort(key=lambda x: x[0])
+        return dated[-1][1]
+    return rows[-1] if rows else None
+
+
 def fetch_twse_close(snap):
     try:
         rows = http_json(f"{TWSE}/exchangeReport/MI_INDEX")
@@ -91,40 +104,68 @@ def fetch_twse_close(snap):
         row = next((r for r in rows if "發行量加權" in str(find_value(r, ["指數", "Index"]) or "")), None)
         if not row:
             raise ValueError("TAIEX row not found")
-        value = to_float(find_value(row, ["收盤指數", "ClosingIndex", "IndexValue"]))
-        pct = signed_number(find_value(row, ["漲跌百分比", "ChangePercent", "ChangePercentage"]), find_value(row, ["漲跌", "Direction"]))
-        date = None
-        try:
-            fmt = http_json(f"{TWSE}/exchangeReport/FMTQIK")
-            if isinstance(fmt, list) and fmt:
-                date = row_date(fmt[0])
-        except Exception:
-            pass
-        snap["metrics"]["taiex"] = metric(fmt_number(value), fmt_pct(pct), date or "最新官方收盤", "official_close", "TWSE")
-        source_ok(snap, "TWSE MI_INDEX", date or "最新官方收盤")
+        value = to_float(find_exact(row, ["收盤指數", "ClosingIndex", "IndexValue"]))
+        pct = signed_number(find_exact(row, ["漲跌百分比", "ChangePercent", "ChangePercentage"]), find_exact(row, ["漲跌", "Direction"]))
+        date = row_date(row) or "最新官方收盤"
+        snap["metrics"]["taiex"] = metric(fmt_number(value), fmt_pct(pct), date, "official_close", "TWSE")
+        source_ok(snap, "TWSE MI_INDEX", date)
     except Exception as exc:
         source_error(snap, "TWSE MI_INDEX", exc)
 
 
+def _parse_count_cell(value):
+    import re
+    m = re.search(r"[\d,]+", str(value or ""))
+    return int(m.group(0).replace(",", "")) if m else None
+
+
 def fetch_twse_breadth(snap):
+    """Fetch listed-stock breadth for the same official close date as TAIEX.
+
+    Do not use twtazu_od here: that dataset is not a daily breadth snapshot and
+    can legitimately carry an older publication date, which previously caused
+    stale counts to be shown as current market breadth.
+    """
     try:
-        rows = http_json(f"{TWSE}/opendata/twtazu_od")
-        if not isinstance(rows, list) or not rows:
-            raise ValueError("empty breadth payload")
-        row = rows[0]
-        up = to_int(find_value(row, ["上漲家數", "上漲", "Up", "Advance", "Advancers"]))
-        down = to_int(find_value(row, ["下跌家數", "下跌", "Down", "Decline", "Decliners"]))
-        flat = to_int(find_value(row, ["持平家數", "持平", "Unchanged"]))
-        date = row_date(row) or "最新官方收盤"
+        date = str(snap["metrics"].get("taiex", {}).get("asOf", ""))
+        if not (len(date) == 10 and date[4] == "-" and date[7] == "-"):
+            raise ValueError("TAIEX official date unavailable; breadth not attributable")
+        ymd = date.replace("-", "")
+        payload = http_json(f"{TWSE_WEB}/afterTrading/MI_INDEX?{urlencode({'date':ymd,'type':'MS','response':'json'})}")
+        if not isinstance(payload, dict) or str(payload.get("stat", "")).upper() != "OK":
+            raise ValueError(f"TWSE market-stat payload unavailable for {date}")
+
+        fields = None
+        data = None
+        for table in payload.get("tables", []) or []:
+            if "漲跌證券數合計" in str(table.get("title", "")):
+                fields = table.get("fields")
+                data = table.get("data")
+                break
+        if not data and payload.get("data8"):
+            fields = payload.get("fields8")
+            data = payload.get("data8")
+        if not data:
+            raise ValueError("TWSE breadth table not found")
+
+        # Layout is [類型, 整體市場, 股票]; use 股票 only, excluding warrants.
+        stock_col = 2
+        if isinstance(fields, list) and "股票" in fields:
+            stock_col = fields.index("股票")
+        labels = {str(r[0]).strip(): r[stock_col] for r in data if isinstance(r, list) and len(r) > stock_col}
+        up = _parse_count_cell(next((v for k,v in labels.items() if k.startswith("上漲")), None))
+        down = _parse_count_cell(next((v for k,v in labels.items() if k.startswith("下跌")), None))
+        flat = _parse_count_cell(labels.get("持平"))
         if up is None or down is None:
-            # Preserve endpoint availability even if a future schema rename needs a map update.
-            raise ValueError(f"breadth fields not recognized: {list(row)[:12]}")
-        value = f"{up}↑ / {down}↓"
-        change = f"平盤 {flat}" if flat is not None else ""
-        snap["metrics"]["breadth"] = metric(value, change, date, "official_close", "TWSE")
-        source_ok(snap, "TWSE breadth", date)
+            raise ValueError("TWSE stock breadth counts not recognized")
+        snap["metrics"]["breadth"] = metric(
+            f"{up}↑ / {down}↓",
+            f"平盤 {flat}" if flat is not None else "",
+            date, "official_close", "TWSE 股票"
+        )
+        source_ok(snap, "TWSE stock breadth", date)
     except Exception as exc:
-        source_error(snap, "TWSE breadth", exc)
+        source_error(snap, "TWSE stock breadth", exc)
 
 
 def fetch_twse_turnover(snap):
@@ -132,8 +173,8 @@ def fetch_twse_turnover(snap):
         rows = http_json(f"{TWSE}/exchangeReport/FMTQIK")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty FMTQIK")
-        row = rows[0]
-        amount = to_float(find_value(row, ["成交金額", "TradeValue", "成交值"]))
+        row = _latest_dated_row(rows)
+        amount = to_float(find_exact(row, ["成交金額", "TradeValue", "成交值"]))
         date = row_date(row) or "最新官方收盤"
         value = f"{amount / 1e8:,.0f} 億" if amount is not None else "N/A"
         snap["metrics"]["turnover"] = metric(value, "", date, "official_close", "TWSE")
@@ -141,78 +182,100 @@ def fetch_twse_turnover(snap):
     except Exception as exc:
         source_error(snap, "TWSE turnover", exc)
 
-
 def fetch_tpex_summary(snap):
+    try:
+        rows = http_json(f"{TPEX}/tpex_daily_trading_index")
+        if not isinstance(rows, list) or not rows:
+            raise ValueError("empty TPEx daily trading index")
+        row = _latest_dated_row(rows)
+        date = row_date(row) or "最新官方收盤"
+        value = to_float(find_exact(row, ["Close", "Index", "IndexValue", "收盤指數", "指數", "ClosingIndex"]))
+        change_pts = signed_number(find_exact(row, ["Change", "漲跌", "ChangePoint"]))
+        pct = to_float(find_exact(row, ["ChangePercent", "ChangePercentage", "漲跌幅", "漲跌百分比"]))
+        if pct is None and value is not None and change_pts is not None and (value - change_pts) != 0:
+            pct = change_pts / (value - change_pts) * 100
+        if value is None:
+            raise ValueError(f"TPEx index field not recognized: {list(row)[:16]}")
+        snap["metrics"]["otc"] = metric(fmt_number(value), fmt_pct(pct), date, "official_close", "TPEx")
+        source_ok(snap, "TPEx daily trading index", date)
+    except Exception as exc:
+        source_error(snap, "TPEx daily trading index", exc)
+
+    # Add TPEx stock breadth to the TWSE stock breadth only when the official
+    # highlight endpoint exposes unambiguous daily counts for the same date.
     try:
         rows = http_json(f"{TPEX}/tpex_mainborad_highlight")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty TPEx highlight")
-        # TPEx highlight contains market summary in a small latest-day snapshot.
-        row = rows[0]
+        row = _latest_dated_row(rows) or rows[0]
         date = row_date(row) or "最新官方收盤"
-        value = to_float(find_value(row, ["Close", "Index", "IndexValue", "收盤指數", "指數"]))
-        pct = signed_number(find_value(row, ["ChangePercent", "ChangePercentage", "漲跌幅", "漲跌百分比"]))
-        if value is None:
-            # Try dedicated index endpoint; keep flexible because the endpoint can return several indices.
-            idx = http_json(f"{TPEX}/tpex_index")
-            if isinstance(idx, list):
-                candidate = next((r for r in idx if "櫃買" in str(r) or "TPEX" in str(r).upper()), idx[0] if idx else None)
-                if candidate:
-                    value = to_float(find_value(candidate, ["Close", "Index", "IndexValue", "收盤指數", "指數值"]))
-                    pct = signed_number(find_value(candidate, ["ChangePercent", "漲跌幅", "漲跌百分比"]))
-                    date = row_date(candidate) or date
-        if value is None:
-            raise ValueError(f"TPEx index field not recognized: {list(row)[:12]}")
-        snap["metrics"]["otc"] = metric(fmt_number(value), fmt_pct(pct), date, "official_close", "TPEx")
-
-        # When the highlight endpoint provides breadth counts, merge them with the already-fetched TWSE counts.
-        tpex_up = to_int(find_value(row, ["上漲家數", "UpCount", "Advancers", "RiseCount", "RisingStocks"]))
-        tpex_down = to_int(find_value(row, ["下跌家數", "DownCount", "Decliners", "FallCount", "FallingStocks"]))
-        tpex_flat = to_int(find_value(row, ["持平家數", "FlatCount", "Unchanged", "UnchangedCount"]))
-        if tpex_up is not None and tpex_down is not None:
-            current = snap["metrics"].get("breadth", {})
+        up = to_int(find_exact(row, ["UpNum", "RiseNum", "RisingStocks", "上漲家數"]))
+        down = to_int(find_exact(row, ["DownNum", "FallNum", "FallingStocks", "下跌家數"]))
+        flat = to_int(find_exact(row, ["NoChangeNum", "FlatNum", "Unchanged", "持平家數"]))
+        current = snap["metrics"].get("breadth", {})
+        if up is not None and down is not None and current.get("value") not in {None, "", "N/A"}:
             import re
             m = re.search(r"([\d,]+)↑\s*/\s*([\d,]+)↓", str(current.get("value", "")))
-            if m:
+            if m and str(current.get("asOf")) == date:
                 twse_up = int(m.group(1).replace(",", "")); twse_down = int(m.group(2).replace(",", ""))
                 flat_m = re.search(r"平盤\s*([\d,]+)", str(current.get("change", "")))
                 twse_flat = int(flat_m.group(1).replace(",", "")) if flat_m else 0
-                flat_total = twse_flat + (tpex_flat or 0)
                 snap["metrics"]["breadth"] = metric(
-                    f"{twse_up + tpex_up}↑ / {twse_down + tpex_down}↓",
-                    f"平盤 {flat_total}",
-                    date, "official_close", "TWSE/TPEx"
+                    f"{twse_up + up}↑ / {twse_down + down}↓",
+                    f"平盤 {twse_flat + (flat or 0)}",
+                    date, "official_close", "TWSE/TPEx 股票"
                 )
-        source_ok(snap, "TPEx market summary", date)
+        source_ok(snap, "TPEx market highlight", date)
     except Exception as exc:
-        source_error(snap, "TPEx market summary", exc)
-
+        source_error(snap, "TPEx market highlight", exc)
 
 def fetch_cbc(snap):
     try:
         payload = http_json(CBC)
         dataset = payload.get("DataSet") if isinstance(payload, dict) else None
-        rows = dataset if isinstance(dataset, list) else (dataset.get("Data") if isinstance(dataset, dict) else None)
+        rows = None
+        if isinstance(dataset, list):
+            rows = dataset
+        elif isinstance(dataset, dict):
+            for key in ("Data", "data", "Series", "Observations"):
+                if isinstance(dataset.get(key), list):
+                    rows = dataset.get(key); break
+            if rows is None:
+                # Some CBC API responses wrap one list one level deeper.
+                for v in dataset.values():
+                    if isinstance(v, list) and v and isinstance(v[0], dict):
+                        rows = v; break
         if not isinstance(rows, list) or not rows:
-            raise ValueError("CBC dataset shape not recognized")
-        # BP01D01 has many currencies. Identify USD/TWD row/column flexibly.
-        latest = rows[-1]
-        if isinstance(latest, dict):
-            date = row_date(latest) or str(find_value(latest, ["Period", "時間", "日期"]) or "最新官方資料")
-            value = to_float(find_value(latest, ["新臺幣", "新台幣", "NTD", "TWD", "NTD/USD", "USD/TWD"]))
+            raise ValueError("CBC DataSet rows not recognized")
+
+        candidates = []
+        for r in rows:
+            if not isinstance(r, dict):
+                continue
+            date = row_date(r) or str(find_exact(r, ["TIME_PERIOD", "Period", "時間", "日期", "Date"]) or "")
+            value = to_float(find_exact(r, ["NTD/USD", "NTDUSD", "USD/TWD", "USDTWD", "新臺幣", "新台幣", "TWD"]))
             if value is None:
-                nums = [to_float(v) for k, v in latest.items() if k not in {"TIME_PERIOD", "Period", "日期"}]
-                nums = [x for x in nums if x is not None and 20 <= x <= 50]
-                value = nums[0] if nums else None
-        else:
-            value = None; date = "最新官方資料"
-        if value is None:
-            raise ValueError("USD/TWD value not recognized")
+                # Only accept a unique FX-like number; never guess among several values.
+                nums = []
+                for k, v in r.items():
+                    if compact(k) in {"timeperiod", "period", "date", "日期", "時間"}:
+                        continue
+                    f = to_float(v)
+                    if f is not None and 20 <= f <= 50:
+                        nums.append(f)
+                if len(nums) == 1:
+                    value = nums[0]
+            if value is not None:
+                iso = roc_to_iso(date) or date.replace("/", "-")
+                candidates.append((iso, value))
+        if not candidates:
+            raise ValueError("USD/TWD value not recognized without ambiguity")
+        candidates.sort(key=lambda x: str(x[0]))
+        date, value = candidates[-1]
         snap["metrics"]["usdTwd"] = metric(fmt_number(value, 3), "", date, "official_daily", "CBC")
         source_ok(snap, "CBC USD/TWD", date)
     except Exception as exc:
         source_error(snap, "CBC USD/TWD", exc)
-
 
 def fetch_twse_institutional(snap):
     try:
@@ -361,8 +424,11 @@ def fetch_taifex(snap):
         # Prefer day session and nearest YYYYMM contract.
         tx_rows.sort(key=lambda r: str(find_value(r, ["ContractMonth(Week)", "到期月份(週別)"]) or ""))
         row = next((r for r in tx_rows if "一般" in str(find_value(r, ["TradingSession", "交易時段"]) or "")), tx_rows[0])
-        last = to_float(find_value(row, ["Last", "LastPrice", "最後成交價"]))
-        pct = signed_number(find_value(row, ["ChangePercent", "漲跌%", "漲跌幅"]))
+        last = to_float(find_exact(row, ["Last", "LastPrice", "最後成交價"]))
+        pct = signed_number(find_exact(row, ["ChangePercent", "漲跌%", "漲跌幅", "漲跌百分比"]))
+        change_pts = signed_number(find_exact(row, ["Change", "漲跌", "ChangePoint"]))
+        if pct is None and last is not None and change_pts is not None and (last - change_pts) != 0:
+            pct = change_pts / (last - change_pts) * 100
         date = row_date(row) or "最新官方行情"
         snap["metrics"]["tx"] = metric(fmt_number(last, 0), fmt_pct(pct), date, "official_close", "TAIFEX")
         source_ok(snap, "TAIFEX TX daily", date)

@@ -85,6 +85,21 @@ def find_value(row: dict[str, Any], candidates: Iterable[str]) -> Any:
     return None
 
 
+
+
+def find_exact(row: dict[str, Any], candidates: Iterable[str]) -> Any:
+    """Return only exact normalized-key matches.
+
+    Use this for fields where fuzzy matching can silently map a similarly named
+    but semantically different column (for example Change vs ChangePercent).
+    """
+    normalized = {compact(k): v for k, v in row.items()}
+    for candidate in candidates:
+        c = compact(candidate)
+        if c in normalized:
+            return normalized[c]
+    return None
+
 def to_float(value: Any) -> float | None:
     if value is None:
         return None
