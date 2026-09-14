@@ -9,7 +9,7 @@ from urllib.parse import urlencode
 from common import (
     DATA_DIR, append_history, archive_snapshot, atomic_write_json, find_exact, find_value,
     fmt_number, fmt_pct, http_json, http_text, iso_now, metric, now_taipei, read_json,
-    row_date, signed_number, to_float, to_int,
+    row_date, roc_to_iso, signed_number, to_float, to_int,
 )
 
 TWSE = "https://openapi.twse.com.tw/v1"
@@ -190,7 +190,7 @@ def fetch_tpex_summary(snap):
             raise ValueError("empty TPEx daily trading index")
         row = _latest_dated_row(rows)
         date = row_date(row) or "最新官方收盤"
-        value = to_float(find_exact(row, ["Close", "Index", "IndexValue", "收盤指數", "指數", "ClosingIndex"]))
+        value = to_float(find_exact(row, ["TPEXIndex", "Close", "Index", "IndexValue", "收盤指數", "指數", "ClosingIndex"]))
         change_pts = signed_number(find_exact(row, ["Change", "漲跌", "ChangePoint"]))
         pct = to_float(find_exact(row, ["ChangePercent", "ChangePercentage", "漲跌幅", "漲跌百分比"]))
         if pct is None and value is not None and change_pts is not None and (value - change_pts) != 0:
@@ -266,50 +266,82 @@ def fetch_cbc(snap):
 
 def _roc_date_from_text(text: str) -> str | None:
     import re
-    m = re.search(r"(?:民國)?\s*(\d{3})[年/-](\d{1,2})[月/-](\d{1,2})", str(text or ""))
-    if m:
-        return f"{int(m.group(1))+1911:04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
-    m = re.search(r"(\d{4})[/-](\d{1,2})[/-](\d{1,2})", str(text or ""))
+    s = str(text or "")
+    # Gregorian first. Otherwise "2026/09/11" can be accidentally read as ROC 026/09/11.
+    m = re.search(r"(?<!\d)(\d{4})[/-](\d{1,2})[/-](\d{1,2})(?!\d)", s)
     if m:
         return f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+    m = re.search(r"(?:民國\s*)?(?<!\d)(\d{3})[年/-](\d{1,2})[月/-](\d{1,2})(?:日)?(?!\d)", s)
+    if m:
+        return f"{int(m.group(1))+1911:04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
     return None
 
 
 def fetch_twse_institutional(snap):
-    """Fetch TWSE foreign-investor net trading from the official CSV export.
+    """Fetch TWSE foreign-investor net trading.
 
-    Parsing by row text is intentionally tolerant of TWSE's 2026 label changes
-    (for example the addition of the Foreign Dealers row).
+    Prefer the official JSON response because it keeps row labels and numeric
+    columns separate. Fall back to the CSV export for compatibility.
     """
-    import csv
-    import io
     try:
-        url = f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'csv','type':'day'})}"
-        text = http_text(url, accept="text/csv,text/plain,*/*")
-        parsed = list(csv.reader(io.StringIO(text)))
-        if not parsed:
-            raise ValueError("BFI82U CSV empty")
+        payload = http_json(f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'json','type':'day'})}")
+        if not isinstance(payload, dict) or str(payload.get("stat", "")).upper() != "OK":
+            raise ValueError("BFI82U official JSON unavailable")
+        fields = payload.get("fields") or []
+        data = payload.get("data") or []
+        date = roc_to_iso(payload.get("date")) or _roc_date_from_text(payload.get("title", "")) or "最新官方盤後"
 
-        date = _roc_date_from_text(text) or "最新官方盤後"
         target = None
-        for row in parsed:
-            joined = " ".join(str(x) for x in row)
-            if "外資及陸資" in joined and "外資自營商" not in joined and "合計" not in joined:
+        for row in data:
+            if not isinstance(row, list) or not row:
+                continue
+            label = str(row[0]).strip()
+            if label.startswith("外資及陸資"):
                 target = row
                 break
         if not target:
-            raise ValueError("foreign investor row not found in official CSV")
+            raise ValueError("foreign investor row not found in BFI82U JSON")
 
-        nums = [to_float(v) for v in target[1:]]
-        nums = [v for v in nums if v is not None]
-        if not nums:
-            raise ValueError(f"foreign investor numeric fields not recognized: {target}")
-        net = nums[-1]
+        net = None
+        if fields and "買賣差額" in fields:
+            idx = fields.index("買賣差額")
+            if idx < len(target):
+                net = to_float(target[idx])
+        if net is None and len(target) >= 4:
+            net = to_float(target[-1])
+        if net is None:
+            raise ValueError(f"foreign investor net field not recognized: {target[:8]}")
+
         value = f"{net / 1e8:+,.2f} 億"
         snap["metrics"]["foreignSpot"] = metric(value, "上市市場", date, "official_afterhours", "TWSE")
-        source_ok(snap, "TWSE BFI82U", date, "official CSV")
-    except Exception as exc:
-        source_error(snap, "TWSE BFI82U", exc)
+        source_ok(snap, "TWSE BFI82U", date, "official JSON")
+        return
+    except Exception as json_exc:
+        import csv
+        import io
+        try:
+            url = f"{TWSE_WEB}/fund/BFI82U?{urlencode({'response':'csv','type':'day'})}"
+            raw = http_text(url, accept="text/csv,text/plain,*/*")
+            parsed = list(csv.reader(io.StringIO(raw)))
+            date = _roc_date_from_text(raw) or "最新官方盤後"
+            target = None
+            for row in parsed:
+                if len(row) < 4:
+                    continue
+                label = str(row[0]).strip()
+                if label.startswith("外資及陸資"):
+                    target = row
+                    break
+            if not target:
+                raise ValueError("foreign investor row not found in BFI82U CSV")
+            net = to_float(target[-1])
+            if net is None:
+                raise ValueError(f"foreign investor net field not recognized: {target[:8]}")
+            value = f"{net / 1e8:+,.2f} 億"
+            snap["metrics"]["foreignSpot"] = metric(value, "上市市場", date, "official_afterhours", "TWSE")
+            source_ok(snap, "TWSE BFI82U", date, "official CSV fallback")
+        except Exception as csv_exc:
+            source_error(snap, "TWSE BFI82U", f"JSON: {json_exc}; CSV: {csv_exc}")
 
 
 def fetch_margin(snap):
@@ -375,22 +407,93 @@ def fetch_margin(snap):
             "official_afterhours", "TWSE / TPEx",
         )
 
+def _parse_taifex_institutional_html(html: str):
+    """Parse the official TAIFEX futContractsDateExcel HTML fallback."""
+    from html.parser import HTMLParser
+
+    class TableParser(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.rows = []
+            self._row = None
+            self._cell = None
+        def handle_starttag(self, tag, attrs):
+            if tag == "tr":
+                self._row = []
+            elif tag in {"td", "th"} and self._row is not None:
+                self._cell = []
+        def handle_data(self, data):
+            if self._cell is not None:
+                self._cell.append(data)
+        def handle_endtag(self, tag):
+            if tag in {"td", "th"} and self._cell is not None:
+                self._row.append(" ".join(self._cell).strip())
+                self._cell = None
+            elif tag == "tr" and self._row is not None:
+                self.rows.append(self._row)
+                self._row = None
+
+    parser = TableParser()
+    parser.feed(html)
+
+    current_product = ""
+    for cells in parser.rows:
+        clean = [" ".join(str(c).split()) for c in cells if str(c).strip()]
+        if not clean:
+            continue
+
+        if any("臺股期貨" in c for c in clean):
+            current_product = "臺股期貨"
+        elif clean[0] not in {"自營商", "投信", "外資"} and any("期貨" in c for c in clean[:2]):
+            current_product = clean[0]
+
+        if current_product == "臺股期貨" and "外資" in clean:
+            idx = clean.index("外資")
+            nums = [to_int(v) for v in clean[idx + 1:]]
+            nums = [v for v in nums if v is not None]
+            if len(nums) >= 12:
+                return {
+                    "long_oi": nums[6],
+                    "short_oi": nums[8],
+                    "net": nums[10],
+                    "date": _roc_date_from_text(html) or "最新官方盤後",
+                }
+
+    raise ValueError("TX foreign row not found in TAIFEX HTML fallback")
+
+
 def fetch_taifex(snap):
     try:
-        rows = http_json(f"{TAIFEX}/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate")
-        if not isinstance(rows, list):
-            raise ValueError("TAIFEX institutional endpoint not list")
-        row = next((r for r in rows if str(find_value(r, ["ContractCode", "商品名稱", "Contract"]) or "").strip() in {"臺股期貨", "TX"} and "外資" in str(find_value(r, ["Item", "身份別", "Identity"]) or "")), None)
-        if not row:
-            raise ValueError("TX foreign row not found")
-        net = to_int(find_value(row, ["OpenInterest(Net)", "OpenInterestNet", "未平倉多空淨額", "未平倉淨額"]))
-        long_oi = to_int(find_value(row, ["OpenInterest(Long)", "OpenInterestLong", "多方未平倉"]))
-        short_oi = to_int(find_value(row, ["OpenInterest(Short)", "OpenInterestShort", "空方未平倉"]))
-        date = row_date(row) or "最新官方盤後"
-        value = f"{net:+,} 口" if net is not None else "N/A"
+        api_exc = None
+        try:
+            rows = http_json(f"{TAIFEX}/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate")
+            if not isinstance(rows, list):
+                raise ValueError("TAIFEX institutional endpoint not list")
+            row = next((r for r in rows if str(find_value(r, ["ContractCode", "商品名稱", "Contract"]) or "").strip() in {"臺股期貨", "TX"} and "外資" in str(find_value(r, ["Item", "身份別", "Identity"]) or "")), None)
+            if not row:
+                raise ValueError("TX foreign row not found")
+            net = to_int(find_value(row, ["OpenInterest(Net)", "OpenInterestNet", "未平倉多空淨額", "未平倉淨額"]))
+            long_oi = to_int(find_value(row, ["OpenInterest(Long)", "OpenInterestLong", "多方未平倉"]))
+            short_oi = to_int(find_value(row, ["OpenInterest(Short)", "OpenInterestShort", "空方未平倉"]))
+            date = row_date(row) or "最新官方盤後"
+        except Exception as exc:
+            api_exc = exc
+            html = http_text(
+                "https://www.taifex.com.tw/cht/3/futContractsDateExcel",
+                accept="text/html,text/plain,*/*",
+            )
+            parsed = _parse_taifex_institutional_html(html)
+            net = parsed["net"]
+            long_oi = parsed["long_oi"]
+            short_oi = parsed["short_oi"]
+            date = parsed["date"]
+
+        if net is None:
+            raise ValueError("TAIFEX foreign TX net OI missing")
+        value = f"{net:+,} 口"
         detail = f"多 {long_oi:,} / 空 {short_oi:,}" if long_oi is not None and short_oi is not None else ""
         snap["metrics"]["foreignTx"] = metric(value, detail, date, "official_afterhours", "TAIFEX")
-        source_ok(snap, "TAIFEX institutional TX", date)
+        source_ok(snap, "TAIFEX institutional TX", date, "OpenAPI" if api_exc is None else "official HTML fallback")
     except Exception as exc:
         source_error(snap, "TAIFEX institutional TX", exc)
 
