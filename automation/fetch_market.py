@@ -18,6 +18,7 @@ TPEX = "https://www.tpex.org.tw/openapi/v1"
 TAIFEX = "https://openapi.taifex.com.tw/v1"
 CBC = "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01"
 CBC_CSV = "https://www.cbc.gov.tw/public/data/OpenData/%E7%B6%93%E7%A0%94%E8%99%95/BP01D01.csv"
+CBC_LATEST = "https://www.cbc.gov.tw/tw/lp-645-1-1-60.html"
 
 
 def blank_snapshot(kind: str) -> dict[str, Any]:
@@ -67,11 +68,17 @@ def market_phase(now) -> str:
 
 
 def next_expected(now, kind: str) -> str:
-    if kind == "intraday":
-        return "下一個盤中整點排程約 60 分鐘後"
-    if kind == "afterhours":
-        return "下一個盤後排程約 3 小時後"
-    return "依 GitHub Actions 排程"
+    schedule = [(9,7),(10,7),(11,7),(12,7),(13,7),(15,17),(18,17),(21,17)]
+    current = now.hour * 60 + now.minute
+    future = [h * 60 + m for h, m in schedule if h * 60 + m > current]
+    if future:
+        diff = future[0] - current
+        if diff < 60:
+            return f"下一個排程約 {diff} 分鐘後"
+        hours = diff // 60
+        mins = diff % 60
+        return f"下一個排程約 {hours} 小時 {mins} 分鐘後" if mins else f"下一個排程約 {hours} 小時後"
+    return "下一個夜間排程依 GitHub Actions 時程"
 
 
 def source_ok(snap, name, as_of="", detail=""):
@@ -231,38 +238,69 @@ def fetch_tpex_summary(snap):
         source_error(snap, "TPEx market highlight", exc)
 
 def fetch_cbc(snap):
-    """Fetch USD/TWD from the CBC official open-data CSV.
+    """Fetch the latest official USD/TWD closing rate from CBC.
 
-    The newer CBC DataAPI wraps observations in a multidimensional structure that
-    has changed over time.  The official CSV is simpler, documented by the CBC,
-    and contains the same BP01D01 daily series.
+    Prefer the CBC "latest daily data" HTML because it is explicitly the
+    bank's current daily closing-rate publication and is newest-first.
+    Keep BP01D01 CSV as a fallback only.
     """
+    import re
     import csv
     import io
-    try:
-        text = http_text(CBC_CSV, accept="text/csv,text/plain,*/*")
-        rows = list(csv.DictReader(io.StringIO(text)))
-        if not rows:
-            raise ValueError("CBC BP01D01 CSV empty")
 
+    try:
+        html = http_text(CBC_LATEST, accept="text/html,text/plain,*/*")
+        # The official page contains rows such as:
+        # 2026/09/11 | 31.638
+        pairs = re.findall(
+            r"(?<!\d)(20\d{2})[/-](\d{1,2})[/-](\d{1,2})(?!\d)"
+            r"[\s\S]{0,180}?"
+            r"(?<![\d.])(\d{2}\.\d{3})(?!\d)",
+            html,
+        )
         candidates = []
-        for r in rows:
-            if not isinstance(r, dict):
-                continue
-            date_raw = find_exact(r, ["期間", "日期", "Date", "Period"])
-            value = find_exact(r, ["新台幣NTD/USD", "新臺幣NTD/USD", "NTD/USD", "NTDUSD"])
-            f = to_float(value)
-            iso = roc_to_iso(date_raw)
-            if f is not None and iso:
+        for y, m, d, rate in pairs:
+            iso = f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
+            f = to_float(rate)
+            if f is not None and 20 <= f <= 50:
                 candidates.append((iso, f))
         if not candidates:
-            raise ValueError(f"CBC BP01D01 columns not recognized: {list(rows[0])[:12]}")
-        candidates.sort(key=lambda x: x[0])
+            raise ValueError("CBC latest-day page rows not recognized")
+        # Deduplicate, then select the newest official day.
+        candidates = sorted(set(candidates), key=lambda x: x[0])
         date, value = candidates[-1]
-        snap["metrics"]["usdTwd"] = metric(fmt_number(value, 3), "", date, "official_daily", "CBC")
-        source_ok(snap, "CBC USD/TWD", date, "BP01D01 official CSV")
-    except Exception as exc:
-        source_error(snap, "CBC USD/TWD", exc)
+        snap["metrics"]["usdTwd"] = metric(
+            fmt_number(value, 3), "", date, "official_daily", "CBC"
+        )
+        source_ok(snap, "CBC USD/TWD", date, "CBC latest daily closing-rate page")
+        return
+    except Exception as html_exc:
+        try:
+            text = http_text(CBC_CSV, accept="text/csv,text/plain,*/*")
+            rows = list(csv.DictReader(io.StringIO(text)))
+            if not rows:
+                raise ValueError("CBC BP01D01 CSV empty")
+
+            candidates = []
+            for r in rows:
+                if not isinstance(r, dict):
+                    continue
+                date_raw = find_exact(r, ["期間", "日期", "Date", "Period"])
+                value = find_exact(r, ["新台幣NTD/USD", "新臺幣NTD/USD", "NTD/USD", "NTDUSD"])
+                f = to_float(value)
+                iso = roc_to_iso(date_raw)
+                if f is not None and iso and 20 <= f <= 50:
+                    candidates.append((iso, f))
+            if not candidates:
+                raise ValueError(f"CBC BP01D01 columns not recognized: {list(rows[0])[:12]}")
+            candidates.sort(key=lambda x: x[0])
+            date, value = candidates[-1]
+            snap["metrics"]["usdTwd"] = metric(
+                fmt_number(value, 3), "", date, "official_daily", "CBC"
+            )
+            source_ok(snap, "CBC USD/TWD", date, "BP01D01 official CSV fallback")
+        except Exception as csv_exc:
+            source_error(snap, "CBC USD/TWD", f"HTML: {html_exc}; CSV: {csv_exc}")
 
 def _roc_date_from_text(text: str) -> str | None:
     import re
