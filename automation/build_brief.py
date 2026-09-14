@@ -11,6 +11,7 @@ DATA = ROOT / 'data'
 LIVE = DATA / 'live.json'
 HISTORY = DATA / 'live-history.json'
 OUT = DATA / 'auto-brief.json'
+GLOBAL = DATA / 'global.json'
 
 
 def read_json(path: Path, default):
@@ -80,7 +81,7 @@ def metric(live, key):
     return (live.get('metrics') or {}).get(key) or {}
 
 
-def daily_brief(live):
+def daily_brief(live, global_data=None):
     risk = live.get('risk') or {}
     score = risk.get('score') if isinstance(risk.get('score'), (int, float)) else None
     label = risk.get('label') or risk_bucket(score)
@@ -133,6 +134,25 @@ def daily_brief(live):
     if b_ratio is not None:
         bullets.append(f'市場廣度：上漲家數占漲跌家數約 {b_ratio*100:.1f}%，' + ('內部結構偏弱。' if b_ratio < 0.45 else ('廣度偏強。' if b_ratio > 0.55 else '多空接近均衡。')))
 
+    global_data = global_data or {}
+    gm = global_data.get('macro') or {}
+    gr = global_data.get('risk') or {}
+    global_parts = []
+    us10 = (gm.get('us10y') or {}).get('display')
+    brent = (gm.get('brent') or {}).get('display')
+    cpi_disp = (gm.get('cpi') or {}).get('display')
+    if us10 and us10 != 'N/A':
+        global_parts.append(f'美10Y {us10}')
+    if brent and brent != 'N/A':
+        global_parts.append(f'Brent {brent}')
+    if cpi_disp and cpi_disp != 'N/A':
+        global_parts.append(f'CPI {cpi_disp}')
+    if global_parts:
+        glabel = gr.get('label') or 'N/A'
+        gscore = gr.get('score')
+        suffix = f'；全球宏觀 {glabel}' + (f' {float(gscore):.0f}分' if isinstance(gscore, (int, float)) else '')
+        bullets.append('全球宏觀：' + '、'.join(global_parts) + suffix + '。')
+
     if pc.get('value') not in {None, '', 'N/A'}:
         bullets.append(f'選擇權：{pc.get("value")}；{pc.get("change") or "OI 比率同步觀察"}，不作單一方向訊號。')
 
@@ -152,7 +172,11 @@ def daily_brief(live):
     else:
         short_view = '1–5 日：偏多。若槓桿未過熱且外資持續加碼，Risk-On 結構延續。'
 
-    swing_view = '2–8 週：目前自動模型主要使用國內價格、法人與廣度資料；中期仍需搭配美債、美元、油價與企業獲利，不把短線分數直接等同中期趨勢。'
+    if (global_data or {}).get('risk', {}).get('score') is not None:
+        gr = global_data.get('risk') or {}
+        swing_view = f'2–8 週：國內短線模型仍與中期趨勢分開；目前全球宏觀分數 {float(gr.get("score")):.0f}（{gr.get("label")}）。中期需同時追蹤美債、實質利率、油價、美元與企業獲利。'
+    else:
+        swing_view = '2–8 週：目前自動模型主要使用國內價格、法人與廣度資料；中期仍需搭配美債、美元、油價與企業獲利，不把短線分數直接等同中期趨勢。'
 
     invalidation = []
     if score is not None and score < 45:
@@ -283,13 +307,14 @@ def weekly_brief(history, live):
 def main():
     live = read_json(LIVE, {})
     hist = read_json(HISTORY, [])
+    global_data = read_json(GLOBAL, {})
     if not isinstance(live, dict) or not live:
         raise SystemExit('data/live.json unavailable')
 
     obj = {
         'schemaVersion': 1,
         'generatedAt': live.get('generatedAt'),
-        'daily': daily_brief(live),
+        'daily': daily_brief(live, global_data),
         'weekly': weekly_brief(hist, live),
     }
     write_json(OUT, obj)
