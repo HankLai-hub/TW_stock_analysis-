@@ -217,6 +217,103 @@
     });
   }
 
+
+  function globalMetricCard(label, row = {}) {
+    return `<article class="auto-global-metric" data-state="${esc(row.state || 'missing')}">
+      <div><span>${esc(label)}</span><small>${esc(row.source || '')}</small></div>
+      <strong>${esc(row.display || 'N/A')}</strong>
+      <p>${esc(row.change || '')}</p>
+      <em>${esc(row.asOf || 'N/A')}</em>
+    </article>`;
+  }
+
+  function renderGlobal(globalData) {
+    const grid = $("#autoMetricGrid");
+    if (!grid) return;
+    let panel = $("#autoGlobalPanel");
+    if (!panel) {
+      panel = document.createElement("section");
+      panel.id = "autoGlobalPanel";
+      panel.className = "auto-global-panel";
+      grid.parentNode.insertBefore(panel, grid);
+    }
+
+    const macro = globalData?.macro || {};
+    const equity = globalData?.equity || {};
+    const risk = globalData?.risk || {};
+    const news = Array.isArray(globalData?.news) ? globalData.news : [];
+    const errors = Array.isArray(globalData?.errors) ? globalData.errors : [];
+    const equityFeed = globalData?.equityFeed || {};
+    const riskScore = typeof risk.score === 'number' ? risk.score : null;
+
+    panel.innerHTML = `
+      <div class="auto-global-head">
+        <div>
+          <span class="auto-global-kicker">GLOBAL MACRO & OFFICIAL NEWS</span>
+          <h3>全球宏觀與官方消息</h3>
+        </div>
+        <div class="auto-global-risk" data-risk="${esc(riskClass(riskScore))}">
+          <span>GLOBAL MACRO</span>
+          <strong>${riskScore == null ? 'N/A' : esc(riskScore.toFixed(0))}</strong>
+          <em>${esc(risk.label || '資料不足')}</em>
+        </div>
+      </div>
+
+      <div class="auto-global-drivers">
+        ${(Array.isArray(risk.drivers) && risk.drivers.length) ? risk.drivers.map(d => `
+          <div data-direction="${esc(d.direction || 'neutral')}"><span>${esc(d.name || '')}</span><strong>${esc(d.reason || '')}</strong></div>
+        `).join('') : '<span>全球宏觀資料累積中。</span>'}
+      </div>
+
+      <div class="auto-global-section-title"><span>官方宏觀資料</span><em>${esc(globalData?.generatedAt || '')}</em></div>
+      <div class="auto-global-grid">
+        ${globalMetricCard('美國10Y', macro.us10y)}
+        ${globalMetricCard('10Y實質利率', macro.real10y)}
+        ${globalMetricCard('2Y–10Y利差', macro.spread2s10s)}
+        ${globalMetricCard('Brent', macro.brent)}
+        ${globalMetricCard('美國CPI', macro.cpi)}
+        ${globalMetricCard('失業率', macro.unemployment)}
+      </div>
+
+      <div class="auto-global-equity-notice" data-state="${esc(equityFeed.state || 'not_configured')}">
+        <strong>${esc(equityFeed.label || '全球股票指數授權源尚未設定')}</strong>
+        <span>${esc(equityFeed.note || '')}</span>
+      </div>
+      <div class="auto-global-equity-grid">
+        ${globalMetricCard('S&P 500', equity.sp500)}
+        ${globalMetricCard('Nasdaq', equity.nasdaq)}
+        ${globalMetricCard('SOX', equity.sox)}
+        ${globalMetricCard('VIX', equity.vix)}
+      </div>
+
+      <div class="auto-global-section-title"><span>官方消息</span><em>只收 Fed / BLS 原始來源</em></div>
+      <div class="auto-official-news">
+        ${news.length ? news.slice(0, 6).map(n => `
+          <article>
+            <div class="auto-news-meta">
+              <span>${esc(n.source || '')}</span>
+              <span>${'★'.repeat(Math.max(1, Math.min(5, Number(n.impact) || 1)))}</span>
+              <em>${esc(n.category || '')}</em>
+            </div>
+            <a href="${esc(n.link || '#')}" target="_blank" rel="noopener noreferrer">${esc(n.title || '')}</a>
+            <p>${esc(n.transmission || '')}</p>
+            <small>${esc(n.publishedAt || '')}</small>
+          </article>
+        `).join('') : '<div class="auto-news-empty">目前沒有新的高相關官方事件。</div>'}
+      </div>
+
+      ${errors.length ? `<details class="auto-global-errors"><summary>全球資料 ${errors.length} 個 warning</summary>${errors.slice(0, 6).map(e => `<span>${esc(e.source)}：${esc(e.message)}</span>`).join('')}</details>` : ''}
+    `;
+  }
+
+  async function loadGlobal() {
+    try {
+      const r = await fetch(`data/global.json?t=${Date.now()}`, { cache: "no-store" });
+      if (!r.ok) return;
+      renderGlobal(await r.json());
+    } catch (_) {}
+  }
+
   async function loadBrief() {
     try {
       const r = await fetch(`data/auto-brief.json?t=${Date.now()}`, { cache: "no-store" });
@@ -232,6 +329,7 @@
       render(await response.json());
       renderTrend();
       loadBrief();
+      loadGlobal();
     } catch (error) {
       const badge = $("#autoUpdateBadge");
       if (badge) { badge.textContent = "AUTO · LOAD ERROR"; badge.dataset.state = "warn"; }
