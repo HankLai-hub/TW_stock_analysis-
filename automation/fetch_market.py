@@ -306,33 +306,75 @@ def fetch_tpex_summary(snap):
         except Exception as fallback_exc:
             source_error(snap, "TPEx daily trading index", f"OpenAPI: {modern_exc}; fallback: {fallback_exc}")
 
-    # 2) Breadth. Prefer OpenAPI, then reuse legacy highlight fallback.
+    # 2) Breadth. Prefer official market-highlight fields. If TPEx changes
+    # schema naming, derive breadth from official daily close quotes instead of
+    # treating a schema-label change as a source failure.
     try:
         rows = http_json(f"{TPEX}/tpex_mainborad_highlight")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty TPEx highlight")
         row = _latest_dated_row(rows) or rows[0]
-        date = row_date(row) or "最新官方收盤"
-        up = to_int(find_exact(row, ["UpNum", "RiseNum", "RisingStocks", "上漲家數"]))
-        down = to_int(find_exact(row, ["DownNum", "FallNum", "FallingStocks", "下跌家數"]))
-        flat = to_int(find_exact(row, ["NoChangeNum", "FlatNum", "Unchanged", "持平家數"]))
+        date = row_date(row) or target_date or "最新官方收盤"
+
+        up = to_int(find_value(row, [
+            "UpNum", "RiseNum", "RisingStocks", "Advances", "Advance",
+            "AdvanceCount", "UpCount", "上漲家數"
+        ]))
+        down = to_int(find_value(row, [
+            "DownNum", "FallNum", "FallingStocks", "Declines", "Decline",
+            "DeclineCount", "DownCount", "下跌家數"
+        ]))
+        flat = to_int(find_value(row, [
+            "NoChangeNum", "FlatNum", "Unchanged", "UnchangedCount",
+            "NoChangeCount", "平盤家數", "持平家數"
+        ]))
+
         if up is None or down is None:
-            raise ValueError("TPEx OpenAPI breadth fields not recognized")
+            # Official dataset "上櫃股票行情" contains close/change for every
+            # listed security. For breadth use 4-digit stock codes only, which
+            # excludes ETFs/ETNs/bonds from the count.
+            quotes = http_json(f"{TPEX}/tpex_mainboard_daily_close_quotes")
+            if not isinstance(quotes, list) or not quotes:
+                raise ValueError("TPEx close quotes unavailable for breadth fallback")
+
+            q_date = None
+            up = down = flat = 0
+            seen = 0
+            import re as _re
+            for q in quotes:
+                if not isinstance(q, dict):
+                    continue
+                code = str(find_value(q, ["SecuritiesCompanyCode", "Code", "代號", "證券代號"]) or "").strip()
+                if not _re.fullmatch(r"\d{4}", code):
+                    continue
+                change = signed_number(find_value(q, ["Change", "漲跌", "ChangeAmount"]))
+                if change is None:
+                    continue
+                seen += 1
+                if change > 0:
+                    up += 1
+                elif change < 0:
+                    down += 1
+                else:
+                    flat += 1
+                d = row_date(q)
+                if d and (q_date is None or d > q_date):
+                    q_date = d
+            if seen == 0:
+                raise ValueError("TPEx official close quotes contained no stock breadth rows")
+            date = q_date or date
+            detail = "OpenAPI close-quotes derived stock breadth"
+        else:
+            detail = "OpenAPI market-highlight breadth"
+
         tpex_breadth = (date, up, down, flat)
-        source_ok(snap, "TPEx market highlight", date, "OpenAPI")
+        source_ok(snap, "TPEx market highlight", date, detail)
     except Exception as exc:
-        try:
-            if legacy is None:
-                if not target_date:
-                    raise ValueError("verified Taiwan trading date unavailable for TPEx fallback")
-                legacy = _fetch_tpex_legacy_market(target_date)
-            if legacy["up"] is None or legacy["down"] is None:
-                raise ValueError("TPEx legacy breadth fields missing")
-            tpex_breadth = (legacy["date"], legacy["up"], legacy["down"], legacy["flat"])
-            source_ok(snap, "TPEx market highlight", legacy["date"], "official wwwov fallback")
-        except Exception as fallback_exc:
-            tpex_breadth = None
-            source_error(snap, "TPEx market highlight", f"OpenAPI: {exc}; fallback: {fallback_exc}")
+        # Do not depend on the retired wwwov host. If official current OpenAPI
+        # cannot supply breadth, keep listed-market breadth only and surface
+        # this as a genuine source warning.
+        tpex_breadth = None
+        source_error(snap, "TPEx market highlight", exc)
 
     current = snap["metrics"].get("breadth", {})
     if tpex_breadth and current.get("value") not in {None, "", "N/A"}:
@@ -526,63 +568,58 @@ def fetch_margin(snap):
     except Exception as exc:
         source_error(snap, "TWSE margin market total", exc)
 
-    tpex_amount_100m = None
+    # TPEx OpenAPI provides a per-security financing balance in 張.
+    # This is not the same unit as TWSE's market-wide financing amount (NTD),
+    # so keep the two official measures side-by-side instead of fabricating a
+    # cross-market monetary total.
+    tpex_qty = None
+    tpex_date = None
     try:
         rows = http_json(f"{TPEX}/tpex_mainboard_margin_balance")
         if not isinstance(rows, list) or not rows:
             raise ValueError("empty TPEx margin payload")
-        # OpenAPI is per-security. If a monetary balance field is present, sum it;
-        # otherwise fall back to the official legacy market-total endpoint below.
-        money_values = []
+
+        qty_values = []
         tpex_dates = []
         for r in rows:
-            val = to_float(find_exact(r, [
-                "MarginPurchaseTodayBalanceValue", "MarginPurchaseBalanceValue",
-                "融資金額今日餘額", "融資金額餘額",
+            if not isinstance(r, dict):
+                continue
+            qty = to_int(find_value(r, [
+                "MarginPurchaseTodayBalance", "MarginPurchaseBalance",
+                "MarginBalance", "資餘額", "融資餘額"
             ]))
-            if val is not None:
-                money_values.append(val)
+            if qty is not None:
+                qty_values.append(qty)
             d = row_date(r)
             if d:
                 tpex_dates.append(d)
-        if money_values:
-            # TPEx monetary fields are expected in thousand NTD.
-            tpex_amount_100m = sum(money_values) / 100000.0
-            if tpex_dates:
-                dates.extend(tpex_dates)
-            source_ok(snap, "TPEx margin", max(tpex_dates) if tpex_dates else "最新官方盤後", "OpenAPI 金額口徑")
-        else:
-            raise ValueError("TPEx OpenAPI monetary margin total unavailable")
-    except Exception as exc:
-        try:
-            target_date = _tpex_target_date(snap)
-            roc_day = _iso_to_roc_date(target_date or "")
-            if not target_date or not roc_day:
-                raise ValueError("verified Taiwan trading date unavailable for TPEx margin fallback")
-            url = (
-                f"{TPEX_LEGACY}/margin_trading/margin_balance/margin_bal_result.php?"
-                + urlencode({"l": "zh-tw", "o": "json", "d": roc_day, "s": "0,asc"})
-            )
-            payload = http_json(url)
-            if not isinstance(payload, dict) or to_int(payload.get("iTotalRecords")) in {None, 0}:
-                raise ValueError("TPEx legacy margin payload unavailable")
-            totals = payload.get("tfootData_two") or []
-            today_thousand = to_float(totals[4] if len(totals) > 4 else None)
-            if today_thousand is None:
-                raise ValueError("TPEx legacy margin monetary balance missing")
-            tpex_amount_100m = today_thousand / 100000.0
-            date = roc_to_iso(payload.get("reportDate")) or target_date
-            dates.append(date)
-            source_ok(snap, "TPEx margin", date, "official wwwov fallback; 融資金額(仟元)→億元")
-        except Exception as fallback_exc:
-            source_error(snap, "TPEx margin", f"OpenAPI: {exc}; fallback: {fallback_exc}")
 
-    if twse_amount_100m is not None or tpex_amount_100m is not None:
+        if not qty_values:
+            raise ValueError("TPEx financing balance quantity fields not recognized")
+
+        tpex_qty = sum(qty_values)
+        tpex_date = max(tpex_dates) if tpex_dates else "最新官方盤後"
+        dates.append(tpex_date)
+        source_ok(
+            snap, "TPEx margin", tpex_date,
+            "OpenAPI per-security financing balance; official unit 張"
+        )
+    except Exception as exc:
+        # A missing same-unit TPEx monetary total is not a market-data failure.
+        # Keep the listed-market monetary balance and explicitly show TPEx N/A.
+        snap["sourceStatus"].append({
+            "name": "TPEx margin",
+            "state": "not_comparable",
+            "asOf": "",
+            "detail": str(exc)[:260],
+        })
+
+    if twse_amount_100m is not None or tpex_qty is not None:
         value = f"上市 {twse_amount_100m:,.2f} 億" if twse_amount_100m is not None else "上市 N/A"
-        change = f"上櫃 {tpex_amount_100m:,.2f} 億" if tpex_amount_100m is not None else "上櫃 N/A"
+        change = f"上櫃 {tpex_qty:,} 張" if tpex_qty is not None else "上櫃 N/A（不同口徑）"
         snap["metrics"]["margin"] = metric(
             value, change, max(dates) if dates else "最新官方盤後",
-            "official_afterhours", "TWSE / TPEx",
+            "official_afterhours", "TWSE / TPEx（不同單位）",
         )
 
 def _parse_taifex_institutional_html(html: str):
@@ -742,6 +779,128 @@ def fetch_intraday_feed(snap):
         source_error(snap, "Licensed intraday feed", exc)
 
 
+
+def _metric_float(text):
+    import re
+    s = str(text or "")
+    m = re.search(r"[+-]?\d[\d,]*(?:\.\d+)?", s)
+    if not m:
+        return None
+    try:
+        return float(m.group(0).replace(",", ""))
+    except ValueError:
+        return None
+
+
+def _clamp(value, lo=0.0, hi=100.0):
+    return max(lo, min(hi, value))
+
+
+def calculate_risk(snap):
+    """Build a transparent 0-100 risk-appetite score from available data.
+
+    50 = neutral; higher = more risk-on; lower = more risk-off.
+    Only comparable directional indicators are scored. Put/Call and absolute
+    USD/TWD levels are intentionally excluded from the numeric score because
+    they require context and should not be interpreted mechanically.
+    """
+    metrics = snap.get("metrics", {})
+    components = []
+
+    def add(name, score, weight, reason):
+        if score is None:
+            return
+        components.append({
+            "name": name,
+            "score": round(_clamp(score), 1),
+            "weight": weight,
+            "reason": reason,
+        })
+
+    taiex_pct = _metric_float(metrics.get("taiex", {}).get("change"))
+    if taiex_pct is not None:
+        add("TAIEX", 50 + taiex_pct * 12, 18, f"收盤 {taiex_pct:+.2f}%")
+
+    otc_pct = _metric_float(metrics.get("otc", {}).get("change"))
+    if otc_pct is not None:
+        add("櫃買", 50 + otc_pct * 10, 12, f"收盤 {otc_pct:+.2f}%")
+
+    tx_pct = _metric_float(metrics.get("tx", {}).get("change"))
+    if tx_pct is not None:
+        add("臺指期", 50 + tx_pct * 10, 10, f"TX {tx_pct:+.2f}%")
+
+    breadth = str(metrics.get("breadth", {}).get("value", ""))
+    import re
+    m = re.search(r"([\d,]+)↑\s*/\s*([\d,]+)↓", breadth)
+    if m:
+        up = int(m.group(1).replace(",", ""))
+        down = int(m.group(2).replace(",", ""))
+        total = up + down
+        if total > 0:
+            ratio = up / total
+            add("市場廣度", ratio * 100, 20, f"上漲比 {ratio*100:.1f}%")
+
+    foreign_spot = _metric_float(metrics.get("foreignSpot", {}).get("value"))
+    if foreign_spot is not None:
+        add("外資現貨", 50 + foreign_spot / 20, 22, f"{foreign_spot:+.0f} 億")
+
+    foreign_tx = _metric_float(metrics.get("foreignTx", {}).get("value"))
+    if foreign_tx is not None:
+        add("外資TX", 50 + foreign_tx / 2500, 18, f"{foreign_tx:+,.0f} 口")
+
+    if not components:
+        snap["risk"] = {
+            "score": None,
+            "label": "資料不足",
+            "confidence": 0,
+            "components": [],
+            "drivers": [],
+            "note": "目前沒有足夠可比較的方向性資料。",
+        }
+        return
+
+    total_weight = sum(c["weight"] for c in components)
+    score = sum(c["score"] * c["weight"] for c in components) / total_weight
+    score = round(_clamp(score), 1)
+
+    if score >= 70:
+        label = "Risk-On"
+    elif score >= 55:
+        label = "偏多"
+    elif score >= 45:
+        label = "Neutral"
+    elif score >= 30:
+        label = "偏空"
+    else:
+        label = "Risk-Off"
+
+    # Confidence reflects how much of the intended 100-point model is populated.
+    confidence = round(min(100, total_weight), 0)
+
+    ranked = sorted(
+        components,
+        key=lambda c: abs(c["score"] - 50) * c["weight"],
+        reverse=True,
+    )
+    drivers = [
+        {
+            "name": c["name"],
+            "direction": "positive" if c["score"] > 55 else ("negative" if c["score"] < 45 else "neutral"),
+            "reason": c["reason"],
+            "score": c["score"],
+        }
+        for c in ranked[:4]
+    ]
+
+    snap["risk"] = {
+        "score": score,
+        "label": label,
+        "confidence": confidence,
+        "components": components,
+        "drivers": drivers,
+        "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。",
+    }
+
 def preserve_last_valid(snap):
     old = read_json(DATA_DIR / "live.json", {})
     old_metrics = old.get("metrics", {}) if isinstance(old, dict) else {}
@@ -775,6 +934,7 @@ def main():
         fetch_intraday_feed(snap)
 
     preserve_last_valid(snap)
+    calculate_risk(snap)
     atomic_write_json(DATA_DIR / "live.json", snap)
     append_history(snap)
     archive_snapshot(snap)
