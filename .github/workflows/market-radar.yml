@@ -38,6 +38,9 @@ jobs:
       INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
       INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
       INTRADAY_PUBLIC_DISPLAY: ${{ secrets.INTRADAY_PUBLIC_DISPLAY }}
+      GLOBAL_EQUITY_FEED_URL: ${{ secrets.GLOBAL_EQUITY_FEED_URL }}
+      GLOBAL_EQUITY_FEED_TOKEN: ${{ secrets.GLOBAL_EQUITY_FEED_TOKEN }}
+      GLOBAL_EQUITY_PUBLIC_DISPLAY: ${{ secrets.GLOBAL_EQUITY_PUBLIC_DISPLAY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -217,6 +220,10 @@ jobs:
         working-directory: automation
         run: python fetch_market.py --kind "${{ steps.mode.outputs.kind }}"
 
+      - name: Fetch global macro and official news
+        if: steps.mode.outputs.kind != 'deploy-only'
+        run: python automation/fetch_global.py
+
       - name: Build automatic daily and weekly brief
         run: python automation/build_brief.py
 
@@ -226,13 +233,16 @@ jobs:
       - name: Validate live data
         run: python automation/validate_live.py
 
+      - name: Validate global macro and official news
+        run: python automation/validate_global.py
+
       - name: Save updated snapshots to repository
         if: steps.mode.outputs.kind != 'deploy-only'
         shell: bash
         run: |
           git config user.name "tw-market-radar-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/live.json data/live-history.json data/auto-brief.json history/
+          git add data/live.json data/live-history.json data/auto-brief.json data/global.json history/
           if git diff --cached --quiet; then
             echo "No market-data changes to commit."
           else
