@@ -1,0 +1,9 @@
+{
+  "name": "tw-market-radar",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check app.js && node --check data.js && node scripts/validate-data.mjs",
+    "serve": "python3 -m http.server 8080"
+  }
+}

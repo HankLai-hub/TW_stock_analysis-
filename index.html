@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#071019" />
+  <meta name="description" content="TW Market Radar：台股風險、外資、台指期、選擇權、匯率與產業輪動研究儀表板。" />
+  <meta property="og:title" content="TW Market Radar｜台股研究儀表板" />
+  <meta property="og:description" content="30 秒掌握台股風險、資金與期現貨曝險。" />
+  <meta property="og:type" content="website" />
+  <title>TW Market Radar｜台股風險儀表板</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="TW Market Radar 首頁">
+        <span class="brand-mark">TW</span>
+        <span class="brand-copy">
+          <strong>Market Radar</strong>
+          <small>台股風險研究終端</small>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="主要導覽">
+        <a href="#overview">總覽</a>
+        <a href="#themes">市場主線</a>
+        <a href="#intelligence">消息</a>
+        <a href="#flows">資金</a>
+        <a href="#scenarios">情境</a>
+        <a href="#audit">資料稽核</a>
+      </nav>
+
+      <div class="top-actions">
+        <div class="mode-switch" role="group" aria-label="報告模式">
+          <button class="mode-btn active" data-mode="daily">日報</button>
+          <button class="mode-btn" data-mode="weekly">週報</button>
+        </div>
+        <button class="icon-button" id="shareButton" title="複製摘要連結" aria-label="複製摘要連結">↗</button>
+        <button class="icon-button" id="printButton" title="列印研究報告" aria-label="列印研究報告">⌁</button>
+        <button class="icon-button" id="themeButton" title="切換深淺色" aria-label="切換深淺色">◐</button>
+      </div>
+    </header>
+
+    <div class="status-ribbon" id="statusRibbon" role="status" aria-live="polite"></div>
+
+    <main id="main" class="container">
+      <section id="overview" class="hero-grid section-anchor">
+        <article class="hero-card">
+          <div class="hero-topline">
+            <span class="eyebrow" id="reportType">—</span>
+            <span class="data-chip" id="dataStatus">—</span>
+          </div>
+          <h1 id="reportTitle">—</h1>
+          <p class="hero-headline" id="headline">—</p>
+          <div class="meta-line" id="metaLine"></div>
+          <div class="hero-actions">
+            <a class="primary-action" href="#themes">看今日主線 <span>↓</span></a>
+            <button class="secondary-action" id="copySummaryButton">複製 30 秒摘要</button>
+          </div>
+        </article>
+
+        <aside class="risk-card" aria-label="市場綜合分數">
+          <div class="risk-card-head">
+            <div>
+              <span class="eyebrow">Composite Score</span>
+              <h2>大盤綜合分數</h2>
+            </div>
+            <span class="confidence-pill" id="confidencePill">—</span>
+          </div>
+          <div class="score-layout">
+            <div class="score-ring" id="scoreRing" role="img" aria-label="綜合分數">
+              <div class="score-inner">
+                <strong id="scoreValue">—</strong>
+                <span>/ 100</span>
+              </div>
+            </div>
+            <div class="score-copy">
+              <div class="score-label" id="scoreLabel">—</div>
+              <div class="regime-line"><span>全球</span><strong id="regime">—</strong></div>
+              <div class="trend-wrap">
+                <span>近 10 次評分</span>
+                <svg id="scoreTrend" viewBox="0 0 220 64" role="img" aria-label="近 10 次市場評分趨勢"></svg>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="kpi-grid" id="kpiGrid" aria-label="核心市場指標"></section>
+
+      <section class="executive-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">30 秒結論</span>
+            <h2>今天真正該知道的事</h2>
+          </div>
+          <span class="live-badge">RESEARCH SNAPSHOT</span>
+        </div>
+        <ol class="executive-list" id="quickTake"></ol>
+      </section>
+
+      <section id="themes" class="section-block section-anchor">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Market Narrative</span>
+            <h2>市場主線｜先看因果，再看數字</h2>
+          </div>
+          <p>依影響權重排序，快速理解市場正在交易什麼。</p>
+        </div>
+        <div class="theme-grid" id="marketThemes"></div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Global Tape</span>
+            <h2>全球市場脈搏</h2>
+          </div>
+          <p>收盤、盤前與利率訊號分開呈現。</p>
+        </div>
+        <div class="global-grid" id="globalGrid"></div>
+      </section>
+
+      <section class="section-block focus-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Decision Drivers</span>
+            <h2>今天只需要盯這 5 個指標</h2>
+          </div>
+          <p>每一項都附上「什麼變化會改變判斷」。</p>
+        </div>
+        <div class="focus-grid" id="focusGrid"></div>
+      </section>
+
+      <section id="intelligence" class="section-block section-anchor">
+        <div class="section-heading intelligence-heading">
+          <div>
+            <span class="eyebrow">Market Intelligence</span>
+            <h2>消息情報中心</h2>
+          </div>
+          <div class="intelligence-tools">
+            <label class="search-box">
+              <span>⌕</span>
+              <input id="newsSearch" type="search" placeholder="搜尋消息、事件或影響…" autocomplete="off" />
+            </label>
+          </div>
+        </div>
+        <div class="filter-row" id="newsFilters" aria-label="消息分類篩選"></div>
+        <div class="news-list" id="newsList"></div>
+      </section>
+
+      <section id="flows" class="section-block section-anchor">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Flow & Positioning</span>
+            <h2>資金與衍生品曝險</h2>
+          </div>
+          <p>現貨、期貨、選擇權、匯率與槓桿放在同一張圖裡解讀。</p>
+        </div>
+
+        <div class="flow-layout">
+          <article class="panel wide-panel">
+            <div class="panel-head">
+              <h3>三大法人現貨</h3>
+              <span class="panel-tag">TWSE</span>
+            </div>
+            <div class="table-wrap" id="flowTable"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h3>期貨 × 選擇權</h3>
+              <span class="panel-tag">TAIFEX</span>
+            </div>
+            <div class="stat-stack" id="derivativesGrid"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h3>匯率 × 融資 × 借券</h3>
+              <span class="panel-tag">LEVERAGE</span>
+            </div>
+            <div class="stat-stack" id="leverageGrid"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block two-column-section">
+        <article class="panel breadth-panel">
+          <div class="panel-head">
+            <h3>市場廣度</h3>
+            <span class="panel-tag">BREADTH</span>
+          </div>
+          <div id="breadthPanel"></div>
+        </article>
+
+        <article class="panel levels-panel">
+          <div class="panel-head">
+            <h3>關鍵價位地圖</h3>
+            <span class="panel-tag">LEVELS</span>
+          </div>
+          <div id="levelsPanel"></div>
+        </article>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Sector Rotation</span>
+            <h2>產業資金輪動</h2>
+          </div>
+          <p>分數代表相對強弱，不等同投資建議。</p>
+        </div>
+        <div class="sector-grid" id="sectorGrid"></div>
+      </section>
+
+      <section id="scenarios" class="section-block section-anchor">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Scenario Engine</span>
+            <h2>Bull / Base / Bear 情境推演</h2>
+          </div>
+          <p>把預測改成條件式決策。</p>
+        </div>
+        <div class="scenario-grid" id="scenarioGrid"></div>
+        <article class="invalidation-card">
+          <div>
+            <span class="eyebrow">Invalidation</span>
+            <h3>什麼出現時，現在的判斷必須改變？</h3>
+          </div>
+          <ul id="invalidationList"></ul>
+        </article>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Event Calendar</span>
+            <h2>未來重要事件</h2>
+          </div>
+          <p>只保留可能改變利率、流動性、獲利與風險溢酬的事件。</p>
+        </div>
+        <div class="event-timeline" id="eventTimeline"></div>
+      </section>
+
+      <section id="audit" class="section-block audit-section section-anchor">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Data Audit</span>
+            <h2>資料新鮮度與來源稽核</h2>
+          </div>
+          <p>缺資料就顯示 N/A，不用推估值補洞。</p>
+        </div>
+        <div class="audit-layout">
+          <div class="freshness-grid" id="freshnessGrid"></div>
+          <aside class="source-panel">
+            <h3>原始資料來源</h3>
+            <div class="source-list" id="sourceList"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong>TW Market Radar</strong>
+        <span id="footerDisclaimer"></span>
+      </div>
+      <div>官方資料優先 · 日期一致性 · 不以傳言取代驗證</div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
