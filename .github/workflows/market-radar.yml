@@ -16,7 +16,6 @@ on:
     # GitHub cron 使用 UTC。台北時間 = UTC+8。
     # 盤中：09:07、10:07、11:07、12:07、13:07（週一至週五）
     - cron: "7 1-5 * * 1-5"
-
     # 盤後：15:17、18:17、21:17，以及當晚/隔日 00:17、03:17、06:17
     - cron: "17 7,10,13,16,19,22 * * 1-5"
 
@@ -32,15 +31,12 @@ concurrency:
 jobs:
   update-and-deploy:
     runs-on: ubuntu-latest
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     env:
       INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
       INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,23 +53,118 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Repair TPEx TWCA certificate chain
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Checking TPEx HTTPS certificate validation..."
+          if python - <<'PY'
+          import urllib.request
+          with urllib.request.urlopen(
+              "https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index",
+              timeout=20,
+          ) as r:
+              print("TPEx TLS already valid:", r.status)
+          PY
+          then
+            echo "TPEx certificate chain is already trusted."
+          else
+            echo "TPEx chain is incomplete for this runner; installing verified TWCA issuer."
+
+            # Retrieve the TPEx leaf certificate without disabling verification in Python.
+            # openssl s_client only reads the presented certificate; trust is established
+            # below by validating the issuer fingerprint and chain.
+            (openssl s_client \
+              -connect www.tpex.org.tw:443 \
+              -servername www.tpex.org.tw \
+              -showcerts </dev/null 2>/dev/null || true) \
+              | awk '
+                /-----BEGIN CERTIFICATE-----/ {n++}
+                n==1 {print}
+                /-----END CERTIFICATE-----/ && n==1 {exit}
+              ' > /tmp/tpex-leaf.pem
+
+            test -s /tmp/tpex-leaf.pem
+
+            ISSUER_URI="$(
+              openssl x509 -in /tmp/tpex-leaf.pem -noout -text \
+              | sed -n 's/.*CA Issuers - URI:\(.*\)/\1/p' \
+              | head -n 1
+            )"
+
+            if [[ -z "${ISSUER_URI}" ]]; then
+              echo "Could not find CA Issuers URI in TPEx certificate."
+              exit 1
+            fi
+
+            echo "Issuer URI: ${ISSUER_URI}"
+            curl -fsSL --retry 3 --retry-delay 2 \
+              "${ISSUER_URI}" -o /tmp/tpex-issuer.bin
+
+            if openssl x509 -inform DER \
+              -in /tmp/tpex-issuer.bin -noout >/dev/null 2>&1; then
+              openssl x509 -inform DER \
+                -in /tmp/tpex-issuer.bin -out /tmp/tpex-issuer.pem
+            elif openssl x509 \
+              -in /tmp/tpex-issuer.bin -noout >/dev/null 2>&1; then
+              cp /tmp/tpex-issuer.bin /tmp/tpex-issuer.pem
+            else
+              echo "Issuer certificate is not a recognized X.509 certificate."
+              exit 1
+            fi
+
+            # TWCA official certificate information publishes this SHA-1 for
+            # TWCA Secure SSL Certification Authority 2023 G2.
+            EXPECTED_SHA1="5c5cc99f05288ef78329895637b61db3b9b49815"
+            ACTUAL_SHA1="$(
+              openssl x509 -in /tmp/tpex-issuer.pem \
+                -noout -fingerprint -sha1 \
+              | cut -d= -f2 \
+              | tr -d ':' \
+              | tr '[:upper:]' '[:lower:]'
+            )"
+
+            echo "TWCA issuer SHA1: ${ACTUAL_SHA1}"
+            if [[ "${ACTUAL_SHA1}" != "${EXPECTED_SHA1}" ]]; then
+              echo "Unexpected TWCA issuer fingerprint; refusing to trust it."
+              exit 1
+            fi
+
+            # Verify the issuer itself chains to an already trusted root.
+            openssl verify /tmp/tpex-issuer.pem
+
+            sudo cp /tmp/tpex-issuer.pem \
+              /usr/local/share/ca-certificates/twca-secure-ssl-2023-g2.crt
+            sudo update-ca-certificates
+
+            echo "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt" \
+              >> "$GITHUB_ENV"
+
+            python - <<'PY'
+          import urllib.request
+          with urllib.request.urlopen(
+              "https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index",
+              timeout=20,
+          ) as r:
+              print("TPEx TLS repaired:", r.status)
+          PY
+          fi
+
       - name: Decide update mode
         id: mode
         shell: bash
         run: |
           KIND="deploy-only"
-
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             if [[ "${{ github.event.schedule }}" == "7 1-5 * * 1-5" ]]; then
               KIND="intraday"
             else
               KIND="afterhours"
             fi
-
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             KIND="${{ inputs.update_kind }}"
           fi
-
           echo "kind=$KIND" >> "$GITHUB_OUTPUT"
           echo "Update mode: $KIND"
 
@@ -94,9 +185,7 @@ jobs:
         run: |
           git config user.name "tw-market-radar-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add data/live.json data/live-history.json history/
-
           if git diff --cached --quiet; then
             echo "No market-data changes to commit."
           else
