@@ -1,1 +1,176 @@
-[]
+[
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-09-14T11:34:57+08:00",
+    "runKind": "afterhours",
+    "marketPhase": "盤中",
+    "nextExpected": "下一個盤後排程約 3 小時後",
+    "intradayFeed": {
+      "state": "not_configured",
+      "label": "盤中授權資料源尚未設定",
+      "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
+    },
+    "metrics": {
+      "taiex": {
+        "value": "46,184.85",
+        "change": "-1.61%",
+        "asOf": "2026-09-01",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "otc": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "TPEx"
+      },
+      "turnover": {
+        "value": "11,876 億",
+        "change": "",
+        "asOf": "2026-09-01",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "breadth": {
+        "value": "3144↑ / 9578↓",
+        "change": "平盤 459",
+        "asOf": "2026-06-05",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "usdTwd": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "CBC"
+      },
+      "tx": {
+        "value": "46,218",
+        "change": "-651.00%",
+        "asOf": "2026-09-11",
+        "state": "official_close",
+        "source": "TAIFEX"
+      },
+      "foreignSpot": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "TWSE"
+      },
+      "foreignTx": {
+        "value": "-85,067 口",
+        "change": "多 8,242 / 空 93,309",
+        "asOf": "2026-09-11",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "putCall": {
+        "value": "成交 91.56%",
+        "change": "OI 87.70%",
+        "asOf": "2026-09-11",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "margin": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "TWSE/TPEx"
+      }
+    },
+    "errors": [
+      {
+        "source": "TPEx market summary",
+        "message": "fetch failed: https://www.tpex.org.tw/openapi/v1/tpex_mainborad_highlight: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      },
+      {
+        "source": "CBC USD/TWD",
+        "message": "CBC dataset shape not recognized"
+      },
+      {
+        "source": "TWSE BFI82U",
+        "message": "foreign investor row not found"
+      },
+      {
+        "source": "TWSE margin market total",
+        "message": "TWSE MI_MARGN market summary missing creditFields/creditList"
+      },
+      {
+        "source": "TPEx margin",
+        "message": "fetch failed: https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      }
+    ],
+    "sourceStatus": [
+      {
+        "name": "TWSE MI_INDEX",
+        "state": "ok",
+        "asOf": "2026-09-01",
+        "detail": ""
+      },
+      {
+        "name": "TWSE turnover",
+        "state": "ok",
+        "asOf": "2026-09-01",
+        "detail": ""
+      },
+      {
+        "name": "TWSE breadth",
+        "state": "ok",
+        "asOf": "2026-06-05",
+        "detail": ""
+      },
+      {
+        "name": "TPEx market summary",
+        "state": "error",
+        "asOf": "",
+        "detail": "fetch failed: https://www.tpex.org.tw/openapi/v1/tpex_mainborad_highlight: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      },
+      {
+        "name": "CBC USD/TWD",
+        "state": "error",
+        "asOf": "",
+        "detail": "CBC dataset shape not recognized"
+      },
+      {
+        "name": "TAIFEX institutional TX",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TAIFEX Put/Call",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TAIFEX TX daily",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TWSE BFI82U",
+        "state": "error",
+        "asOf": "",
+        "detail": "foreign investor row not found"
+      },
+      {
+        "name": "TWSE margin market total",
+        "state": "error",
+        "asOf": "",
+        "detail": "TWSE MI_MARGN market summary missing creditFields/creditList"
+      },
+      {
+        "name": "TPEx margin",
+        "state": "error",
+        "asOf": "",
+        "detail": "fetch failed: https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      }
+    ]
+  }
+]
