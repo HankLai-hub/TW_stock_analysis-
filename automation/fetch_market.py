@@ -749,33 +749,171 @@ def fetch_taifex(snap):
         source_error(snap, "TAIFEX TX daily", exc)
 
 
+def _parse_iso_timestamp(value: str):
+    from datetime import datetime
+    s = str(value or "").strip()
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except Exception:
+        return None
+
+
+def _intraday_change(row):
+    pct = row.get("changePercent", row.get("changePct"))
+    if pct is not None:
+        f = to_float(pct)
+        return fmt_pct(f) if f is not None else str(pct)
+    change = row.get("change")
+    if change is not None:
+        if isinstance(change, (int, float)):
+            return fmt_number(change, 2)
+        return str(change)
+    return ""
+
+
 def fetch_intraday_feed(snap):
+    """Overlay an explicitly authorized public-display intraday feed.
+
+    This adapter deliberately requires BOTH:
+    1) the repository owner to opt in via INTRADAY_PUBLIC_DISPLAY=YES, and
+    2) the feed payload to state license.publicDisplay=true.
+
+    It does not attempt to infer legal redistribution rights from a broker login
+    or a raw quote API. The public website remains on official-close data unless
+    these conditions are met.
+    """
+    from datetime import datetime, timezone
+
     url = os.environ.get("INTRADAY_FEED_URL", "").strip()
     token = os.environ.get("INTRADAY_FEED_TOKEN", "").strip() or None
+    public_opt_in = os.environ.get("INTRADAY_PUBLIC_DISPLAY", "").strip().upper() == "YES"
+
     if not url:
+        snap["intradayFeed"] = {
+            "state": "not_configured",
+            "label": "授權盤中資料源尚未設定",
+            "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
+        }
         return
+
+    if not public_opt_in:
+        snap["intradayFeed"] = {
+            "state": "authorization_required",
+            "label": "盤中資料源已填入，但公開展示尚未啟用",
+            "note": "確認供應商／交易所授權允許公開重新散布後，才將 GitHub Secret INTRADAY_PUBLIC_DISPLAY 設為 YES。"
+        }
+        return
+
     try:
         payload = http_json(url, token=token)
-        if isinstance(payload, dict) and isinstance(payload.get("metrics"), dict):
-            metrics = payload["metrics"]
-        elif isinstance(payload, dict):
-            metrics = payload
-        else:
+        if not isinstance(payload, dict):
             raise ValueError("licensed feed payload must be a JSON object")
-        mapping = {
-            "taiex": "taiex", "otc": "otc", "tx": "tx", "turnover": "turnover", "breadth": "breadth"
+
+        license_info = payload.get("license") if isinstance(payload.get("license"), dict) else {}
+        if license_info.get("publicDisplay") is not True:
+            raise ValueError("feed does not declare license.publicDisplay=true")
+
+        vendor = str(license_info.get("vendor") or payload.get("source") or "Authorized market-data vendor")
+        mode = str(license_info.get("mode") or "authorized").strip().lower()
+        if mode not in {"real_time", "realtime", "delayed", "authorized"}:
+            raise ValueError(f"unsupported authorized feed mode: {mode}")
+
+        metrics = payload.get("metrics")
+        if not isinstance(metrics, dict):
+            raise ValueError("feed.metrics must be an object")
+
+        feed_asof = str(payload.get("asOf") or payload.get("timestamp") or "")
+        feed_dt = _parse_iso_timestamp(feed_asof)
+        if feed_dt is None:
+            raise ValueError("feed must provide an ISO-8601 asOf/timestamp")
+
+        now = now_taipei()
+        if feed_dt.tzinfo is None:
+            raise ValueError("feed timestamp must include timezone offset")
+        age_minutes = (now.astimezone(timezone.utc) - feed_dt.astimezone(timezone.utc)).total_seconds() / 60
+        if age_minutes < -10:
+            raise ValueError("feed timestamp is unexpectedly in the future")
+        if snap.get("marketPhase") == "盤中" and age_minutes > 90:
+            raise ValueError(f"authorized intraday feed is stale ({age_minutes:.0f} minutes old)")
+
+        def row_asof(row):
+            return str(row.get("asOf") or feed_asof)
+
+        def row_source(row):
+            return str(row.get("source") or vendor)
+
+        # Index / futures prices
+        bounds = {
+            "taiex": (5000, 100000),
+            "otc": (50, 2000),
+            "tx": (5000, 100000),
         }
-        for src_key, dst_key in mapping.items():
-            row = metrics.get(src_key)
-            if isinstance(row, dict):
-                snap["metrics"][dst_key] = metric(
-                    str(row.get("value", "N/A")), str(row.get("change", "")),
-                    str(row.get("asOf", snap["generatedAt"])), "licensed_intraday", str(row.get("source", "Licensed feed"))
-                )
-        snap["intradayFeed"] = {"state": "configured", "label": "已啟用授權盤中資料源", "note": "盤中欄位依你設定的供應商資料與授權範圍顯示。"}
-        source_ok(snap, "Licensed intraday feed", snap["generatedAt"])
+        for key, (lo, hi) in bounds.items():
+            row = metrics.get(key)
+            if not isinstance(row, dict):
+                continue
+            value = to_float(row.get("value"))
+            if value is None or not (lo <= value <= hi):
+                raise ValueError(f"{key}.value out of plausible range")
+            snap["metrics"][key] = metric(
+                fmt_number(value, 2 if key != "tx" else 0),
+                _intraday_change(row),
+                row_asof(row),
+                "licensed_intraday",
+                row_source(row),
+            )
+
+        # Turnover: accept TWD amount or already formatted text.
+        row = metrics.get("turnover")
+        if isinstance(row, dict):
+            raw = row.get("value")
+            unit = str(row.get("unit") or "TWD").upper()
+            if isinstance(raw, (int, float)) and unit == "TWD":
+                display = f"{float(raw) / 1e8:,.0f} 億"
+            else:
+                display = str(raw or "N/A")
+            snap["metrics"]["turnover"] = metric(
+                display, _intraday_change(row), row_asof(row),
+                "licensed_intraday", row_source(row)
+            )
+
+        # Breadth: prefer explicit counts, otherwise accept a display string.
+        row = metrics.get("breadth")
+        if isinstance(row, dict):
+            up = to_int(row.get("up"))
+            down = to_int(row.get("down"))
+            flat = to_int(row.get("flat"))
+            if up is not None and down is not None:
+                if up < 0 or down < 0 or up + down > 10000:
+                    raise ValueError("breadth counts out of plausible range")
+                value = f"{up}↑ / {down}↓"
+                change = f"平盤 {flat}" if flat is not None else ""
+            else:
+                value = str(row.get("value") or "N/A")
+                change = str(row.get("change") or "")
+            snap["metrics"]["breadth"] = metric(
+                value, change, row_asof(row),
+                "licensed_intraday", row_source(row)
+            )
+
+        mode_label = "即時" if mode in {"real_time", "realtime"} else ("延遲" if mode == "delayed" else "授權")
+        snap["intradayFeed"] = {
+            "state": "configured",
+            "label": f"已啟用{mode_label}盤中資料源",
+            "note": f"{vendor} · 資料時間 {feed_asof} · 公開展示依你的授權設定啟用。",
+            "vendor": vendor,
+            "mode": mode,
+            "asOf": feed_asof,
+        }
+        source_ok(snap, "Licensed intraday feed", feed_asof, f"{vendor} / {mode}")
     except Exception as exc:
-        snap["intradayFeed"] = {"state": "error", "label": "授權盤中資料源抓取失敗", "note": str(exc)[:250]}
+        snap["intradayFeed"] = {
+            "state": "error",
+            "label": "授權盤中資料源未通過安全檢查",
+            "note": str(exc)[:250]
+        }
         source_error(snap, "Licensed intraday feed", exc)
 
 
