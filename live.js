@@ -138,12 +138,100 @@
     } catch (_) {}
   }
 
+
+  function renderAutoBrief(brief) {
+    const grid = $("#autoMetricGrid");
+    if (!grid) return;
+    let panel = $("#autoBriefPanel");
+    if (!panel) {
+      panel = document.createElement("section");
+      panel.id = "autoBriefPanel";
+      panel.className = "auto-brief-panel";
+      grid.parentNode.insertBefore(panel, grid);
+    }
+
+    const daily = brief?.daily || {};
+    const weekly = brief?.weekly || {};
+    panel.innerHTML = `
+      <div class="auto-brief-head">
+        <div>
+          <span class="auto-brief-kicker">AUTO RESEARCH BRIEF</span>
+          <h3>自動市場判讀</h3>
+        </div>
+        <div class="auto-brief-tabs" role="group" aria-label="自動報告模式">
+          <button class="auto-brief-tab active" data-brief-mode="daily">日報</button>
+          <button class="auto-brief-tab" data-brief-mode="weekly">週報</button>
+        </div>
+      </div>
+      <div class="auto-brief-content" data-brief-view="daily"></div>
+      <div class="auto-brief-content" data-brief-view="weekly" hidden></div>
+    `;
+
+    const renderDaily = () => {
+      const target = panel.querySelector('[data-brief-view="daily"]');
+      const bullets = Array.isArray(daily.quickTake) ? daily.quickTake : [];
+      const invalidation = Array.isArray(daily.invalidation) ? daily.invalidation : [];
+      target.innerHTML = `
+        <div class="auto-brief-hero" data-tone="${esc(daily.tone || 'neutral')}">
+          <div><span>即時判讀</span><strong>${esc(daily.label || '資料不足')}</strong></div>
+          <div class="auto-brief-score">${daily.score == null ? 'N/A' : esc(Number(daily.score).toFixed(0))}</div>
+        </div>
+        <p class="auto-brief-headline">${esc(daily.headline || '')}</p>
+        <div class="auto-brief-bullets">${bullets.map(x => `<div><span>•</span><p>${esc(x)}</p></div>`).join('')}</div>
+        <div class="auto-brief-outlook">
+          <div><span>短線 1–5 日</span><p>${esc(daily.shortView || '')}</p></div>
+          <div><span>波段 2–8 週</span><p>${esc(daily.swingView || '')}</p></div>
+        </div>
+        <div class="auto-brief-invalidation">
+          <span>改判條件</span>
+          <ol>${invalidation.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
+        </div>
+        <div class="auto-brief-note">${esc(daily.dataNote || '')}</div>
+      `;
+    };
+
+    const renderWeekly = () => {
+      const target = panel.querySelector('[data-brief-view="weekly"]');
+      const bullets = Array.isArray(weekly.quickTake) ? weekly.quickTake : [];
+      const stats = Array.isArray(weekly.stats) ? weekly.stats : [];
+      target.innerHTML = `
+        <div class="auto-brief-weekly-status" data-state="${esc(weekly.status || 'collecting')}">
+          <strong>${esc(weekly.status === 'ready' ? '自動週報' : '週報資料累積中')}</strong>
+          <span>${esc(weekly.headline || '')}</span>
+        </div>
+        ${stats.length ? `<div class="auto-brief-stats">${stats.map(s => `<div><span>${esc(s.label)}</span><strong>${s.value == null ? 'N/A' : esc(s.value)}</strong></div>`).join('')}</div>` : ''}
+        <div class="auto-brief-bullets">${bullets.map(x => `<div><span>•</span><p>${esc(x)}</p></div>`).join('')}</div>
+        <div class="auto-brief-note">${esc(weekly.dataNote || '')}</div>
+      `;
+    };
+
+    renderDaily();
+    renderWeekly();
+
+    panel.querySelectorAll('.auto-brief-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.briefMode;
+        panel.querySelectorAll('.auto-brief-tab').forEach(x => x.classList.toggle('active', x === btn));
+        panel.querySelectorAll('[data-brief-view]').forEach(view => { view.hidden = view.dataset.briefView !== mode; });
+      });
+    });
+  }
+
+  async function loadBrief() {
+    try {
+      const r = await fetch(`data/auto-brief.json?t=${Date.now()}`, { cache: "no-store" });
+      if (!r.ok) return;
+      renderAutoBrief(await r.json());
+    } catch (_) {}
+  }
+
   async function load() {
     try {
       const response = await fetch(`data/live.json?t=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       render(await response.json());
       renderTrend();
+      loadBrief();
     } catch (error) {
       const badge = $("#autoUpdateBadge");
       if (badge) { badge.textContent = "AUTO · LOAD ERROR"; badge.dataset.state = "warn"; }
