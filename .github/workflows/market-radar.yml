@@ -1,0 +1,117 @@
+name: TW Market Radar Auto Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_kind:
+        description: "資料更新模式"
+        required: true
+        default: "afterhours"
+        type: choice
+        options:
+          - intraday
+          - afterhours
+          - deploy-only
+  schedule:
+    # GitHub cron 使用 UTC。台北時間 = UTC+8。
+    # 盤中：09:07、10:07、11:07、12:07、13:07（週一至週五）
+    - cron: "7 1-5 * * 1-5"
+
+    # 盤後：15:17、18:17、21:17，以及當晚/隔日 00:17、03:17、06:17
+    - cron: "17 7,10,13,16,19,22 * * 1-5"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: tw-market-radar-pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    env:
+      INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
+      INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Decide update mode
+        id: mode
+        shell: bash
+        run: |
+          KIND="deploy-only"
+
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            if [[ "${{ github.event.schedule }}" == "7 1-5 * * 1-5" ]]; then
+              KIND="intraday"
+            else
+              KIND="afterhours"
+            fi
+
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            KIND="${{ inputs.update_kind }}"
+          fi
+
+          echo "kind=$KIND" >> "$GITHUB_OUTPUT"
+          echo "Update mode: $KIND"
+
+      - name: Fetch official market data
+        if: steps.mode.outputs.kind != 'deploy-only'
+        working-directory: automation
+        run: python fetch_market.py --kind "${{ steps.mode.outputs.kind }}"
+
+      - name: Validate static research data
+        run: npm run check
+
+      - name: Validate live data
+        run: python automation/validate_live.py
+
+      - name: Save updated snapshots to repository
+        if: steps.mode.outputs.kind != 'deploy-only'
+        shell: bash
+        run: |
+          git config user.name "tw-market-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/live.json data/live-history.json history/
+
+          if git diff --cached --quiet; then
+            echo "No market-data changes to commit."
+          else
+            git commit -m "chore: auto market data update [skip ci]"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
