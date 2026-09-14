@@ -139,6 +139,67 @@
   }
 
 
+  function renderScenarioEngine(model = {}) {
+    const scenarios = Array.isArray(model.scenarios) ? model.scenarios : [];
+    if (!scenarios.length) return "";
+    const active = model.active || "";
+    return `
+      <section class="auto-scenario-engine">
+        <div class="auto-scenario-head">
+          <div>
+            <span>SCENARIO ENGINE</span>
+            <strong>三情境模型</strong>
+          </div>
+          <p>${esc(model.note || "模型匹配度，不等同機率。")}</p>
+        </div>
+        <div class="auto-scenario-grid">
+          ${scenarios.map(s => {
+            const conditions = Array.isArray(s.conditions) ? s.conditions : [];
+            return `<article class="auto-scenario-card ${s.key === active ? "active" : ""}" data-tone="${esc(s.tone || "neutral")}">
+              <div class="auto-scenario-title">
+                <div><span>${esc(s.title || "")}</span><small>${s.key === active ? "CURRENT" : ""}</small></div>
+                <strong>${esc(String(s.match ?? "N/A"))}%</strong>
+              </div>
+              <p>${esc(s.summary || "")}</p>
+              <div class="auto-scenario-meter"><i style="width:${Math.max(0, Math.min(100, Number(s.match) || 0))}%"></i></div>
+              <div class="auto-scenario-conditions">
+                ${conditions.map(c => `<div data-state="${esc(c.state || "unknown")}">
+                  <span>${c.state === "met" ? "✓" : (c.state === "not_met" ? "×" : "–")}</span>
+                  <p><strong>${esc(c.label || "")}</strong><em>${esc(c.description || "")}</em></p>
+                </div>`).join("")}
+              </div>
+              <footer>${esc(s.result || "")}</footer>
+            </article>`;
+          }).join("")}
+        </div>
+      </section>`;
+  }
+
+  function renderRegimeTimeline(trend = {}) {
+    const points = Array.isArray(trend.points) ? trend.points : [];
+    if (!points.length) return "";
+    return `
+      <section class="auto-regime-timeline" data-direction="${esc(trend.direction || "collecting")}">
+        <div class="auto-regime-head">
+          <div><span>RISK REGIME TIMELINE</span><strong>風險趨勢</strong></div>
+          <p>${esc(trend.note || "")}</p>
+        </div>
+        <div class="auto-regime-points">
+          ${points.map((p, idx) => {
+            const score = Math.max(0, Math.min(100, Number(p.score) || 0));
+            const ts = String(p.at || "");
+            const label = ts ? `${ts.slice(5,10)} ${ts.slice(11,16)}` : `#${idx+1}`;
+            return `<div title="${esc(p.label || "")}">
+              <span>${esc(label)}</span>
+              <div><i style="height:${Math.max(8, score)}%"></i></div>
+              <strong>${esc(score.toFixed(0))}</strong>
+            </div>`;
+          }).join("")}
+        </div>
+      </section>`;
+  }
+
+
   function renderAutoBrief(brief) {
     const grid = $("#autoMetricGrid");
     if (!grid) return;
@@ -181,6 +242,8 @@
           <div class="auto-resonance-score">${daily.resonance.score == null ? 'N/A' : esc(Number(daily.resonance.score).toFixed(0))}</div>
           <p>${esc(daily.resonance.note || '')}</p>
         </div>` : ''}
+        ${renderRegimeTimeline(daily.riskTrend || {})}
+        ${renderScenarioEngine(daily.scenarios || {})}
         <p class="auto-brief-headline">${esc(daily.headline || '')}</p>
         <div class="auto-brief-bullets">${bullets.map(x => `<div><span>•</span><p>${esc(x)}</p></div>`).join('')}</div>
         <div class="auto-brief-outlook">
@@ -204,6 +267,7 @@
           <strong>${esc(weekly.status === 'ready' ? '自動週報' : '週報資料累積中')}</strong>
           <span>${esc(weekly.headline || '')}</span>
         </div>
+        ${renderRegimeTimeline(weekly.riskTrend || {})}
         ${stats.length ? `<div class="auto-brief-stats">${stats.map(s => `<div><span>${esc(s.label)}</span><strong>${s.value == null ? 'N/A' : esc(s.value)}</strong></div>`).join('')}</div>` : ''}
         <div class="auto-brief-bullets">${bullets.map(x => `<div><span>•</span><p>${esc(x)}</p></div>`).join('')}</div>
         <div class="auto-brief-note">${esc(weekly.dataNote || '')}</div>
