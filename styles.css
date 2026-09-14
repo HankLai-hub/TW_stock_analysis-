@@ -530,3 +530,18 @@ tr:last-child td { border-bottom: 0; }
   .auto-risk-number { font-size:44px; }
 }
 @media print { .auto-monitor { display:none !important; } }
+
+.auto-feed-notice[data-state="authorization_required"] {
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--line));
+  background: color-mix(in srgb, var(--warn) 7%, var(--surface));
+}
+.auto-feed-notice[data-state="error"] {
+  border-color: color-mix(in srgb, var(--bad) 45%, var(--line));
+  background: color-mix(in srgb, var(--bad) 7%, var(--surface));
+}
+.auto-feed-notice em {
+  margin-left:auto;
+  color:var(--subtle);
+  font-size:9px;
+  font-style:normal;
+}

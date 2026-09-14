@@ -8,7 +8,7 @@
   };
 
   function stateLabel(state) {
-    return ({licensed_intraday:"盤中", official_close:"官方收盤", official_daily:"官方日資料", official_afterhours:"官方盤後", stale:"沿用上一筆", waiting:"等待", missing:"N/A"})[state] || state || "—";
+    return ({licensed_intraday:"授權盤中", official_close:"官方收盤", official_daily:"官方日資料", official_afterhours:"官方盤後", stale:"沿用上一筆", waiting:"等待", missing:"N/A"})[state] || state || "—";
   }
 
 
@@ -92,7 +92,7 @@
 
     const f = data.intradayFeed || {};
     feed.dataset.state = f.state || "not_configured";
-    feed.innerHTML = `<strong>${esc(f.label || "盤中資料源狀態")}</strong><span>${esc(f.note || "")}</span>`;
+    feed.innerHTML = `<strong>${esc(f.label || "盤中資料源狀態")}</strong><span>${esc(f.note || "")}</span>${f.vendor ? `<em>${esc(f.vendor)}</em>` : ""}`;
 
     if (data.errors && data.errors.length) {
       errors.hidden = false;
