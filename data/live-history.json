@@ -356,5 +356,185 @@
         "detail": "fetch failed: https://www.tpex.org.tw/openapi/v1/tpex_mainboard_margin_balance: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-09-14T13:07:51+08:00",
+    "runKind": "afterhours",
+    "marketPhase": "盤中",
+    "nextExpected": "下一個盤後排程約 3 小時後",
+    "intradayFeed": {
+      "state": "not_configured",
+      "label": "盤中授權資料源尚未設定",
+      "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
+    },
+    "metrics": {
+      "taiex": {
+        "value": "46,184.85",
+        "change": "-1.61%",
+        "asOf": "2026-09-11",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "otc": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "TPEx"
+      },
+      "turnover": {
+        "value": "7,622 億",
+        "change": "",
+        "asOf": "2026-09-11",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "breadth": {
+        "value": "229↑ / 779↓",
+        "change": "平盤 68",
+        "asOf": "2026-09-11",
+        "state": "official_close",
+        "source": "TWSE 股票"
+      },
+      "usdTwd": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "CBC"
+      },
+      "tx": {
+        "value": "46,218",
+        "change": "-1.39%",
+        "asOf": "2026-09-11",
+        "state": "official_close",
+        "source": "TAIFEX"
+      },
+      "foreignSpot": {
+        "value": "N/A",
+        "change": "",
+        "asOf": "N/A",
+        "state": "missing",
+        "source": "TWSE"
+      },
+      "foreignTx": {
+        "value": "-85,067 口",
+        "change": "多 8,242 / 空 93,309 · 本次抓取未更新",
+        "asOf": "2026-09-11",
+        "state": "stale",
+        "source": "TAIFEX"
+      },
+      "putCall": {
+        "value": "成交 91.56%",
+        "change": "OI 87.70%",
+        "asOf": "2026-09-11",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "margin": {
+        "value": "上市 5,878.71 億",
+        "change": "上櫃 N/A",
+        "asOf": "2026-09-11",
+        "state": "official_afterhours",
+        "source": "TWSE / TPEx"
+      }
+    },
+    "errors": [
+      {
+        "source": "TPEx daily trading index",
+        "message": "TPEx index field not recognized: ['Date', 'TradeVolume', 'TradeAmount', 'NumberOfTransactions', 'TPExIndex', 'Change']"
+      },
+      {
+        "source": "CBC USD/TWD",
+        "message": "name 'roc_to_iso' is not defined"
+      },
+      {
+        "source": "TAIFEX institutional TX",
+        "message": "invalid JSON from https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "source": "TWSE BFI82U",
+        "message": "foreign investor numeric fields not recognized: ['外資及陸資表示依「華僑及外國人投資證券管理辦法」及「大陸地區投資人來臺從事證券投資及期貨交易管理辦法」辦理登記等投資人。']"
+      },
+      {
+        "source": "TPEx margin",
+        "message": "IncompleteRead(15988 bytes read, 535272 more expected)"
+      }
+    ],
+    "sourceStatus": [
+      {
+        "name": "TWSE MI_INDEX",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TWSE turnover",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TWSE stock breadth",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TPEx daily trading index",
+        "state": "error",
+        "asOf": "",
+        "detail": "TPEx index field not recognized: ['Date', 'TradeVolume', 'TradeAmount', 'NumberOfTransactions', 'TPExIndex', 'Change']"
+      },
+      {
+        "name": "TPEx market highlight",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "CBC USD/TWD",
+        "state": "error",
+        "asOf": "",
+        "detail": "name 'roc_to_iso' is not defined"
+      },
+      {
+        "name": "TAIFEX institutional TX",
+        "state": "error",
+        "asOf": "",
+        "detail": "invalid JSON from https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate: Expecting value: line 1 column 1 (char 0)"
+      },
+      {
+        "name": "TAIFEX Put/Call",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TAIFEX TX daily",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": ""
+      },
+      {
+        "name": "TWSE BFI82U",
+        "state": "error",
+        "asOf": "",
+        "detail": "foreign investor numeric fields not recognized: ['外資及陸資表示依「華僑及外國人投資證券管理辦法」及「大陸地區投資人來臺從事證券投資及期貨交易管理辦法」辦理登記等投資人。']"
+      },
+      {
+        "name": "TWSE margin market total",
+        "state": "ok",
+        "asOf": "2026-09-11",
+        "detail": "融資金額(仟元)→億元"
+      },
+      {
+        "name": "TPEx margin",
+        "state": "error",
+        "asOf": "",
+        "detail": "IncompleteRead(15988 bytes read, 535272 more expected)"
+      }
+    ]
   }
 ]
