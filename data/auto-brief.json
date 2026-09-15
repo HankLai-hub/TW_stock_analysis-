@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-15T08:37:29+08:00",
+  "generatedAt": "2026-09-15T10:34:41+08:00",
   "daily": {
     "status": "ready",
-    "generatedAt": "2026-09-15T08:37:29+08:00",
-    "phase": "盤前",
+    "generatedAt": "2026-09-15T10:34:41+08:00",
+    "phase": "盤中",
     "score": 34.9,
     "label": "偏空",
     "tone": "bad",
@@ -14,180 +14,6 @@
       "tone": "bad",
       "score": 31,
       "note": "台股資金面與全球金融條件同時偏空，反彈優先視為風險修復。"
-    },
-    "scenarios": {
-      "active": "bear",
-      "activeTitle": "Bear Case",
-      "activeMatch": 61,
-      "note": "此處為規則式「模型匹配度」，不是未來情境發生機率。",
-      "scenarios": [
-        {
-          "key": "bull",
-          "title": "Bull Case",
-          "match": 6,
-          "tone": "good",
-          "summary": "資金、廣度與全球金融條件同步改善時，風險承擔才較完整。",
-          "conditions": [
-            {
-              "label": "台股 Risk Score ≥ 55",
-              "state": "not_met",
-              "description": "目前 35"
-            },
-            {
-              "label": "Global Macro Score ≥ 45",
-              "state": "not_met",
-              "description": "目前 28"
-            },
-            {
-              "label": "市場廣度 ≥ 50%",
-              "state": "not_met",
-              "description": "目前 37.8%"
-            },
-            {
-              "label": "外資現貨非賣超",
-              "state": "not_met",
-              "description": "目前 -370 億"
-            },
-            {
-              "label": "外資 TX 淨空低於 8 萬口",
-              "state": "not_met",
-              "description": "目前 -82,658 口"
-            },
-            {
-              "label": "TAIEX 日變動 ≥ 0",
-              "state": "not_met",
-              "description": "目前 -0.70%"
-            }
-          ],
-          "result": "若成立，市場型態偏向風險擴張與成長／高 Beta 資產重新取得優勢。"
-        },
-        {
-          "key": "base",
-          "title": "Base Case",
-          "match": 33,
-          "tone": "neutral",
-          "summary": "訊號分歧時，以區間、輪動與事件驅動為主要假設。",
-          "conditions": [
-            {
-              "label": "台股 Risk Score 位於 30–55",
-              "state": "met",
-              "description": "目前 35"
-            },
-            {
-              "label": "Global Macro Score 位於 30–55",
-              "state": "not_met",
-              "description": "目前 28"
-            },
-            {
-              "label": "市場廣度位於 40–55%",
-              "state": "not_met",
-              "description": "目前 37.8%"
-            },
-            {
-              "label": "TAIEX 與櫃買未全面同向強勢",
-              "state": "met",
-              "description": "TAIEX -0.70% / 櫃買 -0.21%"
-            }
-          ],
-          "result": "若成立，優先看產業輪動、權值與中小型股相對強弱，而非追逐單一指數方向。"
-        },
-        {
-          "key": "bear",
-          "title": "Bear Case",
-          "match": 61,
-          "tone": "bad",
-          "summary": "本地資金與全球金融條件同向偏空時，風險控制優先。",
-          "conditions": [
-            {
-              "label": "台股 Risk Score < 35",
-              "state": "met",
-              "description": "目前 35"
-            },
-            {
-              "label": "Global Macro Score < 35",
-              "state": "met",
-              "description": "目前 28"
-            },
-            {
-              "label": "市場廣度 < 40%",
-              "state": "met",
-              "description": "目前 37.8%"
-            },
-            {
-              "label": "外資現貨賣超",
-              "state": "met",
-              "description": "目前 -370 億"
-            },
-            {
-              "label": "外資 TX 淨空 ≥ 8 萬口",
-              "state": "met",
-              "description": "目前 -82,658 口"
-            },
-            {
-              "label": "TAIEX 日變動 < 0",
-              "state": "met",
-              "description": "目前 -0.70%"
-            }
-          ],
-          "result": "若成立，高估值、高 Beta 與槓桿集中標的通常承受較高估值／流動性壓力。"
-        }
-      ],
-      "facts": {
-        "local": 34.9,
-        "global": 28,
-        "taiex": -0.7,
-        "otc": -0.21,
-        "breadth": 0.3778409090909091,
-        "foreignSpot": -369.64,
-        "foreignTx": -82658.0
-      }
-    },
-    "riskTrend": {
-      "points": [
-        {
-          "at": "2026-09-14T20:44:13+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T21:54:59+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:03:00+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:23:33+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:49:09+08:00",
-          "score": 34.2,
-          "label": "偏空"
-        },
-        {
-          "at": "2026-09-15T04:18:02+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-15T07:22:22+08:00",
-          "score": 34.7,
-          "label": "偏空"
-        },
-        {
-          "at": "2026-09-15T08:37:29+08:00",
-          "score": 34.9,
-          "label": "偏空"
-        }
-      ],
-      "direction": "improving",
-      "delta": 5.7,
-      "note": "最近 8 次更新 Risk Score 改善 +5.7 分。"
     },
     "quickTake": [
       "價格面：TAIEX -0.70%、櫃買 -0.21%。",
@@ -206,7 +32,7 @@
   },
   "weekly": {
     "status": "ready",
-    "generatedAt": "2026-09-15T08:37:29+08:00",
+    "generatedAt": "2026-09-15T10:34:41+08:00",
     "headline": "最近 3 個交易日 Risk Score 平均 32，風險結構較期初改善。",
     "quickTake": [
       "指數：TAIEX 由 46,184.85 到 45,862.52，區間變動 -0.70%。",
@@ -232,53 +58,6 @@
         "value": -0.7
       }
     ],
-    "riskTrend": {
-      "points": [
-        {
-          "at": "2026-09-14T20:44:13+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T21:54:59+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:03:00+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:23:33+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-14T22:49:09+08:00",
-          "score": 34.2,
-          "label": "偏空"
-        },
-        {
-          "at": "2026-09-15T04:18:02+08:00",
-          "score": 29.2,
-          "label": "Risk-Off"
-        },
-        {
-          "at": "2026-09-15T07:22:22+08:00",
-          "score": 34.7,
-          "label": "偏空"
-        },
-        {
-          "at": "2026-09-15T08:37:29+08:00",
-          "score": 34.9,
-          "label": "偏空"
-        }
-      ],
-      "direction": "improving",
-      "delta": 5.7,
-      "note": "最近 8 次更新 Risk Score 改善 +5.7 分。"
-    },
     "dataNote": "使用最近 3 個不同完整交易日；同一交易日只取最後有效快照。"
   }
 }
