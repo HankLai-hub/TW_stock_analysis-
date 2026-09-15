@@ -1,44 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T01:40:24+08:00",
+  "generatedAt": "2026-09-16T05:47:42+08:00",
   "macro": {
     "us2y": {
-      "value": 4.65,
-      "display": "4.65%",
+      "value": 4.67,
+      "display": "4.67%",
       "change": "+2 bp",
-      "asOf": "2026-09-14",
+      "asOf": "2026-09-15",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us10y": {
-      "value": 4.97,
-      "display": "4.97%",
-      "change": "+1 bp",
-      "asOf": "2026-09-14",
+      "value": 5.0,
+      "display": "5.00%",
+      "change": "+3 bp",
+      "asOf": "2026-09-15",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us30y": {
-      "value": 5.34,
-      "display": "5.34%",
-      "change": "-1 bp",
-      "asOf": "2026-09-14",
+      "value": 5.36,
+      "display": "5.36%",
+      "change": "+2 bp",
+      "asOf": "2026-09-15",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "spread2s10s": {
-      "value": 31.99999999999994,
-      "display": "+32 bp",
+      "value": 33.00000000000001,
+      "display": "+33 bp",
       "change": "10Y - 2Y",
-      "asOf": "2026-09-14",
+      "asOf": "2026-09-15",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "real10y": {
-      "value": 2.6,
-      "display": "2.60%",
+      "value": 2.62,
+      "display": "2.62%",
       "change": "10Y real yield",
-      "asOf": "2026-09-14",
+      "asOf": "2026-09-15",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
@@ -315,24 +315,24 @@
     "tone": "neutral",
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
-      "美10Y單日上升 1bp。",
+      "美10Y單日上升 3bp。",
       "Fed Broad Dollar最新週資料走強 0.11%。"
     ]
   },
   "risk": {
-    "score": 28,
+    "score": 22,
     "label": "Risk-Off",
     "confidence": 75,
     "drivers": [
       {
         "name": "美債10Y",
         "direction": "negative",
-        "reason": "4.97%：偏不利科技估值"
+        "reason": "5.00%：高折現率壓力"
       },
       {
         "name": "10Y實質利率",
         "direction": "negative",
-        "reason": "2.60%：長久期資產壓力"
+        "reason": "2.62%：長久期資產壓力"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -341,12 +341,12 @@
     {
       "name": "U.S. Treasury yield curve",
       "status": "ok",
-      "asOf": "2026-09-14"
+      "asOf": "2026-09-15"
     },
     {
       "name": "U.S. Treasury real yields",
       "status": "ok",
-      "asOf": "2026-09-14"
+      "asOf": "2026-09-15"
     },
     {
       "name": "Federal Reserve H.10 broad dollar",
@@ -361,22 +361,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-16T01:40:24+08:00"
+      "asOf": "2026-09-16T05:47:44+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-16T01:40:24+08:00"
+      "asOf": "2026-09-16T05:47:44+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-16T01:40:25+08:00"
+      "asOf": "2026-09-16T05:47:44+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-16T01:40:25+08:00"
+      "asOf": "2026-09-16T05:47:44+08:00"
     }
   ],
   "errors": [
