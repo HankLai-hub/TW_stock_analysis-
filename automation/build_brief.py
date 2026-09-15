@@ -344,7 +344,6 @@ def weekly_brief(history, live):
         'status': 'ready',
         'generatedAt': live.get('generatedAt'),
         'headline': headline,
-        'resonance': resonance,
         'quickTake': quick[:4],
         'stats': stats,
         'dataNote': f'使用最近 {len(recent)} 個不同完整交易日；同一交易日只取最後有效快照。',
