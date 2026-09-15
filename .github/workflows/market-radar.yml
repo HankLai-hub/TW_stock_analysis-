@@ -27,6 +27,9 @@ on:
     - cron: "17 7,10,13,16,19,22 * * 1-5"
     # 每週日 20:00 週報
     - cron: "0 12 * * 0"
+    # Reliability heartbeat：每小時 :53 檢查是否有固定排程漏跑。
+    # 它不會每次都抓資料；只有「該更新卻沒更新」才補跑。
+    - cron: "53 * * * 0-6"
 
 permissions:
   contents: write
@@ -59,16 +62,19 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Python
+        if: steps.mode.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Setup Node
+        if: steps.mode.outputs.should_run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Repair TPEx TWCA certificate chain
+        if: steps.mode.outputs.should_run == 'true'
         shell: bash
         run: |
           set -u
@@ -161,65 +167,50 @@ jobs:
             echo "::warning::TPEx TLS still unavailable; continuing with last valid TPEx data."
           fi
 
-      - name: Decide update mode
+      - name: Decide update mode / catch-up
         id: mode
-        shell: bash
-        run: |
-          MODE="deploy-only"
-          MARKET_KIND="afterhours"
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          MANUAL_MODE: ${{ inputs.update_kind }}
+        run: python automation/decide_due.py
 
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            MODE="${{ inputs.update_kind }}"
-          elif [[ "${{ github.event.schedule }}" == "30 0 * * 1-5" ]]; then
-            MODE="premarket"
-          elif [[ "${{ github.event.schedule }}" == "7 1-5 * * 1-5" ]]; then
-            MODE="intraday"
-          elif [[ "${{ github.event.schedule }}" == "0 12 * * 0" ]]; then
-            MODE="weekly"
-          else
-            MODE="afterhours"
-          fi
-
-          if [[ "$MODE" == "intraday" ]]; then
-            MARKET_KIND="intraday"
-          else
-            MARKET_KIND="afterhours"
-          fi
-
-          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
-          echo "market_kind=$MARKET_KIND" >> "$GITHUB_OUTPUT"
-          echo "Mode: $MODE / Market kind: $MARKET_KIND"
 
       - name: Fetch official Taiwan market data
-        if: steps.mode.outputs.mode != 'deploy-only'
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         working-directory: automation
         run: python fetch_market.py --kind "${{ steps.mode.outputs.market_kind }}"
 
       - name: Fetch global macro and official news
-        if: steps.mode.outputs.mode != 'deploy-only'
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         run: python automation/fetch_global.py
 
       - name: Build automatic daily and weekly brief
+        if: steps.mode.outputs.should_run == 'true'
         run: python automation/build_brief.py
 
       - name: Validate static research data
+        if: steps.mode.outputs.should_run == 'true'
         run: npm run check
 
       - name: Validate live Taiwan data
+        if: steps.mode.outputs.should_run == 'true'
         run: python automation/validate_live.py
 
       - name: Validate global macro and official news
+        if: steps.mode.outputs.should_run == 'true'
         run: python automation/validate_global.py
 
       - name: Prune historical snapshots
-        if: steps.mode.outputs.mode != 'deploy-only'
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         run: python automation/prune_history.py
 
       - name: Build system health status
+        if: steps.mode.outputs.should_run == 'true'
         run: python automation/build_health.py --mode "${{ steps.mode.outputs.mode }}"
 
       - name: Save generated data to repository
-        if: steps.mode.outputs.mode != 'deploy-only'
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         shell: bash
         run: |
           git config user.name "tw-market-radar-bot"
@@ -233,14 +224,17 @@ jobs:
           fi
 
       - name: Configure GitHub Pages
+        if: steps.mode.outputs.should_run == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
+        if: steps.mode.outputs.should_run == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
       - name: Deploy GitHub Pages
+        if: steps.mode.outputs.should_run == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
 
@@ -251,6 +245,8 @@ jobs:
           {
             echo "## TW Market Radar automation"
             echo "- Mode: ${{ steps.mode.outputs.mode }}"
+            echo "- Should run: ${{ steps.mode.outputs.should_run }}"
+            echo "- Reason: ${{ steps.mode.outputs.reason }}"
             echo "- Market kind: ${{ steps.mode.outputs.market_kind }}"
             echo "- Repository: ${{ github.repository }}"
             echo "- Run: ${{ github.run_number }}"
