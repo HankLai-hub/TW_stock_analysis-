@@ -852,8 +852,15 @@ def fetch_margin(snap):
         )
 
 def _parse_taifex_institutional_html(html: str):
-    """Parse the official TAIFEX futContractsDateExcel HTML fallback."""
+    """Parse the official TAIFEX futContractsDateExcel page.
+
+    The page uses rowspan cells, so the foreign row may not repeat the product
+    name. First try a table-aware parser; if the markup changes, fall back to a
+    bounded text extraction inside the 臺股期貨 section.
+    """
     from html.parser import HTMLParser
+    from html import unescape
+    import re
 
     class TableParser(HTMLParser):
         def __init__(self):
@@ -888,11 +895,13 @@ def _parse_taifex_institutional_html(html: str):
 
         if any("臺股期貨" in c for c in clean):
             current_product = "臺股期貨"
-        elif clean[0] not in {"自營商", "投信", "外資"} and any("期貨" in c for c in clean[:2]):
-            current_product = clean[0]
+        elif any("電子期貨" in c for c in clean):
+            current_product = "電子期貨"
+        elif any("金融期貨" in c for c in clean):
+            current_product = "金融期貨"
 
-        if current_product == "臺股期貨" and "外資" in clean:
-            idx = clean.index("外資")
+        if current_product == "臺股期貨" and any(c == "外資" or c.startswith("外資") for c in clean):
+            idx = next(i for i, c in enumerate(clean) if c == "外資" or c.startswith("外資"))
             nums = [to_int(v) for v in clean[idx + 1:]]
             nums = [v for v in nums if v is not None]
             if len(nums) >= 12:
@@ -903,7 +912,44 @@ def _parse_taifex_institutional_html(html: str):
                     "date": _roc_date_from_text(html) or "最新官方盤後",
                 }
 
-    raise ValueError("TX foreign row not found in TAIFEX HTML fallback")
+    # Defensive fallback: strip markup, isolate the 臺股期貨 block, then read
+    # the first 12 numeric fields after 外資. Official columns are:
+    # trade long(amount), trade short(amount), trade net(amount),
+    # OI long(amount), OI short(amount), OI net(amount).
+    text = unescape(re.sub(r"<[^>]+>", " ", html))
+    text = " ".join(text.split())
+    start = text.find("臺股期貨")
+    if start >= 0:
+        end_candidates = [
+            p for p in (
+                text.find("電子期貨", start + 4),
+                text.find("金融期貨", start + 4),
+                text.find("小型臺指期貨", start + 4),
+            )
+            if p > start
+        ]
+        end = min(end_candidates) if end_candidates else min(len(text), start + 12000)
+        block = text[start:end]
+        fpos = block.find("外資")
+        if fpos >= 0:
+            tail = block[fpos + len("外資"):]
+            tokens = re.findall(r"(?<![\w.])[+-]?\d[\d,]*(?:\.\d+)?", tail)
+            nums = []
+            for token in tokens:
+                n = to_int(token)
+                if n is not None:
+                    nums.append(n)
+                if len(nums) >= 12:
+                    break
+            if len(nums) >= 12:
+                return {
+                    "long_oi": nums[6],
+                    "short_oi": nums[8],
+                    "net": nums[10],
+                    "date": _roc_date_from_text(html) or "最新官方盤後",
+                }
+
+    raise ValueError("TX foreign row not found in TAIFEX official page")
 
 
 def fetch_taifex(snap):
@@ -1172,6 +1218,22 @@ def _clamp(value, lo=0.0, hi=100.0):
     return max(lo, min(hi, value))
 
 
+
+def _iso_day(value):
+    import re
+    m = re.search(r"(20\d{2})[-/](\d{1,2})[-/](\d{1,2})", str(value or ""))
+    return f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}" if m else None
+
+
+def _current_directional_metric(metrics, key, benchmark_date):
+    row = metrics.get(key, {}) or {}
+    if row.get("state") == "stale":
+        return None
+    row_day = _iso_day(row.get("asOf"))
+    if benchmark_date and row_day and row_day < benchmark_date:
+        return None
+    return _metric_float(row.get("value"))
+
 def calculate_risk(snap):
     """Build a transparent 0-100 risk-appetite score from available data.
 
@@ -1193,15 +1255,16 @@ def calculate_risk(snap):
             "reason": reason,
         })
 
+    benchmark_date = _iso_day(metrics.get("taiex", {}).get("asOf"))
     taiex_pct = _metric_float(metrics.get("taiex", {}).get("change"))
     if taiex_pct is not None:
         add("TAIEX", 50 + taiex_pct * 12, 18, f"收盤 {taiex_pct:+.2f}%")
 
-    otc_pct = _metric_float(metrics.get("otc", {}).get("change"))
+    otc_pct = _metric_float(metrics.get("otc", {}).get("change")) if _current_directional_metric(metrics, "otc", benchmark_date) is not None else None
     if otc_pct is not None:
         add("櫃買", 50 + otc_pct * 10, 12, f"收盤 {otc_pct:+.2f}%")
 
-    tx_pct = _metric_float(metrics.get("tx", {}).get("change"))
+    tx_pct = _metric_float(metrics.get("tx", {}).get("change")) if _current_directional_metric(metrics, "tx", benchmark_date) is not None else None
     if tx_pct is not None:
         add("臺指期", 50 + tx_pct * 10, 10, f"TX {tx_pct:+.2f}%")
 
@@ -1216,11 +1279,11 @@ def calculate_risk(snap):
             ratio = up / total
             add("市場廣度", ratio * 100, 20, f"上漲比 {ratio*100:.1f}%")
 
-    foreign_spot = _metric_float(metrics.get("foreignSpot", {}).get("value"))
+    foreign_spot = _current_directional_metric(metrics, "foreignSpot", benchmark_date)
     if foreign_spot is not None:
         add("外資現貨", 50 + foreign_spot / 20, 22, f"{foreign_spot:+.0f} 億")
 
-    foreign_tx = _metric_float(metrics.get("foreignTx", {}).get("value"))
+    foreign_tx = _current_directional_metric(metrics, "foreignTx", benchmark_date)
     if foreign_tx is not None:
         add("外資TX", 50 + foreign_tx / 2500, 18, f"{foreign_tx:+,.0f} 口")
 
