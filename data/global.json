@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-16T20:37:15+08:00",
+  "generatedAt": "2026-09-17T01:18:37+08:00",
   "macro": {
     "us2y": {
       "value": 4.67,
@@ -49,6 +49,46 @@
       "asOf": "Sep. 11",
       "source": "Federal Reserve H.10",
       "state": "official_weekly"
+    },
+    "cpi": {
+      "value": 3.3965478924364856,
+      "display": "3.4% YoY",
+      "change": "+0.4% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "coreCpi": {
+      "value": 2.4459799375700753,
+      "display": "2.4% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "unemployment": {
+      "value": 4.1,
+      "display": "4.1%",
+      "change": "Unemployment rate",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "payrolls": {
+      "value": 162.0,
+      "display": "+162k",
+      "change": "Nonfarm payroll monthly change",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "ahe": {
+      "value": 3.085745494265435,
+      "display": "3.1% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-08",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
     }
   },
   "equity": {
@@ -259,6 +299,15 @@
       "impact": 4,
       "watch": "職缺與勞動需求是否持續過熱。",
       "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "Metropolitan Area Employment and Unemployment (Monthly)",
+      "scheduledAt": "2026-09-30T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
     }
   ],
   "reaction": {
@@ -273,7 +322,7 @@
   "risk": {
     "score": 22,
     "label": "Risk-Off",
-    "confidence": 50,
+    "confidence": 75,
     "drivers": [
       {
         "name": "美債10Y",
@@ -305,34 +354,35 @@
       "asOf": "Sep. 11"
     },
     {
+      "name": "U.S. BLS Public Data API",
+      "status": "ok",
+      "asOf": "2026-08"
+    },
+    {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-16T20:37:47+08:00"
+      "asOf": "2026-09-17T01:18:39+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-16T20:37:47+08:00"
+      "asOf": "2026-09-17T01:18:39+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-16T20:37:48+08:00"
+      "asOf": "2026-09-17T01:18:39+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-16T20:37:48+08:00"
+      "asOf": "2026-09-17T01:18:39+08:00"
     }
   ],
   "errors": [
     {
       "source": "U.S. EIA crude spot prices",
       "message": "EIA daily date headers not recognized"
-    },
-    {
-      "source": "U.S. BLS macro data",
-      "message": "The read operation timed out"
     }
   ]
 }
