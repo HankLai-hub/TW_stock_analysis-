@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T08:31:39+08:00",
+  "generatedAt": "2026-09-17T09:45:07+08:00",
   "macro": {
     "us2y": {
       "value": 4.74,
@@ -41,14 +41,6 @@
       "asOf": "2026-09-16",
       "source": "U.S. Treasury",
       "state": "official_daily"
-    },
-    "broadDollar": {
-      "value": 118.2126,
-      "display": "118.21",
-      "change": "+0.11%",
-      "asOf": "Sep. 11",
-      "source": "Federal Reserve H.10",
-      "state": "official_weekly"
     },
     "cpi": {
       "value": 3.3965478924364856,
@@ -306,8 +298,7 @@
     "tone": "neutral",
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
-      "美10Y單日上升 1bp。",
-      "Fed Broad Dollar最新週資料走強 0.11%。"
+      "美10Y單日上升 1bp。"
     ]
   },
   "risk": {
@@ -340,11 +331,6 @@
       "asOf": "2026-09-16"
     },
     {
-      "name": "Federal Reserve H.10 broad dollar",
-      "status": "ok",
-      "asOf": "Sep. 11"
-    },
-    {
       "name": "U.S. BLS Public Data API",
       "status": "ok",
       "asOf": "2026-08"
@@ -352,28 +338,32 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-17T08:31:41+08:00"
+      "asOf": "2026-09-17T09:45:09+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-17T08:31:41+08:00"
+      "asOf": "2026-09-17T09:45:09+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-17T08:31:41+08:00"
+      "asOf": "2026-09-17T09:45:09+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-17T08:31:41+08:00"
+      "asOf": "2026-09-17T09:45:09+08:00"
     }
   ],
   "errors": [
     {
       "source": "U.S. EIA crude spot prices",
       "message": "EIA daily date headers not recognized"
+    },
+    {
+      "source": "Federal Reserve H.10 broad dollar",
+      "message": "<urlopen error [Errno 104] Connection reset by peer>"
     }
   ]
 }
