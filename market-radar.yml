@@ -1,0 +1,172 @@
+name: TW Market Radar Production Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_kind:
+        description: "更新模式"
+        required: true
+        default: "afterhours"
+        type: choice
+        options: [premarket, intraday, afterhours, weekly, deploy-only]
+  schedule:
+    - cron: "30 0 * * 1-5"          # 08:30 Taipei premarket
+    - cron: "7 1-5 * * 1-5"        # intraday
+    - cron: "37 5 * * 1-5"         # 13:37 Taipei
+    - cron: "17 7,10,13,16,19,22 * * 1-5"
+    - cron: "0 12 * * 0"           # Sunday 20:00 Taipei weekly
+    - cron: "53 * * * 0-6"         # reliability heartbeat
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: tw-market-radar-production
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      INTRADAY_FEED_URL: ${{ secrets.INTRADAY_FEED_URL }}
+      INTRADAY_FEED_TOKEN: ${{ secrets.INTRADAY_FEED_TOKEN }}
+      INTRADAY_PUBLIC_DISPLAY: ${{ secrets.INTRADAY_PUBLIC_DISPLAY }}
+      GLOBAL_EQUITY_FEED_URL: ${{ secrets.GLOBAL_EQUITY_FEED_URL }}
+      GLOBAL_EQUITY_FEED_TOKEN: ${{ secrets.GLOBAL_EQUITY_FEED_TOKEN }}
+      GLOBAL_EQUITY_PUBLIC_DISPLAY: ${{ secrets.GLOBAL_EQUITY_PUBLIC_DISPLAY }}
+      NEWS_EXTRA_RSS: ${{ secrets.NEWS_EXTRA_RSS }}
+      NEWS_DISCOVERY_ENABLED: "YES"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Decide update mode / catch-up
+        id: mode
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          MANUAL_MODE: ${{ inputs.update_kind }}
+        run: python automation/decide_due.py
+
+      - name: Repair TPEx TWCA certificate chain
+        if: steps.mode.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          set +e
+          python - <<'PY'
+          import urllib.request
+          try:
+              with urllib.request.urlopen("https://www.tpex.org.tw/openapi/v1/tpex_daily_trading_index", timeout=20) as r:
+                  print("TPEx TLS valid:", r.status)
+                  raise SystemExit(0)
+          except Exception as exc:
+              print("TPEx TLS precheck warning:", exc)
+              raise SystemExit(1)
+          PY
+          if [ $? -ne 0 ]; then
+            echo "::warning::TPEx TLS precheck failed. Existing fetch_market.py fallback/stale policy remains active; deployment must not silently reuse stale data."
+          fi
+          exit 0
+
+      - name: Fetch official Taiwan market data
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        working-directory: automation
+        run: python fetch_market.py --kind "${{ steps.mode.outputs.market_kind }}"
+
+      - name: Fetch global macro and official news
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        run: python automation/fetch_global.py
+
+      - name: Repair global fallbacks and FOMC calendar
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        run: python automation/repair_global.py
+
+      - name: Fetch wider market intelligence
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        run: python automation/fetch_intelligence.py
+
+      - name: Build automatic daily and weekly brief
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/build_brief.py
+
+      - name: Build V2 single-source daily dashboard
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/build_dashboard.py
+
+      - name: Install V2 frontend loader idempotently
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/install_frontend_v2.py
+
+      - name: Validate static research data
+        if: steps.mode.outputs.should_run == 'true'
+        run: npm run check
+
+      - name: Validate live Taiwan data
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/validate_live.py
+
+      - name: Validate global macro and official news
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/validate_global.py
+
+      - name: Validate V2 dashboard freshness
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/validate_dashboard.py
+
+      - name: Prune historical snapshots
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        run: python automation/prune_history.py
+
+      - name: Build system health status
+        if: steps.mode.outputs.should_run == 'true'
+        run: python automation/build_health.py --mode "${{ steps.mode.outputs.mode }}"
+
+      - name: Save generated data and frontend patch to repository
+        if: steps.mode.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          git config user.name "tw-market-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live.json data/live-history.json data/auto-brief.json data/global.json data/system-health.json || true
+          git add data/intelligence.json data/daily-dashboard.json || true
+          git add history/ index.html package.json market-radar-v2.js automation/ .github/workflows/market-radar.yml
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: market radar v2 automated update [skip ci]"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.mode.outputs.should_run == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: steps.mode.outputs.should_run == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy GitHub Pages
+        if: steps.mode.outputs.should_run == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
