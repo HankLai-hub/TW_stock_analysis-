@@ -1,0 +1,56 @@
+name: Discord Market History
+
+on:
+  workflow_run:
+    # IMPORTANT: This must exactly match the `name:` of your existing market-data workflow.
+    # If your Actions page shows a different name, change the next line only.
+    workflows: ["TW Market Radar Production Automation"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discord-market-history
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # Automatic runs post only after the upstream workflow succeeds.
+    # Manual workflow_dispatch is allowed for testing.
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' ||
+          github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout latest repository state
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install notifier dependency
+        run: python -m pip install --disable-pip-version-check requests==2.32.5
+
+      - name: Post a new Discord history message
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SITE_URL: https://hanklai-hub.github.io/TW_stock_analysis-/?mode=daily#overview
+          MARKET_DATA_DIR: data
+        run: python automation/discord_compare.py
+
+      - name: Upload full comparison report to Actions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: discord-market-comparison-${{ github.run_id }}
+          path: discord_reports/*.md
+          if-no-files-found: ignore
+          retention-days: 30
