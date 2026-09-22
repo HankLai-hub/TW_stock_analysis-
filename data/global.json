@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T11:41:50+08:00",
+  "generatedAt": "2026-09-22T13:39:10+08:00",
   "macro": {
     "us2y": {
       "value": 4.76,
@@ -107,11 +107,12 @@
       "state": "authorization_required"
     },
     "sox": {
-      "display": "N/A",
-      "change": "",
-      "asOf": "N/A",
-      "source": "SOX",
-      "state": "authorization_required"
+      "value": 12433.17,
+      "display": "12,433.17",
+      "change": "+4.29%",
+      "asOf": "2026-09-21",
+      "source": "Nasdaq Global Indexes (SOX)",
+      "state": "official"
     },
     "vix": {
       "display": "N/A",
@@ -433,27 +434,27 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-22T11:41:51+08:00"
+      "asOf": "2026-09-22T13:39:13+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-22T11:41:51+08:00"
+      "asOf": "2026-09-22T13:39:13+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-22T11:41:51+08:00"
+      "asOf": "2026-09-22T13:39:13+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-22T11:41:51+08:00"
+      "asOf": "2026-09-22T13:39:13+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar (sanitized)",
       "status": "ok",
-      "asOf": "2026-09-22T11:42:22+08:00"
+      "asOf": "2026-09-22T13:40:15+08:00"
     }
   ],
   "errors": [
@@ -463,6 +464,10 @@
     },
     {
       "source": "FRED EIA crude-oil fallback",
+      "message": "The read operation timed out"
+    },
+    {
+      "source": "FRED equity fallback",
       "message": "The read operation timed out"
     }
   ]
