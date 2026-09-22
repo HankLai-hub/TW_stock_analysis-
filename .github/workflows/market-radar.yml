@@ -42,6 +42,8 @@ jobs:
       GLOBAL_EQUITY_PUBLIC_DISPLAY: ${{ secrets.GLOBAL_EQUITY_PUBLIC_DISPLAY }}
       NEWS_EXTRA_RSS: ${{ secrets.NEWS_EXTRA_RSS }}
       NEWS_DISCOVERY_ENABLED: "YES"
+      # Optional only. Leave unset unless public re-display rights for these index series were reviewed.
+      FRED_EQUITY_FALLBACK: ${{ vars.FRED_EQUITY_FALLBACK }}
 
     steps:
       - name: Checkout
@@ -100,6 +102,10 @@ jobs:
         if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         run: python automation/repair_global.py
 
+      - name: Enrich V2.2 institutional flow, sector strength and leverage
+        if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
+        run: python automation/enrich_v22.py
+
       - name: Fetch wider market intelligence
         if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
         run: python automation/fetch_intelligence.py
@@ -152,7 +158,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: market radar v2 automated update [skip ci]"
+            git commit -m "chore: market radar v2.2 automated update [skip ci]"
             git push
           fi
 
