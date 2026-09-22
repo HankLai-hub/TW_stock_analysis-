@@ -104,7 +104,7 @@ jobs:
 
       - name: Enrich V2.2 institutional flow, sector strength and leverage
         if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
-        run: run: python automation/enrich_market_v22.py
+        run: python automation/enrich_market_v22.py
 
       - name: Fetch wider market intelligence
         if: steps.mode.outputs.should_run == 'true' && steps.mode.outputs.mode != 'deploy-only'
