@@ -60,7 +60,7 @@ def freshness(live, global_data):
     rows = []
     for label, key in [
         ("TAIEX", "taiex"), ("櫃買", "otc"), ("外資現貨", "foreignSpot"), ("外資 TX", "foreignTx"),
-        ("Put/Call", "putCall"), ("USD/TWD", "usdTwd"), ("融資", "margin"), ("市場廣度", "breadth")
+        ("Put/Call", "putCall"), ("USD/TWD", "usdTwd"), ("融資", "margin"), ("市場廣度", "breadth"), ("投信", "investmentTrust"), ("自營商", "dealer")
     ]:
         r = metric(live, key)
         rows.append({"name": label, "date": r.get("asOf") or "N/A", "state": current_state(r, benchmark), "source": r.get("source") or "N/A"})
@@ -220,11 +220,11 @@ def merge_news(g, intel):
 
 
 def build_flow(live):
-    f = metric(live, "foreignSpot")
-    return {"headers": ["法人", "最新", "資料日", "來源"], "rows": [
-        ["外資", f.get("value") or "N/A", f.get("asOf") or "N/A", f.get("source") or "N/A"],
-        ["投信", "N/A", "N/A", "目前 live.json 未提供獨立欄位"],
-        ["自營商", "N/A", "N/A", "目前 live.json 未提供獨立欄位"],
+    f=metric(live,"foreignSpot"); t=metric(live,"investmentTrust"); d=metric(live,"dealer")
+    return {"headers":["法人","最新","資料日","來源"],"rows":[
+        ["外資",f.get("value") or "N/A",f.get("asOf") or "N/A",f.get("source") or "N/A"],
+        ["投信",t.get("value") or "N/A",t.get("asOf") or "N/A",t.get("source") or "N/A"],
+        ["自營商",d.get("value") or "N/A",d.get("asOf") or "N/A",d.get("source") or "N/A"],
     ]}
 
 
@@ -260,10 +260,18 @@ def build_breadth(live):
     return {"advancers": up, "decliners": down, "taiexChange": metric(live, "taiex").get("change") or "N/A", "otcChange": metric(live, "otc").get("change") or "N/A", "note": f"最新官方完整交易日 {r.get('asOf') or 'N/A'}。"}
 
 
-def sectors_na():
-    names = ["半導體", "電子零組件", "金融", "航運", "資訊服務", "上櫃電子"]
-    return [{"name": n, "direction": "N/A", "score": 0, "tone": "neutral", "desc": "官方一致口徑的產業淨資金流尚未接入；禁止沿用舊日報分數。"} for n in names]
-
+def build_sectors(secdata):
+    rows=[]
+    for x in secdata.get("sectors") or []:
+        p=x.get("priceChangePct"); f=x.get("foreignYi"); t=x.get("trustYi"); d=x.get("dealerYi")
+        if all(v is None for v in (p,f,t,d)):
+            rows.append({"name":x.get("name"),"direction":"N/A","score":None,"tone":"neutral","priceChange":"N/A","flow":"N/A","desc":"官方資料尚未取得；不以 0/100 冒充弱勢。"}); continue
+        direction=(f"{p:+.2f}%" if isinstance(p,(int,float)) else "價格 N/A")
+        vals=[v for v in (f,t,d) if isinstance(v,(int,float))]; flow=sum(vals) if vals else None
+        tone="good" if (p or 0)>0 else ("bad" if (p or 0)<0 else "neutral")
+        desc="；".join([z for z in [f"外資 {f:+.2f} 億" if isinstance(f,(int,float)) else "",f"投信 {t:+.2f} 億" if isinstance(t,(int,float)) else "",f"自營商 {d:+.2f} 億" if isinstance(d,(int,float)) else ""] if z]) or "法人產業資料 N/A"
+        rows.append({"name":x.get("name"),"direction":direction,"score":None,"tone":tone,"priceChange":direction,"flow":f"{flow:+.2f} 億" if flow is not None else "N/A","desc":desc})
+    return rows
 
 def scenarios(score, live, g):
     s = float(score or 50)
@@ -277,9 +285,9 @@ def scenarios(score, live, g):
             scale = 80 / total
             bull, bear = round(bull * scale), 80 - round(bull * scale)
     return [
-        {"type": "BULL", "probability": bull, "title": "風險條件改善", "tone": "good", "conditions": ["外資現貨維持買方", "外資 TX 淨空持續下降", "美10Y／油價未同步惡化"], "result": "條件式模型，不代表報酬保證。"},
-        {"type": "BASE", "probability": base, "title": "高檔震盪／訊號分歧", "tone": "warn", "conditions": ["本地資金與全球宏觀訊號分歧", "市場廣度維持中性以上", "重大事件未形成新衝擊"], "result": "優先追蹤資料變化，不用單一新聞預測方向。"},
-        {"type": "BEAR", "probability": bear, "title": "風險條件惡化", "tone": "bad", "conditions": ["外資現貨轉賣且 TX 加空", "台幣轉弱", "美10Y／油價同步走高"], "result": "條件成立時提高風險警戒。"},
+        {"type": "BULL", "weight": bull, "title": "風險條件改善", "tone": "good", "conditions": ["外資現貨維持買方", "外資 TX 淨空持續下降", "美10Y／油價未同步惡化"], "result": "條件式風險權重，不是未來報酬機率。"},
+        {"type": "BASE", "weight": base, "title": "高檔震盪／訊號分歧", "tone": "warn", "conditions": ["本地資金與全球宏觀訊號分歧", "市場廣度維持中性以上", "重大事件未形成新衝擊"], "result": "優先追蹤資料變化，不用單一新聞預測方向。"},
+        {"type": "BEAR", "weight": bear, "title": "風險條件惡化", "tone": "bad", "conditions": ["外資現貨轉賣且 TX 加空", "台幣轉弱", "美10Y／油價同步走高"], "result": "條件成立時提高風險警戒。"},
     ]
 
 
@@ -288,6 +296,7 @@ def main():
     g = read_json("global.json", {})
     auto = read_json("auto-brief.json", {}).get("daily") or {}
     intel = read_json("intelligence.json", {})
+    secdata = read_json("sector-v22.json", {})
     hist = read_json("live-history.json", [])
 
     tw_date = metric(live, "taiex").get("asOf") or "N/A"
@@ -315,7 +324,7 @@ def main():
     ]
 
     dashboard = {
-        "schemaVersion": 2,
+        "schemaVersion": "2.2",
         "generatedAt": live.get("generatedAt") or g.get("generatedAt") or datetime.now(TZ).isoformat(timespec="seconds"),
         "meta": {"reportType": "每日盤前分析", "title": f"{datetime.now(TZ).strftime('%Y/%m/%d')} 台股盤前作戰儀表板", "updatedAt": datetime.now(TZ).strftime("%Y/%m/%d %H:%M"), "timezone": "Asia/Taipei", "twDate": tw_date, "usDate": us_date, "dataStatus": status},
         "score": round(float(score), 1), "scoreLabel": label, "confidence": f"{(live.get('risk') or {}).get('confidence', 0)}%", "regime": global_label,
@@ -338,7 +347,7 @@ def main():
         "leverage": build_leverage(live),
         "breadth": build_breadth(live),
         "levels": build_levels(live, hist),
-        "sectors": sectors_na(),
+        "sectors": build_sectors(secdata),
         "scenarios": scenarios(score, live, g),
         "invalidation": auto.get("invalidation") or ["外資現貨與 TX 同步惡化。", "市場廣度跌破 40%。", "全球利率／能源風險同步升高。"],
         "events": sorted((g.get("events") or []) + (intel.get("events") or []), key=lambda x: x.get("scheduledAt", ""))[:16],

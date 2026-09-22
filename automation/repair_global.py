@@ -17,6 +17,8 @@ PATH = ROOT / "data" / "global.json"
 TZ = ZoneInfo("Asia/Taipei")
 UA = "TW-Market-Radar/8.0 global repair"
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU,DCOILWTICO"
+FRED_EQ = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SP500,NASDAQCOM"
+SOX_URL = "https://indexes.nasdaq.com/Index/Overview/SOX"
 FOMC = "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
 
 
@@ -79,6 +81,42 @@ def fallback_oil(out):
     out["errors"] = [e for e in out.get("errors", []) if e.get("source") != "U.S. EIA crude spot prices"]
 
 
+
+def fallback_equity(out):
+    """Public fallback for broad U.S. indexes; SOX uses Nasdaq's official index page."""
+    eq=out.setdefault("equity", {})
+    # FRED publishes S&P 500 and Nasdaq Composite daily observations.
+    try:
+        text=http_text(FRED_EQ); rows=list(csv.DictReader(io.StringIO(text))); valid=[]
+        for row in rows:
+            vals={}
+            for k in ("SP500","NASDAQCOM"):
+                try: vals[k]=float(row.get(k) or "")
+                except Exception: vals[k]=None
+            if any(v is not None for v in vals.values()): valid.append((row.get("DATE") or row.get("observation_date"),vals))
+        if valid:
+            latest=valid[-1]; prev=valid[-2] if len(valid)>1 else (None,{})
+            for key,series,label in (("sp500","SP500","S&P 500"),("nasdaq","NASDAQCOM","Nasdaq Composite")):
+                v=latest[1].get(series); pv=prev[1].get(series)
+                if v is None: continue
+                ch=(v/pv-1)*100 if pv else None
+                eq[key]={"value":v,"display":f"{v:,.2f}","change":f"{ch:+.2f}%" if ch is not None else "","asOf":latest[0],"source":f"FRED {series}","state":"official_secondary"}
+    except Exception as exc: add_error(out,"FRED equity fallback",exc)
+    # Nasdaq official SOX page. Only accept a dated DATA AS OF observation.
+    try:
+        html=http_text(SOX_URL); txt=clean_text(html)
+        m=re.search(r"DATA AS OF\s+(\d{1,2}/\d{1,2}/\d{4})\s+([\d,]+(?:\.\d+)?)\s+([+-]?[\d,]+(?:\.\d+)?)\s+([+-]?[\d.]+)%",txt,re.I)
+        if not m:
+            # alternate page text: SOX date then Summary Details Last / Net Change
+            mdate=re.search(r"SOX\s+(\d{1,2}/\d{1,2}/\d{4})",txt,re.I); ml=re.search(r"Last\s+([\d,]+(?:\.\d+)?)\s+Net Change\s+([+-]?[\d,]+(?:\.\d+)?)",txt,re.I)
+            if mdate and ml:
+                dt=datetime.strptime(mdate.group(1),"%m/%d/%Y").date().isoformat(); v=float(ml.group(1).replace(',','')); net=float(ml.group(2).replace(',','')); prev=v-net; pct=(net/prev*100) if prev else None
+            else: raise ValueError("Nasdaq SOX dated value not found")
+        else:
+            dt=datetime.strptime(m.group(1),"%m/%d/%Y").date().isoformat(); v=float(m.group(2).replace(',','')); net=float(m.group(3).replace(',','')); pct=float(m.group(4))
+        eq["sox"]={"value":v,"display":f"{v:,.2f}","change":f"{pct:+.2f}%" if pct is not None else "","asOf":dt,"source":"Nasdaq Global Indexes (SOX)","state":"official"}
+    except Exception as exc: add_error(out,"Nasdaq SOX official fallback",exc)
+
 def clean_text(html: str) -> str:
     html = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
     html = re.sub(r"<style[\s\S]*?</style>", " ", html, flags=re.I)
@@ -140,6 +178,10 @@ def main():
         fallback_oil(out)
     except Exception as exc:
         add_error(out, "FRED EIA crude-oil fallback", exc)
+    try:
+        fallback_equity(out)
+    except Exception as exc:
+        add_error(out, "Equity fallback", exc)
     try:
         repair_fomc(out)
         out.setdefault("sources", []).append({"name": "Federal Reserve FOMC calendar (sanitized)", "status": "ok", "asOf": datetime.now(TZ).isoformat(timespec="seconds")})
