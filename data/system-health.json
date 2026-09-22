@@ -1,27 +1,23 @@
 {
-  "generatedAt": "2026-09-23T01:39:38+08:00",
+  "generatedAt": "2026-09-23T06:11:18+08:00",
   "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-09-23T01:38:57+08:00",
-  "globalGeneratedAt": "2026-09-23T01:39:23+08:00",
-  "briefGeneratedAt": "2026-09-23T01:38:57+08:00",
-  "sourceWarningCount": 6,
-  "staleMetrics": [
-    "otc"
-  ],
+  "liveGeneratedAt": "2026-09-23T06:10:36+08:00",
+  "globalGeneratedAt": "2026-09-23T06:11:00+08:00",
+  "briefGeneratedAt": "2026-09-23T06:10:36+08:00",
+  "sourceWarningCount": 4,
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "otc 日期 2026-09-22 晚於市場基準日 2026-09-21。",
-    "margin 日期 2026-09-22 晚於市場基準日 2026-09-21。",
-    "目前資料的市場基準日為 2026-09-21，早於本次產生日期 2026-09-22。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：otc",
-    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-09-22 is not same-day target 2026-09-21; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F09&o=json: <urlopen error [Errno -2] Name or service not known>'}",
-    "全球資料來源警告：{'source': 'U.S. BLS macro data', 'message': 'HTTP Error 503: Service Unavailable'}；{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
+    "tx 資料為 T-1；目前=2026-09-21，市場基準=2026-09-22。",
+    "foreignTx 資料為 T-1；目前=2026-09-21，市場基準=2026-09-22。",
+    "putCall 資料為 T-1；目前=2026-09-21，市場基準=2026-09-22。",
+    "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-09-21",
-    "turnoverAsOf": "2026-09-21",
+    "taiexAsOf": "2026-09-22",
+    "turnoverAsOf": "2026-09-22",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
