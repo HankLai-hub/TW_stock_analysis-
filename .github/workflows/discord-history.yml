@@ -37,6 +37,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Discord client dependency
+        run: python -m pip install --disable-pip-version-check requests
+
       # 上一次比較基準不再放在 main。
       # 改從獨立的 discord-history-data 分支讀取。
       - name: Restore previous comparison snapshot
