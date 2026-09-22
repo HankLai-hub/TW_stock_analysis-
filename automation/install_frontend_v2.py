@@ -2,18 +2,27 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
 PACKAGE = ROOT / "package.json"
-TAG = '  <script src="market-radar-v2.js?v=4.0.0"></script>'
+TAG = '  <script src="market-radar-v2.js?v=4.2.1"></script>'
 
 
 def patch_index():
     text = INDEX.read_text(encoding="utf-8")
-    if "market-radar-v2.js" in text:
-        return False
+    new_text, n = re.subn(r'\s*<script\s+src="market-radar-v2\.js\?v=[^"]+"\s*></script>', "\n" + TAG, text, count=1)
+    if n:
+        changed = new_text != text
+        if changed:
+            INDEX.write_text(new_text, encoding="utf-8")
+        return changed
+    if 'src="market-radar-v2.js"' in text:
+        new_text = text.replace('<script src="market-radar-v2.js"></script>', TAG.strip())
+        INDEX.write_text(new_text, encoding="utf-8")
+        return True
     anchor = '  <script src="live.js?v=3.1.0"></script>'
     if anchor in text:
         text = text.replace(anchor, anchor + "\n" + TAG)
@@ -40,8 +49,8 @@ def patch_package():
 
 
 def main():
-    print("index.html patched:", patch_index())
-    print("package.json patched:", patch_package())
+    print("index.html V2.2.1 loader patched:", patch_index())
+    print("package.json syntax check patched:", patch_package())
 
 
 if __name__ == "__main__":

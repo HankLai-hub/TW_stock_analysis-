@@ -41,6 +41,14 @@ def metric(live, key):
     return (live.get("metrics") or {}).get(key) or {}
 
 
+def metric_any(live, *keys):
+    for key in keys:
+        row = metric(live, key)
+        if row:
+            return row
+    return {}
+
+
 def display_metric(row, fallback="N/A"):
     v = row.get("display") if "display" in row else row.get("value")
     return str(v) if v not in (None, "") else fallback
@@ -58,11 +66,15 @@ def current_state(row, benchmark):
 def freshness(live, global_data):
     benchmark = metric(live, "taiex").get("asOf")
     rows = []
-    for label, key in [
-        ("TAIEX", "taiex"), ("櫃買", "otc"), ("外資現貨", "foreignSpot"), ("外資 TX", "foreignTx"),
-        ("Put/Call", "putCall"), ("USD/TWD", "usdTwd"), ("融資", "margin"), ("市場廣度", "breadth"), ("投信", "investmentTrust"), ("自營商", "dealer")
-    ]:
-        r = metric(live, key)
+    specs = [
+        ("TAIEX", ("taiex",)), ("櫃買", ("otc",)), ("外資現貨", ("foreignSpot",)),
+        ("投信", ("trustSpot", "investmentTrust")), ("自營商", ("dealerSpot", "dealer")),
+        ("外資 TX", ("foreignTx",)), ("Put/Call", ("putCall",)),
+        ("USD/TWD", ("usdTwd",)), ("融資", ("margin",)), ("融券", ("shortBalance",)),
+        ("借券賣出", ("borrowShortBalance",)), ("市場廣度", ("breadth",)),
+    ]
+    for label, keys in specs:
+        r = metric_any(live, *keys)
         rows.append({"name": label, "date": r.get("asOf") or "N/A", "state": current_state(r, benchmark), "source": r.get("source") or "N/A"})
     gm = global_data.get("macro") or {}
     for label, key in [("US 10Y", "us10y"), ("Brent", "brent"), ("美國 CPI", "cpi")]:
@@ -140,8 +152,16 @@ def build_why_volume(live, history, intel):
         if day and sd and abs((datetime.fromisoformat(sd).date() - datetime.fromisoformat(day).date()).days) <= 1:
             candidates.append(e)
     for n in intel.get("news") or []:
-        if n.get("category") == "市場結構" and str(n.get("publishedAt") or "")[:10] in {day, ""}:
-            candidates.append({"title": n.get("title"), "source": n.get("source"), "link": n.get("link")})
+        if n.get("category") != "市場結構":
+            continue
+        nd = str(n.get("publishedAt") or "")[:10]
+        near = False
+        try:
+            near = bool(day and nd and abs((datetime.fromisoformat(nd).date() - datetime.fromisoformat(day).date()).days) <= 2)
+        except Exception:
+            near = not nd
+        if near:
+            candidates.append({"title": n.get("title"), "source": n.get("source"), "link": n.get("link"), "verification": n.get("verification") or "N/A"})
     abnormal = ratio is not None and ratio >= 1.30
     if abnormal and candidates:
         status = "explained_candidate"
@@ -204,12 +224,34 @@ def build_focus(live, g):
     return out
 
 
-def merge_news(g, intel):
+def reaction_snapshot(g, live):
+    parts = []
+    eq = g.get("equity") or {}
+    for label, key in (("S&P 500", "sp500"), ("Nasdaq", "nasdaq"), ("SOX", "sox")):
+        r = eq.get(key) or {}
+        if r.get("display") not in (None, "", "N/A"):
+            parts.append(f"{label} {r.get('change') or r.get('display')}")
+    macro = g.get("macro") or {}
+    for label, key in (("美10Y", "us10y"), ("Brent", "brent")):
+        r = macro.get(key) or {}
+        if r.get("display") not in (None, "", "N/A"):
+            parts.append(f"{label} {r.get('change') or r.get('display')}")
+    twd = metric(live, "usdTwd")
+    if twd.get("value") not in (None, "", "N/A"):
+        parts.append(f"USD/TWD {twd.get('value')}")
+    return "同期市場觀察：" + "、".join(parts[:6]) + "。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。" if parts else "市場反應資料不足，維持 N/A；不自行推估因果。"
+
+
+def merge_news(g, intel, live):
     rows = []
+    snap = reaction_snapshot(g, live)
+    generic_markers = ("等待價格", "等待市場", "不以標題")
     for x in intel.get("news") or []:
-        rows.append({"category": x.get("category") or "背景資訊", "time": str(x.get("publishedAt") or "N/A").replace("T", " ")[:16], "impact": int(x.get("impact") or 3), "title": x.get("title") or "N/A", "fact": x.get("fact") or x.get("title") or "N/A", "reaction": x.get("reaction") or "N/A", "twImpact": x.get("twImpact") or "N/A", "sourceKeys": [], "source": x.get("source") or "N/A", "link": x.get("link") or "", "verification": x.get("verification") or "N/A"})
+        raw = x.get("reaction") or ""
+        reaction = snap if (not raw or any(k in raw for k in generic_markers)) else raw
+        rows.append({"category": x.get("category") or "背景資訊", "time": str(x.get("publishedAt") or "N/A").replace("T", " ")[:16], "impact": int(x.get("impact") or 3), "title": x.get("title") or "N/A", "fact": x.get("fact") or x.get("title") or "N/A", "reaction": reaction, "twImpact": x.get("twImpact") or "N/A", "sourceKeys": [], "source": x.get("source") or "N/A", "link": x.get("link") or "", "verification": x.get("verification") or "N/A"})
     for x in g.get("news") or []:
-        rows.append({"category": x.get("category") or "官方事件", "time": str(x.get("publishedAt") or "N/A").replace("T", " ")[:16], "impact": int(x.get("impact") or 3), "title": x.get("title") or "N/A", "fact": x.get("title") or "N/A", "reaction": "等待市場價格、殖利率與美元反應驗證。", "twImpact": x.get("transmission") or "N/A", "sourceKeys": [], "source": x.get("source") or "N/A", "link": x.get("link") or "", "verification": "官方來源"})
+        rows.append({"category": x.get("category") or "官方事件", "time": str(x.get("publishedAt") or "N/A").replace("T", " ")[:16], "impact": int(x.get("impact") or 3), "title": x.get("title") or "N/A", "fact": x.get("title") or "N/A", "reaction": snap, "twImpact": x.get("transmission") or "N/A", "sourceKeys": [], "source": x.get("source") or "N/A", "link": x.get("link") or "", "verification": "官方來源"})
     seen, out = set(), []
     for x in sorted(rows, key=lambda z: z.get("time", ""), reverse=True):
         k = re.sub(r"\W+", "", x.get("title", "").lower())[:160]
@@ -220,12 +262,19 @@ def merge_news(g, intel):
 
 
 def build_flow(live):
-    f=metric(live,"foreignSpot"); t=metric(live,"investmentTrust"); d=metric(live,"dealer")
-    return {"headers":["法人","最新","資料日","來源"],"rows":[
-        ["外資",f.get("value") or "N/A",f.get("asOf") or "N/A",f.get("source") or "N/A"],
-        ["投信",t.get("value") or "N/A",t.get("asOf") or "N/A",t.get("source") or "N/A"],
-        ["自營商",d.get("value") or "N/A",d.get("asOf") or "N/A",d.get("source") or "N/A"],
-    ]}
+    rows = []
+    specs = [
+        ("外資", ("foreignSpot",)),
+        ("投信", ("trustSpot", "investmentTrust")),
+        ("自營商", ("dealerSpot", "dealer")),
+    ]
+    for label, keys in specs:
+        r = metric_any(live, *keys)
+        source = r.get("source") or "N/A"
+        if label == "自營商" and r.get("change"):
+            source = f"{source}｜{r.get('change')}"
+        rows.append([label, r.get("value") or "N/A", r.get("asOf") or "N/A", source])
+    return {"headers": ["法人", "最新", "資料日", "來源 / 結構"], "rows": rows}
 
 
 def build_derivatives(live):
@@ -244,34 +293,49 @@ def build_derivatives(live):
 
 
 def build_leverage(live):
-    twd = metric(live, "usdTwd"); mar = metric(live, "margin")
+    twd = metric(live, "usdTwd"); mar = metric(live, "margin"); short = metric(live, "shortBalance"); borrow = metric(live, "borrowShortBalance")
+    short_value = f"融券 {short.get('value')}" if short.get("value") not in (None, "", "N/A") else "融券 N/A"
+    borrow_note = f"借券賣出 {borrow.get('value')}" if borrow.get("value") not in (None, "", "N/A") else "借券賣出 N/A"
+    dates = [x for x in (short.get("asOf"), borrow.get("asOf")) if x and x != "N/A"]
     return [
         {"label": "USD/TWD", "value": twd.get("value") or "N/A", "note": f"{twd.get('source') or 'N/A'} · {twd.get('asOf') or 'N/A'}", "tone": "neutral"},
         {"label": "融資", "value": mar.get("value") or "N/A", "note": f"{mar.get('change') or ''} · {mar.get('asOf') or 'N/A'}", "tone": "neutral"},
-        {"label": "借券／融券", "value": "N/A", "note": "尚未納入標準化 live schema；不沿用靜態舊值。", "tone": "neutral"},
+        {"label": "融券 / 借券賣出", "value": short_value, "note": f"{borrow_note} · {max(dates) if dates else 'N/A'}；兩者單位與機制不同，不相加。", "tone": "neutral"},
     ]
 
 
 def build_breadth(live):
     r = metric(live, "breadth")
     m = re.search(r"([\d,]+)↑\s*/\s*([\d,]+)↓", str(r.get("value") or ""))
-    up = int(m.group(1).replace(",", "")) if m else 0
-    down = int(m.group(2).replace(",", "")) if m else 0
-    return {"advancers": up, "decliners": down, "taiexChange": metric(live, "taiex").get("change") or "N/A", "otcChange": metric(live, "otc").get("change") or "N/A", "note": f"最新官方完整交易日 {r.get('asOf') or 'N/A'}。"}
+    up = int(m.group(1).replace(",", "")) if m else None
+    down = int(m.group(2).replace(",", "")) if m else None
+    return {"advancers": up, "decliners": down, "taiexChange": metric(live, "taiex").get("change") or "N/A", "otcChange": metric(live, "otc").get("change") or "N/A", "note": f"最新官方完整交易日 {r.get('asOf') or 'N/A'}；若家數缺漏則顯示 N/A，不以 0 代替。"}
 
 
-def build_sectors(secdata):
-    rows=[]
-    for x in secdata.get("sectors") or []:
-        p=x.get("priceChangePct"); f=x.get("foreignYi"); t=x.get("trustYi"); d=x.get("dealerYi")
-        if all(v is None for v in (p,f,t,d)):
-            rows.append({"name":x.get("name"),"direction":"N/A","score":None,"tone":"neutral","priceChange":"N/A","flow":"N/A","desc":"官方資料尚未取得；不以 0/100 冒充弱勢。"}); continue
-        direction=(f"{p:+.2f}%" if isinstance(p,(int,float)) else "價格 N/A")
-        vals=[v for v in (f,t,d) if isinstance(v,(int,float))]; flow=sum(vals) if vals else None
-        tone="good" if (p or 0)>0 else ("bad" if (p or 0)<0 else "neutral")
-        desc="；".join([z for z in [f"外資 {f:+.2f} 億" if isinstance(f,(int,float)) else "",f"投信 {t:+.2f} 億" if isinstance(t,(int,float)) else "",f"自營商 {d:+.2f} 億" if isinstance(d,(int,float)) else ""] if z]) or "法人產業資料 N/A"
-        rows.append({"name":x.get("name"),"direction":direction,"score":None,"tone":tone,"priceChange":direction,"flow":f"{flow:+.2f} 億" if flow is not None else "N/A","desc":desc})
-    return rows
+def build_sectors(live):
+    rows = live.get("sectorPerformance") or []
+    if not rows:
+        names = ["半導體", "電子零組件", "金融", "航運", "資訊服務", "櫃買（中小型代理）"]
+        return [{"name": n, "direction": "N/A", "change": "N/A", "relative": "N/A", "tone": "neutral", "asOf": "N/A", "source": "N/A", "desc": "官方價格強弱資料尚未取得；不顯示 0/100 假分數。"} for n in names]
+    out = []
+    for r in rows:
+        pct = r.get("changePct"); rel = r.get("relativePctPoint")
+        if pct is None:
+            direction, tone = "N/A", "neutral"
+        elif rel is None:
+            direction, tone = "價格變動", "neutral"
+        elif rel > 0.15:
+            direction, tone = "領先大盤", "good"
+        elif rel < -0.15:
+            direction, tone = "落後大盤", "bad"
+        else:
+            direction, tone = "約同步", "warn"
+        change = f"{pct:+.2f}%" if isinstance(pct, (int, float)) else "N/A"
+        relative = f"相對 TAIEX {rel:+.2f} 個百分點" if isinstance(rel, (int, float)) else "相對 TAIEX N/A"
+        proxy = "；此卡為市場代理，不代表產業淨資金流" if r.get("proxy") else "；為產業指數價格強弱，不代表資金淨流入"
+        out.append({"name": r.get("name") or "N/A", "direction": direction, "change": change, "relative": relative, "tone": tone, "asOf": r.get("asOf") or "N/A", "source": r.get("source") or "N/A", "desc": relative + proxy})
+    return out
+
 
 def scenarios(score, live, g):
     s = float(score or 50)
@@ -285,9 +349,9 @@ def scenarios(score, live, g):
             scale = 80 / total
             bull, bear = round(bull * scale), 80 - round(bull * scale)
     return [
-        {"type": "BULL", "weight": bull, "title": "風險條件改善", "tone": "good", "conditions": ["外資現貨維持買方", "外資 TX 淨空持續下降", "美10Y／油價未同步惡化"], "result": "條件式風險權重，不是未來報酬機率。"},
-        {"type": "BASE", "weight": base, "title": "高檔震盪／訊號分歧", "tone": "warn", "conditions": ["本地資金與全球宏觀訊號分歧", "市場廣度維持中性以上", "重大事件未形成新衝擊"], "result": "優先追蹤資料變化，不用單一新聞預測方向。"},
-        {"type": "BEAR", "weight": bear, "title": "風險條件惡化", "tone": "bad", "conditions": ["外資現貨轉賣且 TX 加空", "台幣轉弱", "美10Y／油價同步走高"], "result": "條件成立時提高風險警戒。"},
+        {"type": "BULL", "weight": bull, "title": "風險條件改善", "tone": "good", "conditions": ["外資現貨維持買方", "外資 TX 淨空持續下降", "美10Y／油價未同步惡化"], "result": "情境權重，不是上漲機率或報酬預測。"},
+        {"type": "BASE", "weight": base, "title": "高檔震盪／訊號分歧", "tone": "warn", "conditions": ["本地資金與全球宏觀訊號分歧", "市場廣度維持中性以上", "重大事件未形成新衝擊"], "result": "情境權重僅反映目前條件組合；不是未來發生機率。"},
+        {"type": "BEAR", "weight": bear, "title": "風險條件惡化", "tone": "bad", "conditions": ["外資現貨轉賣且 TX 加空", "台幣轉弱", "美10Y／油價同步走高"], "result": "情境權重，不是下跌機率；條件成立時提高風險警戒。"},
     ]
 
 
@@ -296,7 +360,6 @@ def main():
     g = read_json("global.json", {})
     auto = read_json("auto-brief.json", {}).get("daily") or {}
     intel = read_json("intelligence.json", {})
-    secdata = read_json("sector-v22.json", {})
     hist = read_json("live-history.json", [])
 
     tw_date = metric(live, "taiex").get("asOf") or "N/A"
@@ -324,9 +387,9 @@ def main():
     ]
 
     dashboard = {
-        "schemaVersion": "2.2",
+        "schemaVersion": "2.2.1",
         "generatedAt": live.get("generatedAt") or g.get("generatedAt") or datetime.now(TZ).isoformat(timespec="seconds"),
-        "meta": {"reportType": "每日盤前分析", "title": f"{datetime.now(TZ).strftime('%Y/%m/%d')} 台股盤前作戰儀表板", "updatedAt": datetime.now(TZ).strftime("%Y/%m/%d %H:%M"), "timezone": "Asia/Taipei", "twDate": tw_date, "usDate": us_date, "dataStatus": status},
+        "meta": {"reportType": "每日盤前分析", "title": f"{datetime.now(TZ).strftime('%Y/%m/%d')} 台股盤前作戰儀表板 V2.2.1", "updatedAt": datetime.now(TZ).strftime("%Y/%m/%d %H:%M"), "timezone": "Asia/Taipei", "twDate": tw_date, "usDate": us_date, "dataStatus": status},
         "score": round(float(score), 1), "scoreLabel": label, "confidence": f"{(live.get('risk') or {}).get('confidence', 0)}%", "regime": global_label,
         "headline": auto.get("headline") or "自動資料已更新；缺漏項目維持 N/A，不再沿用舊日報數字。",
         "quickTake": auto.get("quickTake") or ["資料不足項目維持 N/A。"],
@@ -341,19 +404,19 @@ def main():
         "marketThemes": themes,
         "global": make_global(live, g),
         "focus": build_focus(live, g),
-        "news": merge_news(g, intel),
+        "news": merge_news(g, intel, live),
         "flow": build_flow(live),
         "derivatives": build_derivatives(live),
         "leverage": build_leverage(live),
         "breadth": build_breadth(live),
         "levels": build_levels(live, hist),
-        "sectors": build_sectors(secdata),
+        "sectors": build_sectors(live),
         "scenarios": scenarios(score, live, g),
         "invalidation": auto.get("invalidation") or ["外資現貨與 TX 同步惡化。", "市場廣度跌破 40%。", "全球利率／能源風險同步升高。"],
         "events": sorted((g.get("events") or []) + (intel.get("events") or []), key=lambda x: x.get("scheduledAt", ""))[:16],
         "freshness": f,
         "whyVolume": why,
-        "diagnostics": {"stale": stale, "missing": missing, "globalErrors": g.get("errors") or [], "intelligenceErrors": intel.get("errors") or []},
+        "diagnostics": {"stale": stale, "missing": missing, "globalErrors": g.get("errors") or [], "intelligenceErrors": intel.get("errors") or [], "version": "2.2.1"},
         "sources": [
             {"key": "TWSE", "name": "臺灣證券交易所", "tier": "官方", "url": "https://www.twse.com.tw/"},
             {"key": "TPEx", "name": "證券櫃檯買賣中心", "tier": "官方", "url": "https://www.tpex.org.tw/"},
@@ -364,6 +427,7 @@ def main():
             {"key": "EU", "name": "European Council / EU Council", "tier": "官方", "url": "https://www.consilium.europa.eu/"},
             {"key": "ECB", "name": "European Central Bank", "tier": "官方", "url": "https://www.ecb.europa.eu/"},
             {"key": "EIA", "name": "U.S. Energy Information Administration", "tier": "官方", "url": "https://www.eia.gov/"},
+            {"key": "FRED", "name": "FRED / Federal Reserve Bank of St. Louis", "tier": "官方資料彙整", "url": "https://fred.stlouisfed.org/"},
         ],
     }
     write_json("daily-dashboard.json", dashboard)
