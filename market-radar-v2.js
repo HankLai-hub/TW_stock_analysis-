@@ -21,7 +21,7 @@
     setText("#reportTitle", d.meta?.title);
     setText("#headline", d.headline);
     const meta = $("#metaLine");
-    if (meta) meta.innerHTML = `<span>更新 <strong>${esc(d.meta?.updatedAt || "N/A")}</strong></span><span>台股 <strong>${esc(d.meta?.twDate || "N/A")}</strong></span><span>美股/美債 <strong>${esc(d.meta?.usDate || "N/A")}</strong></span><span>資料層 <strong>V2</strong></span>`;
+    if (meta) meta.innerHTML = `<span>更新 <strong>${esc(d.meta?.updatedAt || "N/A")}</strong></span><span>台股 <strong>${esc(d.meta?.twDate || "N/A")}</strong></span><span>美股/美債 <strong>${esc(d.meta?.usDate || "N/A")}</strong></span><span>資料層 <strong>V2.2.1</strong></span>`;
     setText("#scoreValue", d.score);
     setText("#scoreLabel", d.scoreLabel);
     setText("#regime", d.regime);
@@ -77,8 +77,12 @@
 
   function renderBreadth(d) {
     const b=d.breadth||{}, el=$("#breadthPanel"); if(!el)return;
-    const total=Math.max(1,(Number(b.advancers)||0)+(Number(b.decliners)||0)), up=((Number(b.advancers)||0)/total*100).toFixed(1), down=(100-Number(up)).toFixed(1);
-    el.innerHTML=`<div class="breadth-bars"><div class="breadth-header"><div class="mini-stat"><span>上漲家數</span><strong style="color:var(--good)">${esc(b.advancers)}</strong></div><div class="mini-stat"><span>下跌家數</span><strong style="color:var(--bad)">${esc(b.decliners)}</strong></div><div class="mini-stat"><span>TAIEX</span><strong>${esc(b.taiexChange)}</strong></div><div class="mini-stat"><span>櫃買</span><strong>${esc(b.otcChange)}</strong></div></div><div class="ratio-bar"><span class="up" style="width:${up}%"></span><span class="down" style="width:${down}%"></span></div><div class="ratio-legend"><span>上漲 ${up}%</span><span>下跌 ${down}%</span></div><div class="breadth-note">${esc(b.note)}</div></div>`;
+    const hasCounts=b.advancers!=null&&b.decliners!=null&&Number.isFinite(Number(b.advancers))&&Number.isFinite(Number(b.decliners));
+    const total=hasCounts?Number(b.advancers)+Number(b.decliners):0;
+    const up=(hasCounts&&total>0)?(Number(b.advancers)/total*100).toFixed(1):null;
+    const down=up!=null?(100-Number(up)).toFixed(1):null;
+    const bar=up!=null?`<div class="ratio-bar"><span class="up" style="width:${up}%"></span><span class="down" style="width:${down}%"></span></div><div class="ratio-legend"><span>上漲 ${up}%</span><span>下跌 ${down}%</span></div>`:`<div class="breadth-note">漲跌家數 N/A；不以 0 家代替缺漏資料。</div>`;
+    el.innerHTML=`<div class="breadth-bars"><div class="breadth-header"><div class="mini-stat"><span>上漲家數</span><strong style="color:var(--good)">${esc(b.advancers??"N/A")}</strong></div><div class="mini-stat"><span>下跌家數</span><strong style="color:var(--bad)">${esc(b.decliners??"N/A")}</strong></div><div class="mini-stat"><span>TAIEX</span><strong>${esc(b.taiexChange)}</strong></div><div class="mini-stat"><span>櫃買</span><strong>${esc(b.otcChange)}</strong></div></div>${bar}<div class="breadth-note">${esc(b.note)}</div></div>`;
   }
 
   function renderLevels(d) {
@@ -89,9 +93,15 @@
     el.innerHTML=`<div class="level-board"><div class="level-current"><span>最新完整收盤</span><strong>${curText}</strong></div>${rr}${ss}</div>`;
   }
 
-  function renderSectors(d) { const el=$("#sectorGrid"); if(el) el.innerHTML=(d.sectors||[]).map(s=>`<article class="sector-card" data-tone="${esc(s.tone||"neutral")}"><div class="sector-top"><h3>${esc(s.name)}</h3><span class="sector-direction">${esc(s.direction)}</span></div><div class="sector-meter"><span style="width:${Math.max(0,Math.min(100,Number(s.score)||0))}%"></span></div><div class="sector-score">相對強度 ${esc(s.score)}/100</div><p class="sector-desc">${esc(s.desc)}</p></article>`).join(""); }
+  function renderSectors(d) {
+    const el=$("#sectorGrid"); if(!el)return;
+    el.innerHTML=(d.sectors||[]).map(s=>`<article class="sector-card" data-tone="${esc(s.tone||"neutral")}"><div class="sector-top"><h3>${esc(s.name)}</h3><span class="sector-direction">${esc(s.direction||"N/A")}</span></div><div class="sector-score">當日 ${esc(s.change||"N/A")}</div><div class="sector-score">${esc(s.relative||"相對 TAIEX N/A")}</div><p class="sector-desc">${esc(s.desc||"")}</p><div class="global-note">${esc(s.source||"N/A")} · ${esc(s.asOf||"N/A")}</div></article>`).join("");
+  }
 
-  function renderScenarios(d) { const el=$("#scenarioGrid"); if(el) el.innerHTML=(d.scenarios||[]).map(s=>`<article class="scenario-card" data-tone="${esc(s.tone||"neutral")}"><div class="scenario-head"><span class="scenario-type">${esc(s.type)} CASE</span><span class="probability">${esc(s.probability)}%</span></div><h3>${esc(s.title)}</h3><ul>${(s.conditions||[]).map(c=>`<li>${esc(c)}</li>`).join("")}</ul><div class="scenario-result">${esc(s.result)}</div></article>`).join(""); const inv=$("#invalidationList"); if(inv) inv.innerHTML=(d.invalidation||[]).map(x=>`<li>${esc(x)}</li>`).join(""); }
+  function renderScenarios(d) {
+    const el=$("#scenarioGrid"); if(el) el.innerHTML=(d.scenarios||[]).map(s=>{const w=s.weight??s.probability??"N/A";return `<article class="scenario-card" data-tone="${esc(s.tone||"neutral")}"><div class="scenario-head"><span class="scenario-type">${esc(s.type)} CASE</span><span class="probability">權重 ${esc(w)}%</span></div><h3>${esc(s.title)}</h3><ul>${(s.conditions||[]).map(c=>`<li>${esc(c)}</li>`).join("")}</ul><div class="scenario-result">${esc(s.result)}</div></article>`}).join("");
+    const inv=$("#invalidationList"); if(inv) inv.innerHTML=(d.invalidation||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+  }
 
   function renderEvents(d) { const el=$("#eventTimeline"); if(!el)return; el.innerHTML=(d.events||[]).map(e=>{const t=String(e.scheduledAt||"N/A"); return `<article class="event-row"><div class="event-date">${esc(t.slice(0,10))}</div><div class="event-time">${esc(t.slice(11,16)||"N/A")}</div><div class="event-name">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">${esc(e.title||e.name)}</a>`:esc(e.title||e.name)}</div><div class="importance">${stars(e.impact||e.importance)}</div><div class="event-watch">${esc(e.watch)}</div></article>`}).join(""); }
 
@@ -115,7 +125,7 @@
     if (new URLSearchParams(location.search).get("mode") === "weekly") return;
     window.__MR_V2 = d;
     renderStatus(d); renderHero(d); renderKpis(d); renderQuick(d); renderThemes(d); renderGlobal(d); renderFocus(d); renderNews(d); renderFlow(d); renderStats("#derivativesGrid",d.derivatives); renderStats("#leverageGrid",d.leverage); renderBreadth(d); renderLevels(d); renderSectors(d); renderScenarios(d); renderEvents(d); renderAudit(d); renderWhyVolume(d);
-    const footer=$("#footerDisclaimer"); if(footer) footer.textContent="本網站用於市場研究與資訊整理，不構成任何投資建議。V2 日報只顯示已驗證的新資料；缺漏標示 N/A。";
+    const footer=$("#footerDisclaimer"); if(footer) footer.textContent="本網站用於市場研究與資訊整理，不構成任何投資建議。V2.2.1 日報只顯示已驗證的新資料；缺漏標示 N/A；情境百分比為條件權重而非預測機率。";
   }
 
   async function refresh() {
