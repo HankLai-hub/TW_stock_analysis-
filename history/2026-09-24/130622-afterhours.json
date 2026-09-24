@@ -57,8 +57,7 @@
       "change": "上市市場",
       "asOf": "2026-09-23",
       "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": 373.1336
+      "source": "TWSE"
     },
     "foreignTx": {
       "value": "-76,084 口",
@@ -80,74 +79,6 @@
       "asOf": "2026-09-23",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
-    },
-    "foreignSpotOfficial": {
-      "value": "+373.13 億",
-      "change": "上市市場",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": 373.1336
-    },
-    "trustSpot": {
-      "value": "-47.59 億",
-      "change": "上市市場",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": -47.5944
-    },
-    "investmentTrust": {
-      "value": "-47.59 億",
-      "change": "上市市場",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": -47.5944
-    },
-    "dealerSpot": {
-      "value": "+58.25 億",
-      "change": "自行 +22.25 億 / 避險 +35.99 億",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": 58.2467
-    },
-    "dealer": {
-      "value": "+58.25 億",
-      "change": "自行 +22.25 億 / 避險 +35.99 億",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U",
-      "rawValueYi": 58.2467
-    },
-    "dealerSelfSpot": {
-      "value": "+22.25 億",
-      "change": "自行買賣",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U"
-    },
-    "dealerHedgeSpot": {
-      "value": "+35.99 億",
-      "change": "避險",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE BFI82U"
-    },
-    "shortBalance": {
-      "value": "213,059 張",
-      "change": "較前日 -5,780 張",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE MI_MARGN"
-    },
-    "borrowShortBalance": {
-      "value": "128.55 億股",
-      "change": "1066 檔加總；單位為股",
-      "asOf": "2026-09-23",
-      "state": "official_afterhours",
-      "source": "TWSE TWT93U"
     }
   },
   "errors": [
@@ -228,30 +159,6 @@
       "state": "ok",
       "asOf": "2026-09-23",
       "detail": "OpenAPI per-security financing balance; official unit 張"
-    },
-    {
-      "name": "TWSE V2.2.1 institutional totals",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "BFI82U foreign / trust / dealer self+hedge"
-    },
-    {
-      "name": "TWSE V2.2.1 short balance",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "MI_MARGN market total"
-    },
-    {
-      "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "TWT93U per-security balances summed in shares"
-    },
-    {
-      "name": "TWSE V2.2.1 sector strength",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "7 verified price-strength series; no fabricated industry fund-flow"
     }
   ],
   "risk": {
@@ -323,84 +230,5 @@
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
-  },
-  "institutionalFlow": {
-    "asOf": "2026-09-23",
-    "source": "TWSE BFI82U",
-    "foreign": 37313363638.0,
-    "trust": -4759436946.0,
-    "dealer_self": 2225362169.0,
-    "dealer_hedge": 3599304079.0,
-    "dealer_total": 5824666248.0
-  },
-  "sectorPerformance": [
-    {
-      "name": "半導體",
-      "officialName": "半導體類指數",
-      "changePct": 1.25,
-      "relativePctPoint": 0.5,
-      "indexValue": 1641.9,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子零組件",
-      "officialName": "電子零組件類指數",
-      "changePct": 1.49,
-      "relativePctPoint": 0.74,
-      "indexValue": 950.9,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "金融",
-      "officialName": "金融保險類指數",
-      "changePct": -0.78,
-      "relativePctPoint": -1.53,
-      "indexValue": 3593.69,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "航運",
-      "officialName": "航運類指數",
-      "changePct": -0.49,
-      "relativePctPoint": -1.24,
-      "indexValue": 212.4,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "資訊服務",
-      "officialName": "資訊服務類指數",
-      "changePct": -0.75,
-      "relativePctPoint": -1.5,
-      "indexValue": 238.39,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子工業",
-      "officialName": "電子工業類指數",
-      "changePct": 1.06,
-      "relativePctPoint": 0.31000000000000005,
-      "indexValue": 3066.77,
-      "asOf": "2026-09-23",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "櫃買（中小型代理）",
-      "officialName": "櫃買指數",
-      "changePct": -0.34,
-      "relativePctPoint": -1.09,
-      "indexValue": 413.76,
-      "asOf": "2026-09-23",
-      "source": "TPEx",
-      "proxy": true
-    }
-  ],
-  "v22": {
-    "enrichedAt": "2026-09-24T13:06:31+08:00",
-    "version": "2.2.1"
   }
 }
