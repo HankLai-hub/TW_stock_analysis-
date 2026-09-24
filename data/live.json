@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T13:06:04+08:00",
-  "runKind": "afterhours",
-  "marketPhase": "盤中",
-  "nextExpected": "下一個排程約 1 分鐘後",
+  "generatedAt": "2026-09-24T13:58:54+08:00",
+  "runKind": "intraday",
+  "marketPhase": "收盤資料產製中",
+  "nextExpected": "下一個排程約 1 小時 19 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
-    "label": "盤中授權資料源尚未設定",
-    "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
+    "label": "授權盤中資料源尚未設定",
+    "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
   },
   "metrics": {
     "taiex": {
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "388↑ / 562↓",
-      "change": "平盤 123",
+      "value": "730↑ / 974↓",
+      "change": "平盤 235",
       "asOf": "2026-09-23",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "31.716",
@@ -76,9 +76,9 @@
     },
     "margin": {
       "value": "上市 6,063.68 億",
-      "change": "上櫃 2,347,191 張",
+      "change": "上櫃 2,347,191 張 · 本次抓取未更新",
       "asOf": "2026-09-23",
-      "state": "official_afterhours",
+      "state": "stale",
       "source": "TWSE / TPEx（不同單位）"
     },
     "foreignSpotOfficial": {
@@ -150,12 +150,7 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(966249 bytes read, 3604240 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -183,9 +178,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(966249 bytes read, 3604240 more expected)"
+      "state": "ok",
+      "asOf": "2026-09-23",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -197,7 +192,7 @@
       "name": "TAIFEX institutional TX",
       "state": "ok",
       "asOf": "2026-09-23",
-      "detail": "official HTML fallback"
+      "detail": "OpenAPI"
     },
     {
       "name": "TAIFEX Put/Call",
@@ -210,24 +205,6 @@
       "state": "ok",
       "asOf": "2026-09-23",
       "detail": ""
-    },
-    {
-      "name": "TWSE BFI82U",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "official JSON"
-    },
-    {
-      "name": "TWSE margin market total",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "融資金額(仟元)→億元"
-    },
-    {
-      "name": "TPEx margin",
-      "state": "ok",
-      "asOf": "2026-09-23",
-      "detail": "OpenAPI per-security financing balance; official unit 張"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -255,9 +232,9 @@
     }
   ],
   "risk": {
-    "score": 48.2,
-    "label": "Neutral",
-    "confidence": 100,
+    "score": 43.0,
+    "label": "偏空",
+    "confidence": 78,
     "components": [
       {
         "name": "TAIEX",
@@ -279,15 +256,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 40.8,
+        "score": 42.8,
         "weight": 20,
-        "reason": "上漲比 40.8%"
-      },
-      {
-        "name": "外資現貨",
-        "score": 68.7,
-        "weight": 22,
-        "reason": "+373 億"
+        "reason": "上漲比 42.8%"
       },
       {
         "name": "外資TX",
@@ -304,22 +275,22 @@
         "score": 19.6
       },
       {
-        "name": "外資現貨",
-        "direction": "positive",
-        "reason": "+373 億",
-        "score": 68.7
-      },
-      {
-        "name": "市場廣度",
-        "direction": "negative",
-        "reason": "上漲比 40.8%",
-        "score": 40.8
-      },
-      {
         "name": "TAIEX",
         "direction": "positive",
         "reason": "收盤 +0.75%",
         "score": 59.0
+      },
+      {
+        "name": "市場廣度",
+        "direction": "negative",
+        "reason": "上漲比 42.8%",
+        "score": 42.8
+      },
+      {
+        "name": "櫃買",
+        "direction": "neutral",
+        "reason": "收盤 -0.34%",
+        "score": 46.6
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -400,7 +371,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-09-24T13:06:31+08:00",
+    "enrichedAt": "2026-09-24T13:59:24+08:00",
     "version": "2.2.1"
   }
 }
