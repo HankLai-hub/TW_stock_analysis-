@@ -1,44 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T01:57:58+08:00",
+  "generatedAt": "2026-09-26T06:22:42+08:00",
   "macro": {
     "us2y": {
-      "value": 4.87,
-      "display": "4.87%",
-      "change": "+2 bp",
-      "asOf": "2026-09-24",
+      "value": 4.81,
+      "display": "4.81%",
+      "change": "-6 bp",
+      "asOf": "2026-09-25",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us10y": {
-      "value": 5.18,
-      "display": "5.18%",
-      "change": "+7 bp",
-      "asOf": "2026-09-24",
+      "value": 5.17,
+      "display": "5.17%",
+      "change": "-1 bp",
+      "asOf": "2026-09-25",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us30y": {
-      "value": 5.47,
-      "display": "5.47%",
-      "change": "+7 bp",
-      "asOf": "2026-09-24",
+      "value": 5.49,
+      "display": "5.49%",
+      "change": "+2 bp",
+      "asOf": "2026-09-25",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "spread2s10s": {
-      "value": 30.99999999999996,
-      "display": "+31 bp",
+      "value": 36.00000000000003,
+      "display": "+36 bp",
       "change": "10Y - 2Y",
-      "asOf": "2026-09-24",
+      "asOf": "2026-09-25",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "real10y": {
-      "value": 2.85,
-      "display": "2.85%",
+      "value": 2.83,
+      "display": "2.83%",
       "change": "10Y real yield",
-      "asOf": "2026-09-24",
+      "asOf": "2026-09-25",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
@@ -125,9 +125,9 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 12697.03,
-      "display": "12,697.03",
-      "change": "+1.64%",
+      "value": 12668.93,
+      "display": "12,668.93",
+      "change": "+0.00%",
       "asOf": "2026-09-25",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
@@ -253,7 +253,7 @@
     "tone": "neutral",
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
-      "美10Y單日上升 7bp。",
+      "美10Y單日下降 1bp。",
       "Fed Broad Dollar最新週資料走強 0.14%。"
     ]
   },
@@ -265,12 +265,12 @@
       {
         "name": "美債10Y",
         "direction": "negative",
-        "reason": "5.18%：高折現率壓力"
+        "reason": "5.17%：高折現率壓力"
       },
       {
         "name": "10Y實質利率",
         "direction": "negative",
-        "reason": "2.85%：長久期資產壓力"
+        "reason": "2.83%：長久期資產壓力"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -279,12 +279,12 @@
     {
       "name": "U.S. Treasury yield curve",
       "status": "ok",
-      "asOf": "2026-09-24"
+      "asOf": "2026-09-25"
     },
     {
       "name": "U.S. Treasury real yields",
       "status": "ok",
-      "asOf": "2026-09-24"
+      "asOf": "2026-09-25"
     },
     {
       "name": "Federal Reserve H.10 broad dollar",
@@ -299,22 +299,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-26T01:58:00+08:00"
+      "asOf": "2026-09-26T06:22:45+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-26T01:58:00+08:00"
+      "asOf": "2026-09-26T06:22:45+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-26T01:58:00+08:00"
+      "asOf": "2026-09-26T06:22:45+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-26T01:58:00+08:00"
+      "asOf": "2026-09-26T06:22:46+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -340,7 +340,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-09-26T01:58:03+08:00",
+    "repairedAt": "2026-09-26T06:22:49+08:00",
     "version": "2.2.1"
   }
 }
