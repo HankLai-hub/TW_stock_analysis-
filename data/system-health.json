@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2026-09-29T14:44:41+08:00",
-  "mode": "intraday",
+  "generatedAt": "2026-09-29T19:31:22+08:00",
+  "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-09-29T14:42:53+08:00",
-  "globalGeneratedAt": "2026-09-29T14:44:26+08:00",
-  "briefGeneratedAt": "2026-09-29T14:42:53+08:00",
-  "sourceWarningCount": 3,
-  "staleMetrics": [
-    "margin"
-  ],
+  "liveGeneratedAt": "2026-09-29T19:30:32+08:00",
+  "globalGeneratedAt": "2026-09-29T19:31:09+08:00",
+  "briefGeneratedAt": "2026-09-29T19:30:32+08:00",
+  "sourceWarningCount": 6,
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "foreignTx 日期 2026-09-29 晚於市場基準日 2026-09-24。",
-    "目前資料的市場基準日為 2026-09-24，早於本次產生日期 2026-09-29。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：margin",
+    "tx 資料為 T-1；目前=2026-09-24，市場基準=2026-09-29。",
+    "foreignTx 資料為 T-1；目前=2026-09-24，市場基準=2026-09-29。",
+    "putCall 資料為 T-1；目前=2026-09-24，市場基準=2026-09-29。",
+    "margin 資料為 T-1；目前=2026-09-24，市場基準=2026-09-29。",
+    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(720489 bytes read, 3863727 more expected)'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-09-24",
-    "turnoverAsOf": "2026-09-24",
+    "taiexAsOf": "2026-09-29",
+    "turnoverAsOf": "2026-09-29",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
