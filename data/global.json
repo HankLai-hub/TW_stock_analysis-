@@ -1,44 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-29T22:05:47+08:00",
+  "generatedAt": "2026-09-30T04:48:55+08:00",
   "macro": {
     "us2y": {
-      "value": 4.92,
-      "display": "4.92%",
-      "change": "+11 bp",
-      "asOf": "2026-09-28",
+      "value": 4.89,
+      "display": "4.89%",
+      "change": "-3 bp",
+      "asOf": "2026-09-29",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us10y": {
-      "value": 5.24,
-      "display": "5.24%",
-      "change": "+7 bp",
-      "asOf": "2026-09-28",
+      "value": 5.26,
+      "display": "5.26%",
+      "change": "+2 bp",
+      "asOf": "2026-09-29",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us30y": {
-      "value": 5.56,
-      "display": "5.56%",
-      "change": "+7 bp",
-      "asOf": "2026-09-28",
+      "value": 5.59,
+      "display": "5.59%",
+      "change": "+3 bp",
+      "asOf": "2026-09-29",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "spread2s10s": {
-      "value": 32.00000000000003,
-      "display": "+32 bp",
+      "value": 37.000000000000014,
+      "display": "+37 bp",
       "change": "10Y - 2Y",
-      "asOf": "2026-09-28",
+      "asOf": "2026-09-29",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "real10y": {
-      "value": 2.9,
-      "display": "2.90%",
+      "value": 2.91,
+      "display": "2.91%",
       "change": "10Y real yield",
-      "asOf": "2026-09-28",
+      "asOf": "2026-09-29",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
@@ -125,9 +125,9 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 12710.76,
-      "display": "12,710.76",
-      "change": "+1.97%",
+      "value": 12629.16,
+      "display": "12,629.16",
+      "change": "+1.32%",
       "asOf": "2026-09-29",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
@@ -244,7 +244,7 @@
     "tone": "neutral",
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
-      "美10Y單日上升 7bp。",
+      "美10Y單日上升 2bp。",
       "Fed Broad Dollar最新週資料走弱 0.18%。"
     ]
   },
@@ -256,12 +256,12 @@
       {
         "name": "美債10Y",
         "direction": "negative",
-        "reason": "5.24%：高折現率壓力"
+        "reason": "5.26%：高折現率壓力"
       },
       {
         "name": "10Y實質利率",
         "direction": "negative",
-        "reason": "2.90%：長久期資產壓力"
+        "reason": "2.91%：長久期資產壓力"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -270,12 +270,12 @@
     {
       "name": "U.S. Treasury yield curve",
       "status": "ok",
-      "asOf": "2026-09-28"
+      "asOf": "2026-09-29"
     },
     {
       "name": "U.S. Treasury real yields",
       "status": "ok",
-      "asOf": "2026-09-28"
+      "asOf": "2026-09-29"
     },
     {
       "name": "Federal Reserve H.10 broad dollar",
@@ -290,22 +290,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-09-29T22:05:49+08:00"
+      "asOf": "2026-09-30T04:49:00+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-09-29T22:05:49+08:00"
+      "asOf": "2026-09-30T04:49:00+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-09-29T22:05:49+08:00"
+      "asOf": "2026-09-30T04:49:00+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-09-29T22:05:49+08:00"
+      "asOf": "2026-09-30T04:49:00+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -316,7 +316,7 @@
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
       "status": "error",
-      "asOf": "2026-09-29",
+      "asOf": "2026-09-30",
       "detail": "FOMC events removed because the official current-year section could not be validated"
     }
   ],
@@ -331,7 +331,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-09-29T22:05:52+08:00",
+    "repairedAt": "2026-09-30T04:49:03+08:00",
     "version": "2.2.1"
   }
 }
