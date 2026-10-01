@@ -1,35 +1,29 @@
 {
-  "generatedAt": "2026-10-01T14:13:52+08:00",
-  "mode": "premarket",
+  "generatedAt": "2026-10-01T15:04:22+08:00",
+  "mode": "intraday",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-01T14:12:39+08:00",
-  "globalGeneratedAt": "2026-10-01T14:13:37+08:00",
-  "briefGeneratedAt": "2026-10-01T14:12:39+08:00",
-  "sourceWarningCount": 13,
+  "liveGeneratedAt": "2026-10-01T15:03:26+08:00",
+  "globalGeneratedAt": "2026-10-01T15:04:05+08:00",
+  "briefGeneratedAt": "2026-10-01T15:03:26+08:00",
+  "sourceWarningCount": 4,
   "staleMetrics": [
     "otc",
-    "foreignTx"
+    "margin"
   ],
   "missingMetrics": [],
   "warnings": [
-    "成交金額資料落後 1 個交易日；TAIEX=2026-10-01，turnover=2026-09-30。暫時使用最近可用值。",
-    "otc 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "turnover 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "tx 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "foreignSpot 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "foreignTx 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "putCall 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "margin 資料為 T-1；目前=2026-09-30，市場基準=2026-10-01。",
-    "資料延遲指標：otc, foreignTx",
-    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': \"OpenAPI: TPEx index field not recognized: ['Date', 'TradeVolume', 'TradeAmount', 'NumberOfTransactions', 'TPExIndex', 'Change']; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>\"}；{'source': 'TPEx market highlight', 'message': 'IncompleteRead(4030057 bytes read, 577427 more expected)'}；{'source': 'TAIFEX institutional TX', 'message': 'TX foreign row not found in TAIFEX official page'}；{'source': 'TWSE V2.2.1 institutional totals', 'message': 'BFI82U official JSON unavailable'}",
+    "foreignTx 日期 2026-10-01 晚於市場基準日 2026-09-30。",
+    "目前資料的市場基準日為 2026-09-30，早於本次產生日期 2026-10-01。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：otc, margin",
+    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-10-01 is not same-day target 2026-09-30; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F09&o=json: <urlopen error [Errno -2] Name or service not known>'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-01",
+    "taiexAsOf": "2026-09-30",
     "turnoverAsOf": "2026-09-30",
-    "turnoverFreshness": "warning",
-    "turnoverFreshnessMessage": "成交金額資料落後 1 個交易日；TAIEX=2026-10-01，turnover=2026-09-30。暫時使用最近可用值。"
+    "turnoverFreshness": "fresh",
+    "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
   "note": "healthy=主要來源正常；degraded=部分來源延遲或警告但仍有可用資料；partial=資料過舊、缺失或多個來源異常。"
 }
