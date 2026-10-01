@@ -93,10 +93,6 @@
     {
       "source": "TAIFEX institutional TX",
       "message": "TX foreign row not found in TAIFEX official page"
-    },
-    {
-      "source": "TWSE V2.2.1 institutional totals",
-      "message": "BFI82U official JSON unavailable"
     }
   ],
   "sourceStatus": [
@@ -201,30 +197,6 @@
       "state": "pending",
       "asOf": "",
       "detail": "MI_MARGN returned unknown, expected 2026-10-01"
-    },
-    {
-      "name": "TWSE V2.2.1 institutional totals",
-      "state": "error",
-      "asOf": "2026-10-01",
-      "detail": "BFI82U official JSON unavailable"
-    },
-    {
-      "name": "TWSE V2.2.1 short balance",
-      "state": "error",
-      "asOf": "2026-10-01",
-      "detail": "TWSE market short-balance row not found"
-    },
-    {
-      "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
-      "asOf": "2026-10-01",
-      "detail": "TWT93U rows/columns not recognized"
-    },
-    {
-      "name": "TWSE V2.2.1 sector strength",
-      "state": "ok",
-      "asOf": "2026-10-01",
-      "detail": "6 verified price-strength series; no fabricated industry fund-flow"
     }
   ],
   "risk": {
@@ -260,65 +232,5 @@
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
-  },
-  "sectorPerformance": [
-    {
-      "name": "半導體",
-      "officialName": "半導體類指數",
-      "changePct": 1.15,
-      "relativePctPoint": 0.2899999999999999,
-      "indexValue": 1642.72,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子零組件",
-      "officialName": "電子零組件類指數",
-      "changePct": 1.9,
-      "relativePctPoint": 1.04,
-      "indexValue": 975.16,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "金融",
-      "officialName": "金融保險類指數",
-      "changePct": -0.84,
-      "relativePctPoint": -1.7,
-      "indexValue": 3514.62,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "航運",
-      "officialName": "航運類指數",
-      "changePct": -0.75,
-      "relativePctPoint": -1.6099999999999999,
-      "indexValue": 209.36,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "資訊服務",
-      "officialName": "資訊服務類指數",
-      "changePct": 0.02,
-      "relativePctPoint": -0.84,
-      "indexValue": 237.72,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子工業",
-      "officialName": "電子工業類指數",
-      "changePct": 1.24,
-      "relativePctPoint": 0.38,
-      "indexValue": 3081.71,
-      "asOf": "2026-10-01",
-      "source": "TWSE MI_INDEX (type=IND)"
-    }
-  ],
-  "v22": {
-    "enrichedAt": "2026-10-01T14:13:46+08:00",
-    "version": "2.2.1"
   }
 }
