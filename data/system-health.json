@@ -1,19 +1,23 @@
 {
-  "generatedAt": "2026-10-02T19:17:14+08:00",
+  "generatedAt": "2026-10-02T21:54:01+08:00",
   "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-02T19:16:30+08:00",
-  "globalGeneratedAt": "2026-10-02T19:16:57+08:00",
-  "briefGeneratedAt": "2026-10-02T19:16:30+08:00",
-  "sourceWarningCount": 6,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-02T21:53:01+08:00",
+  "globalGeneratedAt": "2026-10-02T21:53:45+08:00",
+  "briefGeneratedAt": "2026-10-02T21:53:01+08:00",
+  "sourceWarningCount": 7,
+  "staleMetrics": [
+    "tx",
+    "foreignTx",
+    "putCall"
+  ],
   "missingMetrics": [],
   "warnings": [
     "tx 資料為 T-1；目前=2026-10-01，市場基準=2026-10-02。",
     "foreignTx 資料為 T-1；目前=2026-10-01，市場基準=2026-10-02。",
     "putCall 資料為 T-1；目前=2026-10-01，市場基準=2026-10-02。",
-    "margin 資料為 T-1；目前=2026-10-01，市場基準=2026-10-02。",
-    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(409198 bytes read, 4257443 more expected)'}",
+    "資料延遲指標：tx, foreignTx, putCall",
+    "台股資料來源警告：{'source': 'TAIFEX institutional TX', 'message': 'fetch failed: https://www.taifex.com.tw/cht/3/futContractsDateExcel: HTTP Error 403: Forbidden'}；{'source': 'TAIFEX Put/Call', 'message': 'fetch failed: https://openapi.taifex.com.tw/v1/PutCallRatio: HTTP Error 403: Forbidden'}；{'source': 'TAIFEX TX daily', 'message': 'fetch failed: https://openapi.taifex.com.tw/v1/DailyMarketReportFut: HTTP Error 403: Forbidden'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {

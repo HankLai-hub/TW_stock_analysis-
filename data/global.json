@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-02T19:16:57+08:00",
+  "generatedAt": "2026-10-02T21:53:45+08:00",
   "macro": {
     "us2y": {
       "value": 4.78,
@@ -67,26 +67,26 @@
       "state": "official_monthly"
     },
     "unemployment": {
-      "value": 4.1,
-      "display": "4.1%",
+      "value": 4.2,
+      "display": "4.2%",
       "change": "Unemployment rate",
-      "asOf": "2026-08",
+      "asOf": "2026-09",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
     "payrolls": {
-      "value": 162.0,
-      "display": "+162k",
+      "value": 29.0,
+      "display": "+29k",
       "change": "Nonfarm payroll monthly change",
-      "asOf": "2026-08",
+      "asOf": "2026-09",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
     "ahe": {
-      "value": 3.085745494265435,
-      "display": "3.1% YoY",
-      "change": "+0.3% MoM",
-      "asOf": "2026-08",
+      "value": 3.0245231607629375,
+      "display": "3.0% YoY",
+      "change": "+0.1% MoM",
+      "asOf": "2026-09",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
@@ -125,10 +125,10 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 12829.0,
-      "display": "12,829.00",
-      "change": "+1.59%",
-      "asOf": "2026-10-01",
+      "value": 13215.6,
+      "display": "13,215.60",
+      "change": "+3.01%",
+      "asOf": "2026-10-02",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
     },
@@ -222,15 +222,6 @@
   "events": [
     {
       "source": "U.S. BLS",
-      "title": "Employment Situation",
-      "scheduledAt": "2026-10-02T20:30+08:00",
-      "category": "就業",
-      "impact": 5,
-      "watch": "非農、失業率、平均時薪與Fed定價。",
-      "link": "https://www.bls.gov/schedule/"
-    },
-    {
-      "source": "U.S. BLS",
       "title": "Real Earnings",
       "scheduledAt": "2026-10-14T20:30+08:00",
       "category": "官方事件",
@@ -254,6 +245,15 @@
       "category": "通膨",
       "impact": 4,
       "watch": "上游通膨是否改變利率預期。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "U.S. Import and Export Price Indexes",
+      "scheduledAt": "2026-10-16T20:30+08:00",
+      "category": "通膨",
+      "impact": 3,
+      "watch": "進口價格對商品通膨的邊際影響。",
       "link": "https://www.bls.gov/schedule/"
     }
   ],
@@ -303,27 +303,27 @@
     {
       "name": "U.S. BLS Public Data API",
       "status": "ok",
-      "asOf": "2026-08"
+      "asOf": "2026-09"
     },
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-02T19:16:59+08:00"
+      "asOf": "2026-10-02T21:53:47+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-02T19:17:00+08:00"
+      "asOf": "2026-10-02T21:53:48+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-02T19:17:00+08:00"
+      "asOf": "2026-10-02T21:53:48+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-02T19:17:00+08:00"
+      "asOf": "2026-10-02T21:53:48+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -349,7 +349,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-02T19:17:03+08:00",
+    "repairedAt": "2026-10-02T21:53:51+08:00",
     "version": "2.2.1"
   }
 }
