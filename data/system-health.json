@@ -1,19 +1,23 @@
 {
-  "generatedAt": "2026-10-05T06:01:41+08:00",
-  "mode": "afterhours",
+  "generatedAt": "2026-10-05T09:20:02+08:00",
+  "mode": "intraday",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-05T06:01:06+08:00",
-  "globalGeneratedAt": "2026-10-05T06:01:24+08:00",
-  "briefGeneratedAt": "2026-10-05T06:01:06+08:00",
-  "sourceWarningCount": 2,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-05T09:19:32+08:00",
+  "globalGeneratedAt": "2026-10-05T09:19:46+08:00",
+  "briefGeneratedAt": "2026-10-05T09:19:32+08:00",
+  "sourceWarningCount": 3,
+  "staleMetrics": [
+    "margin"
+  ],
   "missingMetrics": [],
   "warnings": [
-    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(523881 bytes read, 4142760 more expected)'}",
+    "目前資料的市場基準日為 2026-10-02，早於本次產生日期 2026-10-05。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：margin",
+    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(1130089 bytes read, 3536552 more expected)'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
-    "status": "healthy",
+    "status": "degraded",
     "taiexAsOf": "2026-10-02",
     "turnoverAsOf": "2026-10-02",
     "turnoverFreshness": "fresh",
