@@ -1,27 +1,21 @@
 {
-  "generatedAt": "2026-10-07T05:01:04+08:00",
+  "generatedAt": "2026-10-07T09:34:58+08:00",
   "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-07T05:00:02+08:00",
-  "globalGeneratedAt": "2026-10-07T05:00:49+08:00",
-  "briefGeneratedAt": "2026-10-07T05:00:02+08:00",
-  "sourceWarningCount": 5,
-  "staleMetrics": [
-    "otc"
-  ],
+  "liveGeneratedAt": "2026-10-07T09:33:49+08:00",
+  "globalGeneratedAt": "2026-10-07T09:34:31+08:00",
+  "briefGeneratedAt": "2026-10-07T09:33:49+08:00",
+  "sourceWarningCount": 2,
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "otc 日期 2026-10-06 晚於市場基準日 2026-10-05。",
-    "margin 日期 2026-10-06 晚於市場基準日 2026-10-05。",
-    "目前資料的市場基準日為 2026-10-05，早於本次產生日期 2026-10-06。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：otc",
-    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': \"OpenAPI: TPEx OpenAPI latest date 2026-10-06 is not same-day target 2026-10-05; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'wwwov.tpex.org.tw'. (_ssl.c:1010)>\"}",
+    "目前資料的市場基準日為 2026-10-06，早於本次產生日期 2026-10-07。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-05",
-    "turnoverAsOf": "2026-10-05",
+    "taiexAsOf": "2026-10-06",
+    "turnoverAsOf": "2026-10-06",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
