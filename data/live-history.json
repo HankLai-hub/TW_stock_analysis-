@@ -39490,5 +39490,233 @@
       ],
       "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
     }
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-08T14:22:09+08:00",
+    "runKind": "afterhours",
+    "marketPhase": "收盤資料產製中",
+    "nextExpected": "下一個排程約 55 分鐘後",
+    "intradayFeed": {
+      "state": "not_configured",
+      "label": "盤中授權資料源尚未設定",
+      "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
+    },
+    "metrics": {
+      "taiex": {
+        "value": "49,313.44",
+        "change": "-0.99%",
+        "asOf": "2026-10-08",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "otc": {
+        "value": "430.46",
+        "change": "-0.09% · 本次抓取未更新",
+        "asOf": "2026-10-07",
+        "state": "stale",
+        "source": "TPEx"
+      },
+      "turnover": {
+        "value": "9,863 億",
+        "change": "",
+        "asOf": "2026-10-07",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "breadth": {
+        "value": "425↑ / 540↓",
+        "change": "平盤 109",
+        "asOf": "2026-10-08",
+        "state": "official_close",
+        "source": "TWSE 股票"
+      },
+      "usdTwd": {
+        "value": "31.795",
+        "change": "",
+        "asOf": "2026-10-07",
+        "state": "official_daily",
+        "source": "CBC"
+      },
+      "tx": {
+        "value": "49,979",
+        "change": "-0.21%",
+        "asOf": "2026-10-07",
+        "state": "official_close",
+        "source": "TAIFEX"
+      },
+      "foreignSpot": {
+        "value": "-130.44 億",
+        "change": "上市市場",
+        "asOf": "2026-10-07",
+        "state": "official_afterhours",
+        "source": "TWSE"
+      },
+      "foreignTx": {
+        "value": "-79,101 口",
+        "change": "多 13,545 / 空 92,646",
+        "asOf": "2026-10-07",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "putCall": {
+        "value": "成交 94.57%",
+        "change": "OI 82.25%",
+        "asOf": "2026-10-07",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "margin": {
+        "value": "上市 6,400.01 億",
+        "change": "上櫃 2,428,640 張",
+        "asOf": "2026-10-07",
+        "state": "official_afterhours",
+        "source": "TWSE / TPEx（不同單位）"
+      }
+    },
+    "errors": [
+      {
+        "source": "TPEx daily trading index",
+        "message": "OpenAPI: TPEx OpenAPI latest date 2026-10-07 is not same-day target 2026-10-08; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'wwwov.tpex.org.tw'. (_ssl.c:1010)>"
+      }
+    ],
+    "sourceStatus": [
+      {
+        "name": "TWSE MI_INDEX",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": ""
+      },
+      {
+        "name": "TWSE turnover",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": ""
+      },
+      {
+        "name": "TWSE stock breadth",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": ""
+      },
+      {
+        "name": "TWSE same-day TAIEX",
+        "state": "ok",
+        "asOf": "2026-10-08",
+        "detail": "date-targeted official RWD"
+      },
+      {
+        "name": "TWSE same-day breadth",
+        "state": "ok",
+        "asOf": "2026-10-08",
+        "detail": "date-targeted official RWD"
+      },
+      {
+        "name": "TWSE same-day turnover",
+        "state": "pending",
+        "asOf": "",
+        "detail": "TWSE targeted turnover row not found for 2026-10-08"
+      },
+      {
+        "name": "TPEx daily trading index",
+        "state": "error",
+        "asOf": "",
+        "detail": "OpenAPI: TPEx OpenAPI latest date 2026-10-07 is not same-day target 2026-10-08; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [SSL: CERTIFICATE_VERIFY_FAIL"
+      },
+      {
+        "name": "TPEx market highlight",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "OpenAPI close-quotes derived stock breadth"
+      },
+      {
+        "name": "CBC USD/TWD",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "CBC latest daily closing-rate page"
+      },
+      {
+        "name": "TAIFEX institutional TX",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "OpenAPI"
+      },
+      {
+        "name": "TAIFEX Put/Call",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": ""
+      },
+      {
+        "name": "TAIFEX TX daily",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": ""
+      },
+      {
+        "name": "TWSE BFI82U",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "official JSON"
+      },
+      {
+        "name": "TWSE margin market total",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "融資金額(仟元)→億元"
+      },
+      {
+        "name": "TPEx margin",
+        "state": "ok",
+        "asOf": "2026-10-07",
+        "detail": "OpenAPI per-security financing balance; official unit 張"
+      },
+      {
+        "name": "TWSE same-day BFI82U",
+        "state": "pending",
+        "asOf": "",
+        "detail": "BFI82U official JSON unavailable"
+      },
+      {
+        "name": "TWSE same-day margin",
+        "state": "pending",
+        "asOf": "",
+        "detail": "MI_MARGN returned unknown, expected 2026-10-08"
+      }
+    ],
+    "risk": {
+      "score": 41.2,
+      "label": "偏空",
+      "confidence": 38,
+      "components": [
+        {
+          "name": "TAIEX",
+          "score": 38.1,
+          "weight": 18,
+          "reason": "收盤 -0.99%"
+        },
+        {
+          "name": "市場廣度",
+          "score": 44.0,
+          "weight": 20,
+          "reason": "上漲比 44.0%"
+        }
+      ],
+      "drivers": [
+        {
+          "name": "TAIEX",
+          "direction": "negative",
+          "reason": "收盤 -0.99%",
+          "score": 38.1
+        },
+        {
+          "name": "市場廣度",
+          "direction": "negative",
+          "reason": "上漲比 44.0%",
+          "score": 44.0
+        }
+      ],
+      "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
+    }
   }
 ]

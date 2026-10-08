@@ -1,23 +1,34 @@
 {
-  "generatedAt": "2026-10-08T09:57:56+08:00",
-  "mode": "afterhours",
+  "generatedAt": "2026-10-08T14:23:07+08:00",
+  "mode": "premarket",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-08T09:57:15+08:00",
-  "globalGeneratedAt": "2026-10-08T09:57:41+08:00",
-  "briefGeneratedAt": "2026-10-08T09:57:15+08:00",
-  "sourceWarningCount": 2,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-08T14:22:09+08:00",
+  "globalGeneratedAt": "2026-10-08T14:22:51+08:00",
+  "briefGeneratedAt": "2026-10-08T14:22:09+08:00",
+  "sourceWarningCount": 11,
+  "staleMetrics": [
+    "otc"
+  ],
   "missingMetrics": [],
   "warnings": [
-    "目前資料的市場基準日為 2026-10-07，早於本次產生日期 2026-10-08。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "成交金額資料落後 1 個交易日；TAIEX=2026-10-08，turnover=2026-10-07。暫時使用最近可用值。",
+    "otc 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "turnover 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "tx 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "foreignSpot 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "foreignTx 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "putCall 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "margin 資料為 T-1；目前=2026-10-07，市場基準=2026-10-08。",
+    "資料延遲指標：otc",
+    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': \"OpenAPI: TPEx OpenAPI latest date 2026-10-07 is not same-day target 2026-10-08; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'wwwov.tpex.org.tw'. (_ssl.c:1010)>\"}；{'source': 'TWSE V2.2.1 institutional totals', 'message': 'BFI82U official JSON unavailable'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-07",
+    "taiexAsOf": "2026-10-08",
     "turnoverAsOf": "2026-10-07",
-    "turnoverFreshness": "fresh",
-    "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
+    "turnoverFreshness": "warning",
+    "turnoverFreshnessMessage": "成交金額資料落後 1 個交易日；TAIEX=2026-10-08，turnover=2026-10-07。暫時使用最近可用值。"
   },
   "note": "healthy=主要來源正常；degraded=部分來源延遲或警告但仍有可用資料；partial=資料過舊、缺失或多個來源異常。"
 }

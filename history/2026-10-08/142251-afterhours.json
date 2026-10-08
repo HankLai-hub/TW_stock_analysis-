@@ -85,10 +85,6 @@
     {
       "source": "TPEx daily trading index",
       "message": "OpenAPI: TPEx OpenAPI latest date 2026-10-07 is not same-day target 2026-10-08; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'wwwov.tpex.org.tw'. (_ssl.c:1010)>"
-    },
-    {
-      "source": "TWSE V2.2.1 institutional totals",
-      "message": "BFI82U official JSON unavailable"
     }
   ],
   "sourceStatus": [
@@ -193,30 +189,6 @@
       "state": "pending",
       "asOf": "",
       "detail": "MI_MARGN returned unknown, expected 2026-10-08"
-    },
-    {
-      "name": "TWSE V2.2.1 institutional totals",
-      "state": "error",
-      "asOf": "2026-10-08",
-      "detail": "BFI82U official JSON unavailable"
-    },
-    {
-      "name": "TWSE V2.2.1 short balance",
-      "state": "error",
-      "asOf": "2026-10-08",
-      "detail": "TWSE market short-balance row not found"
-    },
-    {
-      "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
-      "asOf": "2026-10-08",
-      "detail": "TWT93U rows/columns not recognized"
-    },
-    {
-      "name": "TWSE V2.2.1 sector strength",
-      "state": "ok",
-      "asOf": "2026-10-08",
-      "detail": "6 verified price-strength series; no fabricated industry fund-flow"
     }
   ],
   "risk": {
@@ -252,65 +224,5 @@
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
-  },
-  "sectorPerformance": [
-    {
-      "name": "半導體",
-      "officialName": "半導體類指數",
-      "changePct": -1.18,
-      "relativePctPoint": -0.18999999999999995,
-      "indexValue": 1658.1,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子零組件",
-      "officialName": "電子零組件類指數",
-      "changePct": -0.9,
-      "relativePctPoint": 0.08999999999999997,
-      "indexValue": 1035.1,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "金融",
-      "officialName": "金融保險類指數",
-      "changePct": -1.68,
-      "relativePctPoint": -0.69,
-      "indexValue": 3535.27,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "航運",
-      "officialName": "航運類指數",
-      "changePct": -0.05,
-      "relativePctPoint": 0.94,
-      "indexValue": 207.83,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "資訊服務",
-      "officialName": "資訊服務類指數",
-      "changePct": 0.07,
-      "relativePctPoint": 1.06,
-      "indexValue": 237.45,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    },
-    {
-      "name": "電子工業",
-      "officialName": "電子工業類指數",
-      "changePct": -1.07,
-      "relativePctPoint": -0.08000000000000007,
-      "indexValue": 3134.58,
-      "asOf": "2026-10-08",
-      "source": "TWSE MI_INDEX (type=IND)"
-    }
-  ],
-  "v22": {
-    "enrichedAt": "2026-10-08T14:23:01+08:00",
-    "version": "2.2.1"
   }
 }
