@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-12T10:41:39+08:00",
+  "generatedAt": "2026-10-12T15:09:49+08:00",
   "runKind": "intraday",
-  "marketPhase": "盤中",
-  "nextExpected": "下一個排程約 26 分鐘後",
+  "marketPhase": "盤後",
+  "nextExpected": "下一個排程約 8 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "授權盤中資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "781↑ / 956↓",
-      "change": "平盤 204",
+      "value": "425↑ / 540↓",
+      "change": "平盤 109",
       "asOf": "2026-10-08",
       "state": "official_close",
-      "source": "TWSE/TPEx 股票"
+      "source": "TWSE 股票"
     },
     "usdTwd": {
       "value": "31.875",
@@ -76,7 +76,7 @@
     },
     "margin": {
       "value": "上市 6,464.06 億",
-      "change": "上櫃 2,419,564 張 · 本次抓取未更新",
+      "change": "上櫃 2,419,564 張 · 本次抓取未更新 · 本次抓取未更新",
       "asOf": "2026-10-08",
       "state": "stale",
       "source": "TWSE / TPEx（不同單位）"
@@ -150,7 +150,12 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "source": "TPEx market highlight",
+      "message": "IncompleteRead(3489385 bytes read, 1293006 more expected)"
+    }
+  ],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -178,9 +183,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "ok",
-      "asOf": "2026-10-08",
-      "detail": "OpenAPI close-quotes derived stock breadth"
+      "state": "error",
+      "asOf": "",
+      "detail": "IncompleteRead(3489385 bytes read, 1293006 more expected)"
     },
     {
       "name": "CBC USD/TWD",
@@ -232,7 +237,7 @@
     }
   ],
   "risk": {
-    "score": 35.4,
+    "score": 35.1,
     "label": "偏空",
     "confidence": 78,
     "components": [
@@ -256,9 +261,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 45.0,
+        "score": 44.0,
         "weight": 20,
-        "reason": "上漲比 45.0%"
+        "reason": "上漲比 44.0%"
       },
       {
         "name": "外資TX",
@@ -287,10 +292,10 @@
         "score": 37.6
       },
       {
-        "name": "櫃買",
+        "name": "市場廣度",
         "direction": "negative",
-        "reason": "收盤 -0.87%",
-        "score": 41.3
+        "reason": "上漲比 44.0%",
+        "score": 44.0
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -371,7 +376,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-12T10:42:48+08:00",
+    "enrichedAt": "2026-10-12T15:11:01+08:00",
     "version": "2.2.1"
   }
 }
