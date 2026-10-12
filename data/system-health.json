@@ -1,18 +1,22 @@
 {
-  "generatedAt": "2026-10-12T07:14:29+08:00",
-  "mode": "afterhours",
+  "generatedAt": "2026-10-12T10:42:54+08:00",
+  "mode": "intraday",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-12T07:13:55+08:00",
-  "globalGeneratedAt": "2026-10-12T07:14:13+08:00",
-  "briefGeneratedAt": "2026-10-12T07:13:55+08:00",
-  "sourceWarningCount": 1,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-12T10:41:39+08:00",
+  "globalGeneratedAt": "2026-10-12T10:42:36+08:00",
+  "briefGeneratedAt": "2026-10-12T10:41:39+08:00",
+  "sourceWarningCount": 2,
+  "staleMetrics": [
+    "margin"
+  ],
   "missingMetrics": [],
   "warnings": [
+    "目前資料的市場基準日為 2026-10-08，早於本次產生日期 2026-10-12。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：margin",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
-    "status": "healthy",
+    "status": "degraded",
     "taiexAsOf": "2026-10-08",
     "turnoverAsOf": "2026-10-08",
     "turnoverFreshness": "fresh",
