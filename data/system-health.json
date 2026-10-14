@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2026-10-14T13:58:52+08:00",
-  "mode": "intraday",
+  "generatedAt": "2026-10-14T18:31:23+08:00",
+  "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-14T13:58:13+08:00",
-  "globalGeneratedAt": "2026-10-14T13:58:32+08:00",
-  "briefGeneratedAt": "2026-10-14T13:58:13+08:00",
-  "sourceWarningCount": 3,
-  "staleMetrics": [
-    "margin"
-  ],
+  "liveGeneratedAt": "2026-10-14T18:30:14+08:00",
+  "globalGeneratedAt": "2026-10-14T18:31:07+08:00",
+  "briefGeneratedAt": "2026-10-14T18:30:14+08:00",
+  "sourceWarningCount": 6,
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "目前資料的市場基準日為 2026-10-13，早於本次產生日期 2026-10-14。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：margin",
-    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(851561 bytes read, 4011136 more expected)'}",
+    "tx 資料為 T-1；目前=2026-10-13，市場基準=2026-10-14。",
+    "foreignTx 資料為 T-1；目前=2026-10-13，市場基準=2026-10-14。",
+    "putCall 資料為 T-1；目前=2026-10-13，市場基準=2026-10-14。",
+    "margin 資料為 T-1；目前=2026-10-13，市場基準=2026-10-14。",
+    "台股資料來源警告：{'source': 'TPEx market highlight', 'message': 'IncompleteRead(261737 bytes read, 4612046 more expected)'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-13",
-    "turnoverAsOf": "2026-10-13",
+    "taiexAsOf": "2026-10-14",
+    "turnoverAsOf": "2026-10-14",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
