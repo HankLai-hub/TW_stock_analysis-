@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-14T08:40:05+08:00",
+  "generatedAt": "2026-10-14T09:14:12+08:00",
   "runKind": "afterhours",
-  "marketPhase": "盤前",
-  "nextExpected": "下一個排程約 27 分鐘後",
+  "marketPhase": "盤中",
+  "nextExpected": "下一個排程約 53 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "444↑ / 1339↓",
-      "change": "平盤 161",
+      "value": "269↑ / 730↓",
+      "change": "平盤 78",
       "asOf": "2026-10-13",
       "state": "official_close",
-      "source": "TWSE/TPEx 股票"
+      "source": "TWSE 股票"
     },
     "usdTwd": {
       "value": "32.085",
@@ -75,7 +75,7 @@
       "source": "TAIFEX"
     },
     "margin": {
-      "value": "上市 6,449.79 億",
+      "value": "上市 N/A",
       "change": "上櫃 2,383,918 張",
       "asOf": "2026-10-13",
       "state": "official_afterhours",
@@ -134,23 +134,18 @@
       "asOf": "2026-10-13",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
-    },
-    "shortBalance": {
-      "value": "225,459 張",
-      "change": "較前日 +9,270 張",
-      "asOf": "2026-10-13",
-      "state": "official_afterhours",
-      "source": "TWSE MI_MARGN"
-    },
-    "borrowShortBalance": {
-      "value": "124.29 億股",
-      "change": "1066 檔加總；單位為股",
-      "asOf": "2026-10-13",
-      "state": "official_afterhours",
-      "source": "TWSE TWT93U"
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "source": "TPEx market highlight",
+      "message": "IncompleteRead(540265 bytes read, 4322432 more expected)"
+    },
+    {
+      "source": "TWSE margin market total",
+      "message": "TWSE margin amount row not found in official CSV"
+    }
+  ],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -178,9 +173,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "ok",
-      "asOf": "2026-10-13",
-      "detail": "OpenAPI close-quotes derived stock breadth"
+      "state": "error",
+      "asOf": "",
+      "detail": "IncompleteRead(540265 bytes read, 4322432 more expected)"
     },
     {
       "name": "CBC USD/TWD",
@@ -214,9 +209,9 @@
     },
     {
       "name": "TWSE margin market total",
-      "state": "ok",
-      "asOf": "2026-10-13",
-      "detail": "融資金額(仟元)→億元"
+      "state": "error",
+      "asOf": "",
+      "detail": "TWSE margin amount row not found in official CSV"
     },
     {
       "name": "TPEx margin",
@@ -232,15 +227,15 @@
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "ok",
+      "state": "error",
       "asOf": "2026-10-13",
-      "detail": "MI_MARGN market total"
+      "detail": "TWSE market short-balance row not found"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "ok",
+      "state": "error",
       "asOf": "2026-10-13",
-      "detail": "TWT93U per-security balances summed in shares"
+      "detail": "TWT93U rows/columns not recognized"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
@@ -250,7 +245,7 @@
     }
   ],
   "risk": {
-    "score": 17.8,
+    "score": 18.1,
     "label": "Risk-Off",
     "confidence": 100,
     "components": [
@@ -274,9 +269,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 24.9,
+        "score": 26.9,
         "weight": 20,
-        "reason": "上漲比 24.9%"
+        "reason": "上漲比 26.9%"
       },
       {
         "name": "外資現貨",
@@ -307,8 +302,8 @@
       {
         "name": "市場廣度",
         "direction": "negative",
-        "reason": "上漲比 24.9%",
-        "score": 24.9
+        "reason": "上漲比 26.9%",
+        "score": 26.9
       },
       {
         "name": "TAIEX",
@@ -395,7 +390,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-14T08:40:51+08:00",
+    "enrichedAt": "2026-10-14T09:14:53+08:00",
     "version": "2.2.1"
   }
 }
