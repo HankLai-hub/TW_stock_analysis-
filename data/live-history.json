@@ -49644,5 +49644,211 @@
       ],
       "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
     }
+  },
+  {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-16T09:44:39+08:00",
+    "runKind": "intraday",
+    "marketPhase": "盤中",
+    "nextExpected": "下一個排程約 23 分鐘後",
+    "intradayFeed": {
+      "state": "not_configured",
+      "label": "授權盤中資料源尚未設定",
+      "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
+    },
+    "metrics": {
+      "taiex": {
+        "value": "46,969.87",
+        "change": "-3.41%",
+        "asOf": "2026-10-15",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "otc": {
+        "value": "396.90",
+        "change": "-5.53%",
+        "asOf": "2026-10-15",
+        "state": "official_close",
+        "source": "TPEx"
+      },
+      "turnover": {
+        "value": "14,358 億",
+        "change": "",
+        "asOf": "2026-10-15",
+        "state": "official_close",
+        "source": "TWSE"
+      },
+      "breadth": {
+        "value": "304↑ / 1513↓",
+        "change": "平盤 131",
+        "asOf": "2026-10-15",
+        "state": "official_close",
+        "source": "TWSE/TPEx 股票"
+      },
+      "usdTwd": {
+        "value": "32.265",
+        "change": "",
+        "asOf": "2026-10-15",
+        "state": "official_daily",
+        "source": "CBC"
+      },
+      "tx": {
+        "value": "46,979",
+        "change": "-3.73%",
+        "asOf": "2026-10-15",
+        "state": "official_close",
+        "source": "TAIFEX"
+      },
+      "foreignSpot": {
+        "value": "-3,025.55 億",
+        "change": "上市市場 · 本次抓取未更新",
+        "asOf": "2026-10-15",
+        "state": "stale",
+        "source": "TWSE BFI82U",
+        "rawValueYi": -3025.5548
+      },
+      "foreignTx": {
+        "value": "-97,582 口",
+        "change": "多 9,171 / 空 106,753",
+        "asOf": "2026-10-15",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "putCall": {
+        "value": "成交 74.99%",
+        "change": "OI 60.84%",
+        "asOf": "2026-10-15",
+        "state": "official_afterhours",
+        "source": "TAIFEX"
+      },
+      "margin": {
+        "value": "上市 6,464.15 億",
+        "change": "上櫃 2,368,282 張 · 本次抓取未更新",
+        "asOf": "2026-10-15",
+        "state": "stale",
+        "source": "TWSE / TPEx（不同單位）"
+      }
+    },
+    "errors": [],
+    "sourceStatus": [
+      {
+        "name": "TWSE MI_INDEX",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": ""
+      },
+      {
+        "name": "TWSE turnover",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": ""
+      },
+      {
+        "name": "TWSE stock breadth",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": ""
+      },
+      {
+        "name": "TPEx daily trading index",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": "OpenAPI"
+      },
+      {
+        "name": "TPEx market highlight",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": "OpenAPI close-quotes derived stock breadth"
+      },
+      {
+        "name": "CBC USD/TWD",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": "CBC latest daily closing-rate page"
+      },
+      {
+        "name": "TAIFEX institutional TX",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": "OpenAPI"
+      },
+      {
+        "name": "TAIFEX Put/Call",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": ""
+      },
+      {
+        "name": "TAIFEX TX daily",
+        "state": "ok",
+        "asOf": "2026-10-15",
+        "detail": ""
+      }
+    ],
+    "risk": {
+      "score": 10.5,
+      "label": "Risk-Off",
+      "confidence": 78,
+      "components": [
+        {
+          "name": "TAIEX",
+          "score": 9.1,
+          "weight": 18,
+          "reason": "收盤 -3.41%"
+        },
+        {
+          "name": "櫃買",
+          "score": 0.0,
+          "weight": 12,
+          "reason": "收盤 -5.53%"
+        },
+        {
+          "name": "臺指期",
+          "score": 12.7,
+          "weight": 10,
+          "reason": "TX -3.73%"
+        },
+        {
+          "name": "市場廣度",
+          "score": 16.7,
+          "weight": 20,
+          "reason": "上漲比 16.7%"
+        },
+        {
+          "name": "外資TX",
+          "score": 11.0,
+          "weight": 18,
+          "reason": "-97,582 口"
+        }
+      ],
+      "drivers": [
+        {
+          "name": "TAIEX",
+          "direction": "negative",
+          "reason": "收盤 -3.41%",
+          "score": 9.1
+        },
+        {
+          "name": "外資TX",
+          "direction": "negative",
+          "reason": "-97,582 口",
+          "score": 11.0
+        },
+        {
+          "name": "市場廣度",
+          "direction": "negative",
+          "reason": "上漲比 16.7%",
+          "score": 16.7
+        },
+        {
+          "name": "櫃買",
+          "direction": "negative",
+          "reason": "收盤 -5.53%",
+          "score": 0.0
+        }
+      ],
+      "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
+    }
   }
 ]
