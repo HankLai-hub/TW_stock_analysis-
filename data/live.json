@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T18:03:29+08:00",
+  "generatedAt": "2026-10-16T20:27:13+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 14 分鐘後",
+  "nextExpected": "下一個排程約 50 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "684↑ / 286↓",
-      "change": "平盤 106",
+      "value": "1226↑ / 533↓",
+      "change": "平盤 182",
       "asOf": "2026-10-16",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "32.338",
@@ -90,36 +90,36 @@
       "rawValueYi": -461.4716
     },
     "trustSpot": {
-      "value": "+117.54 億",
+      "value": "+110.48 億",
       "change": "上市市場",
       "asOf": "2026-10-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 117.541
+      "rawValueYi": 110.4751
     },
     "investmentTrust": {
-      "value": "+117.54 億",
+      "value": "+110.48 億",
       "change": "上市市場",
       "asOf": "2026-10-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 117.541
+      "rawValueYi": 110.4751
     },
     "dealerSpot": {
       "value": "-334.14 億",
-      "change": "自行 -101.79 億 / 避險 -232.36 億",
+      "change": "自行 -101.79 億 / 避險 -232.35 億",
       "asOf": "2026-10-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": -334.1432
+      "rawValueYi": -334.1401
     },
     "dealer": {
       "value": "-334.14 億",
-      "change": "自行 -101.79 億 / 避險 -232.36 億",
+      "change": "自行 -101.79 億 / 避險 -232.35 億",
       "asOf": "2026-10-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": -334.1432
+      "rawValueYi": -334.1401
     },
     "dealerSelfSpot": {
       "value": "-101.79 億",
@@ -129,19 +129,14 @@
       "source": "TWSE BFI82U"
     },
     "dealerHedgeSpot": {
-      "value": "-232.36 億",
+      "value": "-232.35 億",
       "change": "避險",
       "asOf": "2026-10-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(917097 bytes read, 4002633 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -187,9 +182,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(917097 bytes read, 4002633 more expected)"
+      "state": "ok",
+      "asOf": "2026-10-16",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -271,7 +266,7 @@
     }
   ],
   "risk": {
-    "score": 51.0,
+    "score": 50.7,
     "label": "Neutral",
     "confidence": 72,
     "components": [
@@ -289,9 +284,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 70.5,
+        "score": 69.7,
         "weight": 20,
-        "reason": "上漲比 70.5%"
+        "reason": "上漲比 69.7%"
       },
       {
         "name": "外資現貨",
@@ -310,8 +305,8 @@
       {
         "name": "市場廣度",
         "direction": "positive",
-        "reason": "上漲比 70.5%",
-        "score": 70.5
+        "reason": "上漲比 69.7%",
+        "score": 69.7
       },
       {
         "name": "櫃買",
@@ -332,10 +327,10 @@
     "asOf": "2026-10-16",
     "source": "TWSE BFI82U",
     "foreign": -46147162837.0,
-    "trust": 11754104508.0,
+    "trust": 11047506970.0,
     "dealer_self": -10178595136.0,
-    "dealer_hedge": -23235719927.0,
-    "dealer_total": -33414315063.0
+    "dealer_hedge": -23235413269.0,
+    "dealer_total": -33414008405.0
   },
   "sectorPerformance": [
     {
@@ -404,7 +399,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-16T18:05:16+08:00",
+    "enrichedAt": "2026-10-16T20:28:30+08:00",
     "version": "2.2.1"
   }
 }
