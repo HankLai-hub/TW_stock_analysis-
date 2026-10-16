@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T20:28:22+08:00",
+  "generatedAt": "2026-10-17T01:26:28+08:00",
   "macro": {
     "us2y": {
       "value": 4.77,
@@ -125,10 +125,10 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 11581.22,
-      "display": "11,581.22",
-      "change": "-0.88%",
-      "asOf": "2026-10-15",
+      "value": 11269.95,
+      "display": "11,269.95",
+      "change": "-2.69%",
+      "asOf": "2026-10-16",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
     },
@@ -222,15 +222,6 @@
   "events": [
     {
       "source": "U.S. BLS",
-      "title": "U.S. Import and Export Price Indexes",
-      "scheduledAt": "2026-10-16T20:30+08:00",
-      "category": "通膨",
-      "impact": 3,
-      "watch": "進口價格對商品通膨的邊際影響。",
-      "link": "https://www.bls.gov/schedule/"
-    },
-    {
-      "source": "U.S. BLS",
       "title": "State Employment and Unemployment (Monthly)",
       "scheduledAt": "2026-10-20T22:00+08:00",
       "category": "官方事件",
@@ -269,6 +260,15 @@
       "source": "U.S. BLS",
       "title": "Consumer Expenditures",
       "scheduledAt": "2026-10-29T22:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "Employment Cost Index",
+      "scheduledAt": "2026-10-30T20:30+08:00",
       "category": "官方事件",
       "impact": 3,
       "watch": "觀察利率、美元與風險偏好的實際反應。",
@@ -331,22 +331,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-16T20:28:23+08:00"
+      "asOf": "2026-10-17T01:26:35+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-16T20:28:23+08:00"
+      "asOf": "2026-10-17T01:26:35+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-16T20:28:24+08:00"
+      "asOf": "2026-10-17T01:26:35+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-16T20:28:24+08:00"
+      "asOf": "2026-10-17T01:26:35+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -357,7 +357,7 @@
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
       "status": "error",
-      "asOf": "2026-10-16",
+      "asOf": "2026-10-17",
       "detail": "FOMC events removed because the official current-year section could not be validated"
     }
   ],
@@ -372,7 +372,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-16T20:28:26+08:00",
+    "repairedAt": "2026-10-17T01:26:41+08:00",
     "version": "2.2.1"
   }
 }
