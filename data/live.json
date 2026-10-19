@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-19T19:07:53+08:00",
+  "generatedAt": "2026-10-19T22:41:58+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 2 小時 10 分鐘後",
+  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -75,9 +75,9 @@
       "source": "TAIFEX"
     },
     "margin": {
-      "value": "上市 6,455.94 億",
-      "change": "上櫃 2,364,632 張",
-      "asOf": "2026-10-16",
+      "value": "上市 6,406.18 億",
+      "change": "上櫃 2,350,974 張",
+      "asOf": "2026-10-19",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
@@ -90,20 +90,20 @@
       "rawValueYi": -767.4274
     },
     "trustSpot": {
-      "value": "+230.51 億",
+      "value": "+241.42 億",
       "change": "上市市場",
       "asOf": "2026-10-19",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 230.5099
+      "rawValueYi": 241.4163
     },
     "investmentTrust": {
-      "value": "+230.51 億",
+      "value": "+241.42 億",
       "change": "上市市場",
       "asOf": "2026-10-19",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 230.5099
+      "rawValueYi": 241.4163
     },
     "dealerSpot": {
       "value": "-362.63 億",
@@ -134,12 +134,26 @@
       "asOf": "2026-10-19",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
+    },
+    "shortBalance": {
+      "value": "201,916 張",
+      "change": "較前日 -31,686 張",
+      "asOf": "2026-10-19",
+      "state": "official_afterhours",
+      "source": "TWSE MI_MARGN"
+    },
+    "borrowShortBalance": {
+      "value": "125.24 億股",
+      "change": "1068 檔加總；單位為股",
+      "asOf": "2026-10-19",
+      "state": "official_afterhours",
+      "source": "TWSE TWT93U"
     }
   },
   "errors": [
     {
       "source": "TPEx market highlight",
-      "message": "IncompleteRead(3407465 bytes read, 1588180 more expected)"
+      "message": "IncompleteRead(736873 bytes read, 4258772 more expected)"
     }
   ],
   "sourceStatus": [
@@ -189,7 +203,7 @@
       "name": "TPEx market highlight",
       "state": "error",
       "asOf": "",
-      "detail": "IncompleteRead(3407465 bytes read, 1588180 more expected)"
+      "detail": "IncompleteRead(736873 bytes read, 4258772 more expected)"
     },
     {
       "name": "CBC USD/TWD",
@@ -224,13 +238,13 @@
     {
       "name": "TWSE margin market total",
       "state": "ok",
-      "asOf": "2026-10-16",
+      "asOf": "2026-10-19",
       "detail": "融資金額(仟元)→億元"
     },
     {
       "name": "TPEx margin",
       "state": "ok",
-      "asOf": "2026-10-16",
+      "asOf": "2026-10-19",
       "detail": "OpenAPI per-security financing balance; official unit 張"
     },
     {
@@ -241,9 +255,9 @@
     },
     {
       "name": "TWSE same-day margin",
-      "state": "pending",
-      "asOf": "",
-      "detail": "MI_MARGN returned unknown, expected 2026-10-19"
+      "state": "ok",
+      "asOf": "2026-10-19",
+      "detail": "date-targeted official CSV"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -253,15 +267,15 @@
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-10-19",
-      "detail": "TWSE market short-balance row not found"
+      "detail": "MI_MARGN market total"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-10-19",
-      "detail": "TWT93U rows/columns not recognized"
+      "detail": "TWT93U per-security balances summed in shares"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
@@ -332,7 +346,7 @@
     "asOf": "2026-10-19",
     "source": "TWSE BFI82U",
     "foreign": -76742735769.0,
-    "trust": 23050994062.0,
+    "trust": 24141627951.0,
     "dealer_self": -6022889603.0,
     "dealer_hedge": -30240194153.0,
     "dealer_total": -36263083756.0
@@ -404,7 +418,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-19T19:08:45+08:00",
+    "enrichedAt": "2026-10-19T22:42:29+08:00",
     "version": "2.2.1"
   }
 }
