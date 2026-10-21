@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T02:04:22+08:00",
+  "generatedAt": "2026-10-22T04:55:55+08:00",
   "runKind": "afterhours",
   "marketPhase": "海外時段",
-  "nextExpected": "下一個排程約 7 小時 3 分鐘後",
+  "nextExpected": "下一個排程約 4 小時 12 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -19,7 +19,7 @@
     },
     "otc": {
       "value": "395.42",
-      "change": "+1.94% · 本次抓取未更新 · 本次抓取未更新",
+      "change": "+1.94% · 本次抓取未更新 · 本次抓取未更新 · 本次抓取未更新",
       "asOf": "2026-10-21",
       "state": "stale",
       "source": "TPEx"
@@ -154,6 +154,10 @@
     {
       "source": "TPEx daily trading index",
       "message": "OpenAPI: TPEx OpenAPI latest date 2026-10-21 is not same-day target 2026-10-20; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>"
+    },
+    {
+      "source": "TPEx market highlight",
+      "message": "IncompleteRead(48745 bytes read, 5010042 more expected)"
     }
   ],
   "sourceStatus": [
@@ -183,9 +187,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "ok",
-      "asOf": "2026-10-21",
-      "detail": "OpenAPI close-quotes derived stock breadth"
+      "state": "error",
+      "asOf": "",
+      "detail": "IncompleteRead(48745 bytes read, 5010042 more expected)"
     },
     {
       "name": "CBC USD/TWD",
@@ -384,7 +388,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-22T02:04:50+08:00",
+    "enrichedAt": "2026-10-22T04:56:51+08:00",
     "version": "2.2.1"
   }
 }
