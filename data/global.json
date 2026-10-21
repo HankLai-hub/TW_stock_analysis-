@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T20:57:28+08:00",
+  "generatedAt": "2026-10-22T01:42:52+08:00",
   "macro": {
     "us2y": {
       "value": 4.79,
@@ -89,46 +89,28 @@
       "asOf": "2026-09",
       "source": "U.S. BLS",
       "state": "official_monthly"
-    },
-    "brent": {
-      "value": 126.55,
-      "display": "$126.55",
-      "change": "+0.61%",
-      "asOf": "2026-10-14",
-      "source": "U.S. EIA via FRED DCOILBRENTEU",
-      "state": "official_secondary"
-    },
-    "wti": {
-      "value": 101.91,
-      "display": "$101.91",
-      "change": "+1.04%",
-      "asOf": "2026-10-14",
-      "source": "U.S. EIA via FRED DCOILWTICO",
-      "state": "official_secondary"
     }
   },
   "equity": {
     "sp500": {
-      "value": 7712.57,
-      "display": "7,712.57",
-      "change": "+0.28%",
-      "asOf": "2026-10-20",
-      "source": "FRED SP500",
-      "state": "official_secondary"
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "S&P 500",
+      "state": "authorization_required"
     },
     "nasdaq": {
-      "value": 26424.82,
-      "display": "26,424.82",
-      "change": "-0.02%",
-      "asOf": "2026-10-20",
-      "source": "FRED NASDAQCOM",
-      "state": "official_secondary"
+      "display": "N/A",
+      "change": "",
+      "asOf": "N/A",
+      "source": "Nasdaq Composite",
+      "state": "authorization_required"
     },
     "sox": {
-      "value": 11283.81,
-      "display": "11,283.81",
-      "change": "-0.29%",
-      "asOf": "2026-10-20",
+      "value": 11523.33,
+      "display": "11,523.33",
+      "change": "+2.12%",
+      "asOf": "2026-10-21",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
     },
@@ -220,15 +202,6 @@
     }
   ],
   "events": [
-    {
-      "source": "U.S. BLS",
-      "title": "Usual Weekly Earnings of Wage and Salary Workers",
-      "scheduledAt": "2026-10-21T22:00+08:00",
-      "category": "官方事件",
-      "impact": 3,
-      "watch": "觀察利率、美元與風險偏好的實際反應。",
-      "link": "https://www.bls.gov/schedule/"
-    },
     {
       "source": "U.S. BLS",
       "title": "Quarterly Data Series on Business Employment Dynamics",
@@ -331,37 +304,51 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-21T20:57:29+08:00"
+      "asOf": "2026-10-22T01:42:54+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-21T20:57:29+08:00"
+      "asOf": "2026-10-22T01:42:54+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-21T20:57:29+08:00"
+      "asOf": "2026-10-22T01:42:54+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-21T20:57:29+08:00"
-    },
-    {
-      "name": "FRED EIA crude-oil fallback V2.2.1",
-      "status": "ok",
-      "asOf": "2026-10-14",
-      "detail": "Brent 2026-10-14; WTI 2026-10-14"
+      "asOf": "2026-10-22T01:42:55+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
       "status": "error",
-      "asOf": "2026-10-21",
+      "asOf": "2026-10-22",
       "detail": "FOMC events removed because the official current-year section could not be validated"
     }
   ],
   "errors": [
+    {
+      "source": "U.S. EIA crude spot prices",
+      "message": "EIA daily date headers not recognized"
+    },
+    {
+      "source": "FRED Brent fallback",
+      "message": "FRED DCOILBRENTEU: no numeric observations in recent window"
+    },
+    {
+      "source": "FRED WTI fallback",
+      "message": "FRED DCOILWTICO: no numeric observations in recent window"
+    },
+    {
+      "source": "FRED sp500 fallback",
+      "message": "FRED SP500: no numeric observations in recent window"
+    },
+    {
+      "source": "FRED nasdaq fallback",
+      "message": "FRED NASDAQCOM: no numeric observations in recent window"
+    },
     {
       "source": "Federal Reserve FOMC calendar repair",
       "message": "no validated current-year FOMC section (expected 6-10 meetings)"
@@ -372,7 +359,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-21T20:57:31+08:00",
+    "repairedAt": "2026-10-22T01:42:57+08:00",
     "version": "2.2.1"
   }
 }

@@ -1,23 +1,27 @@
 {
-  "generatedAt": "2026-10-21T20:57:41+08:00",
+  "generatedAt": "2026-10-22T01:43:07+08:00",
   "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-21T20:56:55+08:00",
-  "globalGeneratedAt": "2026-10-21T20:57:28+08:00",
-  "briefGeneratedAt": "2026-10-21T20:56:55+08:00",
-  "sourceWarningCount": 4,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-22T01:42:29+08:00",
+  "globalGeneratedAt": "2026-10-22T01:42:52+08:00",
+  "briefGeneratedAt": "2026-10-22T01:42:29+08:00",
+  "sourceWarningCount": 10,
+  "staleMetrics": [
+    "otc"
+  ],
   "missingMetrics": [],
   "warnings": [
-    "tx 資料為 T-1；目前=2026-10-20，市場基準=2026-10-21。",
-    "foreignTx 資料為 T-1；目前=2026-10-20，市場基準=2026-10-21。",
-    "putCall 資料為 T-1；目前=2026-10-20，市場基準=2026-10-21。",
-    "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
+    "otc 日期 2026-10-21 晚於市場基準日 2026-10-20。",
+    "margin 日期 2026-10-21 晚於市場基準日 2026-10-20。",
+    "目前資料的市場基準日為 2026-10-20，早於本次產生日期 2026-10-21。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：otc",
+    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-10-21 is not same-day target 2026-10-20; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>'}",
+    "全球資料來源警告：{'source': 'U.S. EIA crude spot prices', 'message': 'EIA daily date headers not recognized'}；{'source': 'FRED Brent fallback', 'message': 'FRED DCOILBRENTEU: no numeric observations in recent window'}；{'source': 'FRED WTI fallback', 'message': 'FRED DCOILWTICO: no numeric observations in recent window'}；{'source': 'FRED sp500 fallback', 'message': 'FRED SP500: no numeric observations in recent window'}；{'source': 'FRED nasdaq fallback', 'message': 'FRED NASDAQCOM: no numeric observations in recent window'}；{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-21",
-    "turnoverAsOf": "2026-10-21",
+    "taiexAsOf": "2026-10-20",
+    "turnoverAsOf": "2026-10-20",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
