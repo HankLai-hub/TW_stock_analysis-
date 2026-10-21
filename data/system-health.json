@@ -1,17 +1,18 @@
 {
-  "generatedAt": "2026-10-21T06:19:27+08:00",
-  "mode": "afterhours",
+  "generatedAt": "2026-10-21T09:04:11+08:00",
+  "mode": "intraday",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-21T06:18:51+08:00",
-  "globalGeneratedAt": "2026-10-21T06:19:12+08:00",
-  "briefGeneratedAt": "2026-10-21T06:18:51+08:00",
-  "sourceWarningCount": 4,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-10-21T09:03:40+08:00",
+  "globalGeneratedAt": "2026-10-21T09:03:54+08:00",
+  "briefGeneratedAt": "2026-10-21T09:03:40+08:00",
+  "sourceWarningCount": 2,
+  "staleMetrics": [
+    "margin"
+  ],
   "missingMetrics": [],
   "warnings": [
-    "tx 資料為 T-1；目前=2026-10-19，市場基準=2026-10-20。",
-    "foreignTx 資料為 T-1；目前=2026-10-19，市場基準=2026-10-20。",
-    "putCall 資料為 T-1；目前=2026-10-19，市場基準=2026-10-20。",
+    "目前資料的市場基準日為 2026-10-20，早於本次產生日期 2026-10-21。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：margin",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
