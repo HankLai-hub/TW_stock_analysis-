@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T18:29:55+08:00",
+  "generatedAt": "2026-10-21T20:56:55+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 2 小時 48 分鐘後",
+  "nextExpected": "下一個排程約 21 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -53,12 +53,12 @@
       "source": "TAIFEX"
     },
     "foreignSpot": {
-      "value": "+9.60 億",
+      "value": "+22.39 億",
       "change": "上市市場",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 9.6023
+      "rawValueYi": 22.3891
     },
     "foreignTx": {
       "value": "-89,748 口",
@@ -75,54 +75,54 @@
       "source": "TAIFEX"
     },
     "margin": {
-      "value": "上市 6,381.00 億",
+      "value": "上市 6,443.74 億",
       "change": "上櫃 2,346,542 張",
-      "asOf": "2026-10-20",
+      "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
     "foreignSpotOfficial": {
-      "value": "+9.60 億",
+      "value": "+22.39 億",
       "change": "上市市場",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 9.6023
+      "rawValueYi": 22.3891
     },
     "trustSpot": {
-      "value": "+129.19 億",
+      "value": "+127.99 億",
       "change": "上市市場",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 129.1903
+      "rawValueYi": 127.9854
     },
     "investmentTrust": {
-      "value": "+129.19 億",
+      "value": "+127.99 億",
       "change": "上市市場",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 129.1903
+      "rawValueYi": 127.9854
     },
     "dealerSpot": {
-      "value": "-133.11 億",
-      "change": "自行 -59.27 億 / 避險 -73.84 億",
+      "value": "-135.72 億",
+      "change": "自行 -61.87 億 / 避險 -73.84 億",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": -133.1091
+      "rawValueYi": -135.717
     },
     "dealer": {
-      "value": "-133.11 億",
-      "change": "自行 -59.27 億 / 避險 -73.84 億",
+      "value": "-135.72 億",
+      "change": "自行 -61.87 億 / 避險 -73.84 億",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": -133.1091
+      "rawValueYi": -135.717
     },
     "dealerSelfSpot": {
-      "value": "-59.27 億",
+      "value": "-61.87 億",
       "change": "自行買賣",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
@@ -134,6 +134,20 @@
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
+    },
+    "shortBalance": {
+      "value": "192,598 張",
+      "change": "較前日 -23,314 張",
+      "asOf": "2026-10-21",
+      "state": "official_afterhours",
+      "source": "TWSE MI_MARGN"
+    },
+    "borrowShortBalance": {
+      "value": "124.92 億股",
+      "change": "1068 檔加總；單位為股",
+      "asOf": "2026-10-21",
+      "state": "official_afterhours",
+      "source": "TWSE TWT93U"
     }
   },
   "errors": [],
@@ -219,7 +233,7 @@
     {
       "name": "TWSE margin market total",
       "state": "ok",
-      "asOf": "2026-10-20",
+      "asOf": "2026-10-21",
       "detail": "融資金額(仟元)→億元"
     },
     {
@@ -236,9 +250,9 @@
     },
     {
       "name": "TWSE same-day margin",
-      "state": "pending",
-      "asOf": "",
-      "detail": "MI_MARGN returned unknown, expected 2026-10-21"
+      "state": "ok",
+      "asOf": "2026-10-21",
+      "detail": "date-targeted official CSV"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -248,15 +262,15 @@
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-10-21",
-      "detail": "TWSE market short-balance row not found"
+      "detail": "MI_MARGN market total"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-10-21",
-      "detail": "TWT93U rows/columns not recognized"
+      "detail": "TWT93U per-security balances summed in shares"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
@@ -266,7 +280,7 @@
     }
   ],
   "risk": {
-    "score": 61.1,
+    "score": 61.3,
     "label": "偏多",
     "confidence": 72,
     "components": [
@@ -290,9 +304,9 @@
       },
       {
         "name": "外資現貨",
-        "score": 50.5,
+        "score": 51.1,
         "weight": 22,
-        "reason": "+10 億"
+        "reason": "+22 億"
       }
     ],
     "drivers": [
@@ -317,8 +331,8 @@
       {
         "name": "外資現貨",
         "direction": "neutral",
-        "reason": "+10 億",
-        "score": 50.5
+        "reason": "+22 億",
+        "score": 51.1
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -326,11 +340,11 @@
   "institutionalFlow": {
     "asOf": "2026-10-21",
     "source": "TWSE BFI82U",
-    "foreign": 960229416.0,
-    "trust": 12919028988.0,
-    "dealer_self": -5926674665.0,
+    "foreign": 2238909816.0,
+    "trust": 12798537238.0,
+    "dealer_self": -6187470065.0,
     "dealer_hedge": -7384233802.0,
-    "dealer_total": -13310908467.0
+    "dealer_total": -13571703867.0
   },
   "sectorPerformance": [
     {
@@ -399,7 +413,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-21T18:31:14+08:00",
+    "enrichedAt": "2026-10-21T20:57:36+08:00",
     "version": "2.2.1"
   }
 }
