@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T04:56:11+08:00",
+  "generatedAt": "2026-10-22T06:23:14+08:00",
   "macro": {
     "us2y": {
       "value": 4.81,
@@ -49,6 +49,46 @@
       "asOf": "Oct. 16",
       "source": "Federal Reserve H.10",
       "state": "official_weekly"
+    },
+    "cpi": {
+      "value": 3.737684729064039,
+      "display": "3.7% YoY",
+      "change": "+0.6% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "coreCpi": {
+      "value": 2.5643583511686607,
+      "display": "2.6% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "unemployment": {
+      "value": 4.2,
+      "display": "4.2%",
+      "change": "Unemployment rate",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "payrolls": {
+      "value": 29.0,
+      "display": "+29k",
+      "change": "Nonfarm payroll monthly change",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "ahe": {
+      "value": 3.0245231607629375,
+      "display": "3.0% YoY",
+      "change": "+0.1% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
     }
   },
   "equity": {
@@ -69,7 +109,7 @@
     "sox": {
       "value": 11505.56,
       "display": "11,505.56",
-      "change": "+1.97%",
+      "change": "+0.00%",
       "asOf": "2026-10-21",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
@@ -218,9 +258,9 @@
     ]
   },
   "risk": {
-    "score": 22,
+    "score": 12,
     "label": "Risk-Off",
-    "confidence": 50,
+    "confidence": 75,
     "drivers": [
       {
         "name": "美債10Y",
@@ -231,6 +271,11 @@
         "name": "10Y實質利率",
         "direction": "negative",
         "reason": "2.76%：長久期資產壓力"
+      },
+      {
+        "name": "美國CPI",
+        "direction": "negative",
+        "reason": "3.7% YoY：通膨偏高"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -252,24 +297,29 @@
       "asOf": "Oct. 16"
     },
     {
+      "name": "U.S. BLS Public Data API",
+      "status": "ok",
+      "asOf": "2026-09"
+    },
+    {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-22T04:56:42+08:00"
+      "asOf": "2026-10-22T06:23:15+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-22T04:56:43+08:00"
+      "asOf": "2026-10-22T06:23:15+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-22T04:56:43+08:00"
+      "asOf": "2026-10-22T06:23:15+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-22T04:56:43+08:00"
+      "asOf": "2026-10-22T06:23:15+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
@@ -282,10 +332,6 @@
     {
       "source": "U.S. EIA crude spot prices",
       "message": "EIA daily date headers not recognized"
-    },
-    {
-      "source": "U.S. BLS macro data",
-      "message": "The read operation timed out"
     },
     {
       "source": "FRED Brent fallback",
@@ -313,7 +359,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-22T04:56:46+08:00",
+    "repairedAt": "2026-10-22T06:23:17+08:00",
     "version": "2.2.1"
   }
 }
