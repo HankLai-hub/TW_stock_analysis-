@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T09:03:40+08:00",
-  "runKind": "intraday",
+  "generatedAt": "2026-10-21T13:04:28+08:00",
+  "runKind": "afterhours",
   "marketPhase": "盤中",
-  "nextExpected": "下一個排程約 4 分鐘後",
+  "nextExpected": "下一個排程約 3 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
-    "label": "授權盤中資料源尚未設定",
-    "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
+    "label": "盤中授權資料源尚未設定",
+    "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
   },
   "metrics": {
     "taiex": {
@@ -76,9 +76,9 @@
     },
     "margin": {
       "value": "上市 6,381.00 億",
-      "change": "上櫃 2,346,542 張 · 本次抓取未更新",
+      "change": "上櫃 2,346,542 張",
       "asOf": "2026-10-20",
-      "state": "stale",
+      "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
     "foreignSpotOfficial": {
@@ -207,6 +207,24 @@
       "detail": ""
     },
     {
+      "name": "TWSE BFI82U",
+      "state": "ok",
+      "asOf": "2026-10-20",
+      "detail": "official JSON"
+    },
+    {
+      "name": "TWSE margin market total",
+      "state": "ok",
+      "asOf": "2026-10-20",
+      "detail": "融資金額(仟元)→億元"
+    },
+    {
+      "name": "TPEx margin",
+      "state": "ok",
+      "asOf": "2026-10-20",
+      "detail": "OpenAPI per-security financing balance; official unit 張"
+    },
+    {
       "name": "TWSE V2.2.1 institutional totals",
       "state": "ok",
       "asOf": "2026-10-20",
@@ -232,9 +250,9 @@
     }
   ],
   "risk": {
-    "score": 30.9,
-    "label": "偏空",
-    "confidence": 78,
+    "score": 26.4,
+    "label": "Risk-Off",
+    "confidence": 100,
     "components": [
       {
         "name": "TAIEX",
@@ -261,6 +279,12 @@
         "reason": "上漲比 33.7%"
       },
       {
+        "name": "外資現貨",
+        "score": 10.2,
+        "weight": 22,
+        "reason": "-795 億"
+      },
+      {
         "name": "外資TX",
         "score": 14.1,
         "weight": 18,
@@ -268,6 +292,12 @@
       }
     ],
     "drivers": [
+      {
+        "name": "外資現貨",
+        "direction": "negative",
+        "reason": "-795 億",
+        "score": 10.2
+      },
       {
         "name": "外資TX",
         "direction": "negative",
@@ -285,12 +315,6 @@
         "direction": "negative",
         "reason": "收盤 -1.13%",
         "score": 36.4
-      },
-      {
-        "name": "櫃買",
-        "direction": "negative",
-        "reason": "收盤 -1.57%",
-        "score": 34.3
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -371,7 +395,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-21T09:04:06+08:00",
+    "enrichedAt": "2026-10-21T13:05:00+08:00",
     "version": "2.2.1"
   }
 }
