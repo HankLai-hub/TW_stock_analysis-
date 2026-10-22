@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T13:06:13+08:00",
+  "generatedAt": "2026-10-22T13:30:29+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤中",
-  "nextExpected": "下一個排程約 1 分鐘後",
+  "nextExpected": "下一個排程約 1 小時 47 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "600↑ / 380↓",
-      "change": "平盤 101",
+      "value": "1120↑ / 633↓",
+      "change": "平盤 197",
       "asOf": "2026-10-21",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "32.488",
@@ -76,7 +76,7 @@
     },
     "margin": {
       "value": "上市 6,443.74 億",
-      "change": "上櫃 2,352,146 張",
+      "change": "上櫃 N/A（不同口徑）",
       "asOf": "2026-10-21",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
@@ -150,12 +150,7 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(753257 bytes read, 4305530 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -183,9 +178,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(753257 bytes read, 4305530 more expected)"
+      "state": "ok",
+      "asOf": "2026-10-21",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -197,7 +192,7 @@
       "name": "TAIFEX institutional TX",
       "state": "ok",
       "asOf": "2026-10-21",
-      "detail": "official HTML fallback"
+      "detail": "OpenAPI"
     },
     {
       "name": "TAIFEX Put/Call",
@@ -225,9 +220,9 @@
     },
     {
       "name": "TPEx margin",
-      "state": "ok",
-      "asOf": "2026-10-21",
-      "detail": "OpenAPI per-security financing balance; official unit 張"
+      "state": "not_comparable",
+      "asOf": "",
+      "detail": "IncompleteRead(196207 bytes read, 353867 more expected)"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -255,7 +250,7 @@
     }
   ],
   "risk": {
-    "score": 52.0,
+    "score": 52.6,
     "label": "Neutral",
     "confidence": 100,
     "components": [
@@ -279,9 +274,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 61.2,
+        "score": 63.9,
         "weight": 20,
-        "reason": "上漲比 61.2%"
+        "reason": "上漲比 63.9%"
       },
       {
         "name": "外資現貨",
@@ -304,6 +299,12 @@
         "score": 15.6
       },
       {
+        "name": "市場廣度",
+        "direction": "positive",
+        "reason": "上漲比 63.9%",
+        "score": 63.9
+      },
+      {
         "name": "TAIEX",
         "direction": "positive",
         "reason": "收盤 +1.28%",
@@ -314,12 +315,6 @@
         "direction": "positive",
         "reason": "收盤 +1.94%",
         "score": 69.4
-      },
-      {
-        "name": "市場廣度",
-        "direction": "positive",
-        "reason": "上漲比 61.2%",
-        "score": 61.2
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -400,7 +395,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-22T13:06:39+08:00",
+    "enrichedAt": "2026-10-22T13:31:18+08:00",
     "version": "2.2.1"
   }
 }
