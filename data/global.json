@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T06:23:14+08:00",
+  "generatedAt": "2026-10-22T13:06:28+08:00",
   "macro": {
     "us2y": {
       "value": 4.81,
@@ -89,22 +89,40 @@
       "asOf": "2026-09",
       "source": "U.S. BLS",
       "state": "official_monthly"
+    },
+    "brent": {
+      "value": 115.22,
+      "display": "$115.22",
+      "change": "-3.03%",
+      "asOf": "2026-10-20",
+      "source": "U.S. EIA via FRED DCOILBRENTEU",
+      "state": "official_secondary"
+    },
+    "wti": {
+      "value": 107.89,
+      "display": "$107.89",
+      "change": "-1.93%",
+      "asOf": "2026-10-20",
+      "source": "U.S. EIA via FRED DCOILWTICO",
+      "state": "official_secondary"
     }
   },
   "equity": {
     "sp500": {
-      "display": "N/A",
-      "change": "",
-      "asOf": "N/A",
-      "source": "S&P 500",
-      "state": "authorization_required"
+      "value": 7757.17,
+      "display": "7,757.17",
+      "change": "+0.58%",
+      "asOf": "2026-10-21",
+      "source": "FRED SP500",
+      "state": "official_secondary"
     },
     "nasdaq": {
-      "display": "N/A",
-      "change": "",
-      "asOf": "N/A",
-      "source": "Nasdaq Composite",
-      "state": "authorization_required"
+      "value": 26702.86,
+      "display": "26,702.86",
+      "change": "+1.05%",
+      "asOf": "2026-10-21",
+      "source": "FRED NASDAQCOM",
+      "state": "official_secondary"
     },
     "sox": {
       "value": 11505.56,
@@ -304,22 +322,28 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-22T06:23:15+08:00"
+      "asOf": "2026-10-22T13:06:29+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-22T06:23:15+08:00"
+      "asOf": "2026-10-22T13:06:29+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-22T06:23:15+08:00"
+      "asOf": "2026-10-22T13:06:29+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-22T06:23:15+08:00"
+      "asOf": "2026-10-22T13:06:29+08:00"
+    },
+    {
+      "name": "FRED EIA crude-oil fallback V2.2.1",
+      "status": "ok",
+      "asOf": "2026-10-20",
+      "detail": "Brent 2026-10-20; WTI 2026-10-20"
     },
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
@@ -330,26 +354,6 @@
   ],
   "errors": [
     {
-      "source": "U.S. EIA crude spot prices",
-      "message": "EIA daily date headers not recognized"
-    },
-    {
-      "source": "FRED Brent fallback",
-      "message": "FRED DCOILBRENTEU: no numeric observations in recent window"
-    },
-    {
-      "source": "FRED WTI fallback",
-      "message": "FRED DCOILWTICO: no numeric observations in recent window"
-    },
-    {
-      "source": "FRED sp500 fallback",
-      "message": "FRED SP500: no numeric observations in recent window"
-    },
-    {
-      "source": "FRED nasdaq fallback",
-      "message": "FRED NASDAQCOM: no numeric observations in recent window"
-    },
-    {
       "source": "Federal Reserve FOMC calendar repair",
       "message": "no validated current-year FOMC section (expected 6-10 meetings)"
     }
@@ -359,7 +363,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-22T06:23:17+08:00",
+    "repairedAt": "2026-10-22T13:06:33+08:00",
     "version": "2.2.1"
   }
 }
