@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T01:52:53+08:00",
+  "generatedAt": "2026-10-24T06:12:48+08:00",
   "runKind": "afterhours",
   "marketPhase": "週末／休市",
-  "nextExpected": "下一個排程約 7 小時 15 分鐘後",
+  "nextExpected": "下一個排程約 2 小時 55 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "393↑ / 1413↓",
-      "change": "平盤 137",
+      "value": "247↑ / 756↓",
+      "change": "平盤 74",
       "asOf": "2026-10-22",
       "state": "official_close",
-      "source": "TWSE/TPEx 股票"
+      "source": "TWSE 股票"
     },
     "usdTwd": {
       "value": "32.508",
@@ -47,9 +47,9 @@
     },
     "tx": {
       "value": "46,272",
-      "change": "-1.58% · 本次抓取未更新",
+      "change": "-1.58%",
       "asOf": "2026-10-22",
-      "state": "stale",
+      "state": "official_close",
       "source": "TAIFEX"
     },
     "foreignSpot": {
@@ -152,8 +152,8 @@
   },
   "errors": [
     {
-      "source": "TAIFEX TX daily",
-      "message": "invalid JSON from https://openapi.taifex.com.tw/v1/DailyMarketReportFut: Expecting value: line 1 column 1 (char 0)"
+      "source": "TPEx market highlight",
+      "message": "IncompleteRead(802409 bytes read, 4285731 more expected)"
     }
   ],
   "sourceStatus": [
@@ -183,9 +183,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "ok",
-      "asOf": "2026-10-22",
-      "detail": "OpenAPI close-quotes derived stock breadth"
+      "state": "error",
+      "asOf": "",
+      "detail": "IncompleteRead(802409 bytes read, 4285731 more expected)"
     },
     {
       "name": "CBC USD/TWD",
@@ -207,9 +207,9 @@
     },
     {
       "name": "TAIFEX TX daily",
-      "state": "error",
-      "asOf": "",
-      "detail": "invalid JSON from https://openapi.taifex.com.tw/v1/DailyMarketReportFut: Expecting value: line 1 column 1 (char 0)"
+      "state": "ok",
+      "asOf": "2026-10-22",
+      "detail": ""
     },
     {
       "name": "TWSE BFI82U",
@@ -255,9 +255,9 @@
     }
   ],
   "risk": {
-    "score": 17.8,
+    "score": 20.0,
     "label": "Risk-Off",
-    "confidence": 90,
+    "confidence": 100,
     "components": [
       {
         "name": "TAIEX",
@@ -272,10 +272,16 @@
         "reason": "收盤 -3.47%"
       },
       {
+        "name": "臺指期",
+        "score": 34.2,
+        "weight": 10,
+        "reason": "TX -1.58%"
+      },
+      {
         "name": "市場廣度",
-        "score": 21.8,
+        "score": 24.6,
         "weight": 20,
-        "reason": "上漲比 21.8%"
+        "reason": "上漲比 24.6%"
       },
       {
         "name": "外資現貨",
@@ -306,8 +312,8 @@
       {
         "name": "市場廣度",
         "direction": "negative",
-        "reason": "上漲比 21.8%",
-        "score": 21.8
+        "reason": "上漲比 24.6%",
+        "score": 24.6
       },
       {
         "name": "櫃買",
@@ -394,7 +400,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-24T01:53:22+08:00",
+    "enrichedAt": "2026-10-24T06:13:16+08:00",
     "version": "2.2.1"
   }
 }
