@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-24T06:12:48+08:00",
+  "generatedAt": "2026-10-24T08:44:17+08:00",
   "runKind": "afterhours",
   "marketPhase": "週末／休市",
-  "nextExpected": "下一個排程約 2 小時 55 分鐘後",
+  "nextExpected": "下一個排程約 23 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "247↑ / 756↓",
-      "change": "平盤 74",
+      "value": "393↑ / 1413↓",
+      "change": "平盤 137",
       "asOf": "2026-10-22",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "32.508",
@@ -150,12 +150,7 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(802409 bytes read, 4285731 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -183,9 +178,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(802409 bytes read, 4285731 more expected)"
+      "state": "ok",
+      "asOf": "2026-10-22",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -255,7 +250,7 @@
     }
   ],
   "risk": {
-    "score": 20.0,
+    "score": 19.5,
     "label": "Risk-Off",
     "confidence": 100,
     "components": [
@@ -279,9 +274,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 24.6,
+        "score": 21.8,
         "weight": 20,
-        "reason": "上漲比 24.6%"
+        "reason": "上漲比 21.8%"
       },
       {
         "name": "外資現貨",
@@ -312,8 +307,8 @@
       {
         "name": "市場廣度",
         "direction": "negative",
-        "reason": "上漲比 24.6%",
-        "score": 24.6
+        "reason": "上漲比 21.8%",
+        "score": 21.8
       },
       {
         "name": "櫃買",
@@ -400,7 +395,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-24T06:13:16+08:00",
+    "enrichedAt": "2026-10-24T08:44:45+08:00",
     "version": "2.2.1"
   }
 }
