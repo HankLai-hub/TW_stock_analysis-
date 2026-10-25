@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T22:36:22+08:00",
+  "generatedAt": "2026-10-25T23:58:23+08:00",
   "macro": {
     "us2y": {
       "value": 4.69,
@@ -49,6 +49,46 @@
       "asOf": "Oct. 16",
       "source": "Federal Reserve H.10",
       "state": "official_weekly"
+    },
+    "cpi": {
+      "value": 3.737684729064039,
+      "display": "3.7% YoY",
+      "change": "+0.6% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "coreCpi": {
+      "value": 2.5643583511686607,
+      "display": "2.6% YoY",
+      "change": "+0.3% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "unemployment": {
+      "value": 4.2,
+      "display": "4.2%",
+      "change": "Unemployment rate",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "payrolls": {
+      "value": 29.0,
+      "display": "+29k",
+      "change": "Nonfarm payroll monthly change",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
+    },
+    "ahe": {
+      "value": 3.0245231607629375,
+      "display": "3.0% YoY",
+      "change": "+0.1% MoM",
+      "asOf": "2026-09",
+      "source": "U.S. BLS",
+      "state": "official_monthly"
     },
     "brent": {
       "value": 115.22,
@@ -254,9 +294,9 @@
     ]
   },
   "risk": {
-    "score": 22,
+    "score": 12,
     "label": "Risk-Off",
-    "confidence": 50,
+    "confidence": 75,
     "drivers": [
       {
         "name": "美債10Y",
@@ -267,6 +307,11 @@
         "name": "10Y實質利率",
         "direction": "negative",
         "reason": "2.66%：長久期資產壓力"
+      },
+      {
+        "name": "美國CPI",
+        "direction": "negative",
+        "reason": "3.7% YoY：通膨偏高"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -288,24 +333,29 @@
       "asOf": "Oct. 16"
     },
     {
+      "name": "U.S. BLS Public Data API",
+      "status": "ok",
+      "asOf": "2026-09"
+    },
+    {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-25T22:36:24+08:00"
+      "asOf": "2026-10-25T23:58:25+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-25T22:36:24+08:00"
+      "asOf": "2026-10-25T23:58:25+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-25T22:36:24+08:00"
+      "asOf": "2026-10-25T23:58:25+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-25T22:36:25+08:00"
+      "asOf": "2026-10-25T23:58:26+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -322,10 +372,6 @@
   ],
   "errors": [
     {
-      "source": "U.S. BLS macro data",
-      "message": "HTTP Error 503: Service Unavailable"
-    },
-    {
       "source": "Federal Reserve FOMC calendar repair",
       "message": "no validated current-year FOMC section (expected 6-10 meetings)"
     }
@@ -335,7 +381,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-25T22:36:27+08:00",
+    "repairedAt": "2026-10-25T23:58:28+08:00",
     "version": "2.2.1"
   }
 }
