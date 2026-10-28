@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-28T22:02:45+08:00",
+  "generatedAt": "2026-10-29T03:09:42+08:00",
   "macro": {
     "us2y": {
       "value": 4.7,
@@ -91,18 +91,18 @@
       "state": "official_monthly"
     },
     "brent": {
-      "value": 115.22,
-      "display": "$115.22",
-      "change": "-3.03%",
-      "asOf": "2026-10-20",
+      "value": 123.1,
+      "display": "$123.10",
+      "change": "-3.92%",
+      "asOf": "2026-10-27",
       "source": "U.S. EIA via FRED DCOILBRENTEU",
       "state": "official_secondary"
     },
     "wti": {
-      "value": 107.89,
-      "display": "$107.89",
-      "change": "-1.93%",
-      "asOf": "2026-10-20",
+      "value": 103.37,
+      "display": "$103.37",
+      "change": "-1.79%",
+      "asOf": "2026-10-27",
       "source": "U.S. EIA via FRED DCOILWTICO",
       "state": "official_secondary"
     }
@@ -125,9 +125,9 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 11565.35,
-      "display": "11,565.35",
-      "change": "+0.72%",
+      "value": 11640.5,
+      "display": "11,640.50",
+      "change": "+1.38%",
       "asOf": "2026-10-28",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
@@ -148,6 +148,15 @@
   "news": [
     {
       "source": "Federal Reserve",
+      "title": "Federal Reserve issues FOMC statement",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "publishedAt": "2026-10-29T02:00+08:00",
+      "category": "貨幣政策",
+      "impact": 5,
+      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
+    },
+    {
+      "source": "Federal Reserve",
       "title": "Minutes of the Board's discount rate meetings on August 17, September 9, and September 16, 2026",
       "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261013a.htm",
       "publishedAt": "2026-10-14T02:00+08:00",
@@ -162,15 +171,6 @@
       "publishedAt": "2026-10-08T02:00+08:00",
       "category": "貨幣政策",
       "impact": 4,
-      "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
-    },
-    {
-      "source": "Federal Reserve",
-      "title": "Federal Reserve issues FOMC statement",
-      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
-      "publishedAt": "2026-09-17T02:00+08:00",
-      "category": "貨幣政策",
-      "impact": 5,
       "transmission": "主要透過美債殖利率、美元與科技股估值影響台股。"
     },
     {
@@ -340,33 +340,33 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-10-28T22:02:46+08:00"
+      "asOf": "2026-10-29T03:09:44+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-10-28T22:02:47+08:00"
+      "asOf": "2026-10-29T03:09:44+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-10-28T22:02:47+08:00"
+      "asOf": "2026-10-29T03:09:44+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-10-28T22:02:47+08:00"
+      "asOf": "2026-10-29T03:09:44+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
       "status": "ok",
-      "asOf": "2026-10-20",
-      "detail": "Brent 2026-10-20; WTI 2026-10-20"
+      "asOf": "2026-10-27",
+      "detail": "Brent 2026-10-27; WTI 2026-10-27"
     },
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
       "status": "error",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "detail": "FOMC events removed because the official current-year section could not be validated"
     }
   ],
@@ -381,7 +381,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-10-28T22:02:49+08:00",
+    "repairedAt": "2026-10-29T03:09:47+08:00",
     "version": "2.2.1"
   }
 }
