@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T19:43:16+08:00",
+  "generatedAt": "2026-10-29T22:24:38+08:00",
   "files": {
     "data/auto-brief.json": {
       "schemaVersion": 1,
-      "generatedAt": "2026-10-29T19:41:16+08:00",
+      "generatedAt": "2026-10-29T22:22:38+08:00",
       "daily": {
         "status": "ready",
-        "generatedAt": "2026-10-29T19:41:16+08:00",
+        "generatedAt": "2026-10-29T22:22:38+08:00",
         "phase": "盤後",
-        "score": 25.0,
+        "score": 22.9,
         "label": "Risk-Off",
         "tone": "bad",
         "headline": "資金、期貨曝險與市場廣度形成偏空共振，短線先以風險控制為優先。",
         "resonance": {
           "label": "雙重 Risk-Off 共振",
           "tone": "bad",
-          "score": 18,
+          "score": 17,
           "note": "台股資金面與全球金融條件同時偏空，反彈優先視為風險修復。"
         },
         "quickTake": [
           "價格面：TAIEX -1.42%、櫃買 -1.83%。",
-          "法人曝險：外資現貨 -688 億；外資 TX -84,917 口（資料至 2026-10-28，不納入今日方向）。",
+          "法人曝險：外資現貨 -688 億；外資 TX -89,522 口。",
           "市場廣度：上漲家數占漲跌家數約 24.2%，內部結構偏弱。",
           "全球宏觀：美10Y 5.05%、Brent $123.10、CPI 3.7% YoY；全球宏觀 Risk-Off 12分。"
         ],
@@ -30,18 +30,18 @@
         "invalidation": [
           "Risk Score 回升至 45 以上並連續維持兩次更新。",
           "市場廣度回到 50% 以上，且櫃買相對強度同步改善。",
-          "外資現貨轉為淨買超，並等待外資 TX 更新至最新交易日後確認。"
+          "外資現貨轉為淨買超，外資 TX 淨空顯著收斂。"
         ],
-        "dataNote": "模型完整度 72%；本次來源無 warning。"
+        "dataNote": "模型完整度 90%；本次來源無 warning。"
       },
       "weekly": {
         "status": "ready",
-        "generatedAt": "2026-10-29T19:41:16+08:00",
+        "generatedAt": "2026-10-29T22:22:38+08:00",
         "headline": "最近 5 個交易日 Risk Score 平均 40，風險結構較期初惡化。",
         "quickTake": [
           "指數：TAIEX 由 46,887.77 到 46,368.33，區間變動 -1.11%。",
           "外資現貨：5 個不同交易日合計約 -1,265 億。",
-          "外資 TX：期初 -86,072 口 → 期末 -84,917 口，變化 +1,155 口。",
+          "外資 TX：期初 -86,072 口 → 期末 -89,522 口，變化 -3,450 口。",
           "最新市場廣度：上漲家數占漲跌家數約 24.2%。"
         ],
         "stats": [
@@ -51,11 +51,11 @@
           },
           {
             "label": "平均 Risk Score",
-            "value": 40.2
+            "value": 39.8
           },
           {
             "label": "期末 Risk Score",
-            "value": 25.0
+            "value": 22.9
           },
           {
             "label": "TAIEX 區間",
@@ -67,24 +67,24 @@
     },
     "data/daily-dashboard.json": {
       "schemaVersion": "2.2.1",
-      "generatedAt": "2026-10-29T19:41:16+08:00",
+      "generatedAt": "2026-10-29T22:22:38+08:00",
       "meta": {
         "reportType": "每日盤前分析",
         "title": "2026/10/29 台股盤前作戰儀表板 V2.2.1",
-        "updatedAt": "2026/10/29 19:42",
+        "updatedAt": "2026/10/29 22:24",
         "timezone": "Asia/Taipei",
         "twDate": "2026-10-29",
-        "usDate": "2026-10-28",
-        "dataStatus": "自動日報｜Single Source of Truth｜3 stale / 2 N/A"
+        "usDate": "2026-10-29",
+        "dataStatus": "自動日報｜Single Source of Truth｜1 stale / 0 N/A"
       },
-      "score": 25.0,
+      "score": 22.9,
       "scoreLabel": "Risk-Off",
-      "confidence": "72%",
+      "confidence": "90%",
       "regime": "Risk-Off",
       "headline": "資金、期貨曝險與市場廣度形成偏空共振，短線先以風險控制為優先。",
       "quickTake": [
         "價格面：TAIEX -1.42%、櫃買 -1.83%。",
-        "法人曝險：外資現貨 -688 億；外資 TX -84,917 口（資料至 2026-10-28，不納入今日方向）。",
+        "法人曝險：外資現貨 -688 億；外資 TX -89,522 口。",
         "市場廣度：上漲家數占漲跌家數約 24.2%，內部結構偏弱。",
         "全球宏觀：美10Y 5.05%、Brent $123.10、CPI 3.7% YoY；全球宏觀 Risk-Off 12分。"
       ],
@@ -97,7 +97,7 @@
         },
         {
           "label": "台股風險分數",
-          "value": "25.0",
+          "value": "22.9",
           "tone": "bad",
           "note": "Risk-Off"
         },
@@ -109,9 +109,9 @@
         },
         {
           "label": "外資 TX",
-          "value": "-84,917 口",
+          "value": "-89,522 口",
           "tone": "neutral",
-          "note": "2026-10-28"
+          "note": "2026-10-29"
         },
         {
           "label": "市場廣度",
@@ -123,7 +123,7 @@
           "label": "資料稽核",
           "value": "STALE",
           "tone": "bad",
-          "note": "N/A 2 項"
+          "note": "N/A 0 項"
         }
       ],
       "marketThemes": [
@@ -152,7 +152,7 @@
             "USD/TWD",
             "市場廣度"
           ],
-          "thesis": "外資現貨 -688.15 億；外資 TX -84,917 口。",
+          "thesis": "外資現貨 -688.15 億；外資 TX -89,522 口。",
           "watch": "需觀察現貨與期貨是否連續同向，而不是只看單日。"
         },
         {
@@ -187,10 +187,10 @@
         },
         {
           "name": "SOX",
-          "value": "11,684.00",
-          "change": "+1.75%",
-          "tone": "good",
-          "note": "資料日 2026-10-28"
+          "value": "11,509.13",
+          "change": "-1.50%",
+          "tone": "bad",
+          "note": "資料日 2026-10-29"
         },
         {
           "name": "US 10Y",
@@ -234,10 +234,10 @@
         {
           "rank": 3,
           "name": "外資 TX 淨部位",
-          "value": "-84,917 口",
+          "value": "-89,522 口",
           "tone": "neutral",
           "why": "直接觀察外資期貨避險／方向性曝險。",
-          "trigger": "連續兩日明顯減空或重新擴空，且與現貨同向。｜資料日 2026-10-28"
+          "trigger": "連續兩日明顯減空或重新擴空，且與現貨同向。｜資料日 2026-10-29"
         },
         {
           "rank": 4,
@@ -258,134 +258,69 @@
       ],
       "news": [
         {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "Council publishes 2025 international climate finance figures",
-          "fact": "Council publishes 2025 international climate finance figures",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/council-publishes-2025-international-climate-finance-figures/",
-          "verification": "官方來源"
-        },
-        {
           "category": "貨幣政策",
-          "time": "N/A",
+          "time": "2026-10-29 22:00",
           "impact": 4,
-          "title": "Press statement by Eurogroup President Kyriakos Pierrakakis following the announcement of the President of the European Central Bank, Christine Lagarde, to step down on 7 February 2027",
-          "fact": "Press statement by Eurogroup President Kyriakos Pierrakakis following the announcement of the President of the European Central Bank, Christine Lagarde, to step down on 7 February 2027",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "title": "Christine Lagarde, Boris Vujčić: Monetary policy statement",
+          "fact": "Christine Lagarde, Boris Vujčić: Monetary policy statement",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
           "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/press-statement-by-eurogroup-president-kyriakos-pierrakakis-following-the-announcement-of-the-president-of-the-european-central-bank-christine-lagarde-to-step-down-on-7-february-2027/",
-          "verification": "官方來源"
-        },
-        {
-          "category": "貨幣政策",
-          "time": "N/A",
-          "impact": 4,
-          "title": "Statement by President António Costa on the forthcoming departure of Christine Lagarde from the European Central Bank",
-          "fact": "Statement by President António Costa on the forthcoming departure of Christine Lagarde from the European Central Bank",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/statement-by-president-antonio-costa-on-the-forthcoming-departure-of-christine-lagarde-from-the-european-central-bank/",
+          "source": "ECB",
+          "link": "https://www.ecb.europa.eu//press/press_conference/monetary-policy-statement/2026/html/ecb.is261029~5c5ffe99e5.en.html",
           "verification": "官方來源"
         },
         {
           "category": "能源",
-          "time": "N/A",
+          "time": "2026-10-29 22:00",
           "impact": 3,
-          "title": "Media advisory - Transport, Telecommunications and Energy Council (Energy) 29 October 2026",
-          "fact": "Media advisory - Transport, Telecommunications and Energy Council (Energy) 29 October 2026",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "title": "LNG imports make up increasing share of Colombia's natural gas supply",
+          "fact": "LNG imports make up increasing share of Colombia's natural gas supply",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
           "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/28/media-advisory-transport-telecommunications-and-energy-council-energy-29-october-2026/",
+          "source": "EIA Today in Energy",
+          "link": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
+          "verification": "官方來源"
+        },
+        {
+          "category": "貨幣政策",
+          "time": "2026-10-29 21:15",
+          "impact": 4,
+          "title": "Monetary policy decisions",
+          "fact": "Monetary policy decisions",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
+          "sourceKeys": [],
+          "source": "ECB",
+          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
           "verification": "官方來源"
         },
         {
           "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "Media advisory - Accreditation for the EU-UK Summit on 20 November 2026",
-          "fact": "Media advisory - Accreditation for the EU-UK Summit on 20 November 2026",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "time": "2026-10-29 19:59",
+          "impact": 5,
+          "title": "Bundeswehr General: NATO Must Increase Readiness for a Possible Surprise Attack - LIGA.net",
+          "fact": "Bundeswehr General: NATO Must Increase Readiness for a Possible Surprise Attack - LIGA.net",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
           "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/27/media-advisory-accreditation-for-the-eu-uk-summit-on-20-november-2026/",
-          "verification": "官方來源"
+          "source": "Google News discovery · 歐洲安全",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQeDQ2YjNiWGZrUFJOWE9xelU0clVRY1pPNzRqejctcFJocVVqS1Z2MGJrbE4xNkMwM2VaZGZBNzhoelNPVHY0RnF1OGhKYTZnWW9JMWkzVklzaC1CZ0UtMklORmpMekNGZVVUVm1UT3pwSGM0cmJBWTFTX1dOQ2VEZWE0V0tHQnZXeEdDZmluWmMwV1lnQmFidG1XODRsMDFUX1A5dFRpalRkVHhndndibUVxMmTSAboBQVVfeXFMTTkxWGJiYzhZejFUYUlla2llWUt5eHdoVlNDRVB5dkxWLXdWaHAzMGk3WXcxUVhjQm5KWF95S2JIbWtNSTRYakx5dW45QzdqOFZRenhKWm5CdVJtVVVfWF96SWtJdGN2R0dhTDhMaTlla0xTOVNSTV9FWkZoTHJhR2hjbnRsb2JDUUJKVDBDS0lzeGFkZ21fRmVVaDZ6ZGJNaS1WeFhWSWlKS2Fpei1OakR5anMtZEJCcV9n?oc=5",
+          "verification": "背景資訊／需查核原始來源"
         },
         {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "President Costa travels to Montreal for the EU-Canada Summit",
-          "fact": "President Costa travels to Montreal for the EU-Canada Summit",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "category": "總體市場",
+          "time": "2026-10-29 18:48",
+          "impact": 3,
+          "title": "10-year Treasury yield hovers above 5% after strong GDP report, rising inflation data - CNBC",
+          "fact": "10-year Treasury yield hovers above 5% after strong GDP report, rising inflation data - CNBC",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/27/president-costa-travels-to-montreal-for-the-eu-canada-summit/",
-          "verification": "官方來源"
-        },
-        {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "MFF 2028-2034: Council secures negotiating position for a strong and future-oriented common agricultural policy",
-          "fact": "MFF 2028-2034: Council secures negotiating position for a strong and future-oriented common agricultural policy",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/mff-2028-2034-council-secures-negotiating-position-for-a-strong-and-future-oriented-common-agricultural-policy/",
-          "verification": "官方來源"
-        },
-        {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "Baltic Sea: Council reaches agreement on fishing opportunities for 2027",
-          "fact": "Baltic Sea: Council reaches agreement on fishing opportunities for 2027",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/baltic-sea-council-reaches-agreement-on-fishing-opportunities-for-2027/",
-          "verification": "官方來源"
-        },
-        {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "EU support for Ukraine: Council mobilises €4.9 billion under the European Peace Facility",
-          "fact": "EU support for Ukraine: Council mobilises €4.9 billion under the European Peace Facility",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/eu-support-for-ukraine-council-mobilises-49-billion-under-the-european-peace-facility/",
-          "verification": "官方來源"
-        },
-        {
-          "category": "地緣政治",
-          "time": "N/A",
-          "impact": 4,
-          "title": "One-year badge 2027 - accreditation is open",
-          "fact": "One-year badge 2027 - accreditation is open",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "EU Council",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/one-year-badge-2027-accreditation-is-open/",
-          "verification": "官方來源"
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9tUkpYWmlUR3kwRzB5cTZuejFRaTloS09XeThKc3hXUnVVem12eHNkN0ZnV2VpemJ2N09sZWNkenlUNGhHVUo4RmdxaDFIUFhSU0JmMHlKckhSbXhxWXpMUGNsZ0dWOVVmd25nNnRpTE1lbEpTbWhkNk9VTnRpeGPSAYQBQVVfeXFMUE1seWVoTlViUzNtNmZyRk1NekFwcWN2ZkZSMUhWOUY2UHJQWnVZcTB2d1NPRXNzcmhzWlFGWlNNYUd2RTlEbUR1WEZlLWVCQzhjclZPdjlVX29STXVDVW1GOFVaeVUxeUoxSk9GRkhEeGg4RmlXclBlb1ZGZFgydFl0SjJN?oc=5",
+          "verification": "背景資訊／需查核原始來源"
         },
         {
           "category": "台股市場",
@@ -393,7 +328,7 @@
           "impact": 3,
           "title": "資本市場服務團攜手KPMG 推動優質企業邁向資本市場座談會圓滿落",
           "fact": "資本市場服務團攜手KPMG 推動優質企業邁向資本市場座談會圓滿落",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
@@ -406,7 +341,7 @@
           "impact": 3,
           "title": "特力屋股份有限公司股票自115年10月30日開始上市買賣",
           "fact": "特力屋股份有限公司股票自115年10月30日開始上市買賣",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
@@ -414,12 +349,38 @@
           "verification": "官方來源"
         },
         {
+          "category": "能源",
+          "time": "2026-10-29 18:11",
+          "impact": 5,
+          "title": "“Inventories at Rock Bottom Despite Higher Oil Output”: Shipping Disruptions in Hormuz and the Red Sea Threaten Global Energy Supply Chains, Intensify Western Inflation Pressures - https://economy.ac/",
+          "fact": "“Inventories at Rock Bottom Despite Higher Oil Output”: Shipping Disruptions in Hormuz and the Red Sea Threaten Global Energy Supply Chains, Intensify Western Inflation Pressures - https://economy.ac/",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5zbXJyX01qdzFYQTQ2bG9Ha2N3WlF4V2JaUnAtai0xdkFTbkhhVURLVDJPM0R0RUdIUmJGYURaM2E4MFo4SFcwTFVBckZRbWQ1VTFockRscw?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "能源",
+          "time": "2026-10-29 18:08",
+          "impact": 5,
+          "title": "Oil’s New Problem Isn’t Supply. It’s Logistics: Bousso - EnergyNow.com",
+          "fact": "Oil’s New Problem Isn’t Supply. It’s Logistics: Bousso - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNMXQ2YTBfVVVFbFYyWlIwaEZ1VlA0WHg0R1RKX2dfNWpRZndtQi02eE9wd2VIRWE5aVpZSW9qVnpraWdZMzY4c2NqZmtNT3JRdVVXc3U4VTBOUTNFRDNRdGdwVHlPSU9JdE5iYW1ub3pEZnd5MWo5NU1rdDUxSW5pZGlSZTQwaVE?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
           "category": "台股市場",
           "time": "2026-10-29 18:07",
           "impact": 3,
           "title": "證交所攜手台經院與資策會推出臺灣創新板(tib-創) 通信網路、其他電子、綠能環保及生技醫療產業之洞察報告",
           "fact": "證交所攜手台經院與資策會推出臺灣創新板(tib-創) 通信網路、其他電子、綠能環保及生技醫療產業之洞察報告",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
@@ -432,7 +393,7 @@
           "impact": 4,
           "title": "ECB President Lagarde to step down on 7 February 2027",
           "fact": "ECB President Lagarde to step down on 7 February 2027",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
           "sourceKeys": [],
           "source": "ECB",
@@ -445,7 +406,7 @@
           "impact": 3,
           "title": "承銷有價證券競價拍賣系統上線屆滿十年，系統優化功能將於自115年11月2日起上線實施",
           "fact": "承銷有價證券競價拍賣系統上線屆滿十年，系統優化功能將於自115年11月2日起上線實施",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
@@ -458,7 +419,7 @@
           "impact": 3,
           "title": "偉全實業股份有限公司等22家公司預計於115年11月份假證交所場地自行舉辦法人說明會",
           "fact": "偉全實業股份有限公司等22家公司預計於115年11月份假證交所場地自行舉辦法人說明會",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
@@ -466,12 +427,168 @@
           "verification": "官方來源"
         },
         {
+          "category": "地緣政治",
+          "time": "2026-10-29 16:29",
+          "impact": 5,
+          "title": "US EIA Hikes Oil Price Forecasts Again as Iran War Drains Global Stockpile - EnergyNow.com",
+          "fact": "US EIA Hikes Oil Price Forecasts Again as Iran War Drains Global Stockpile - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPLUtNdFF5SVVvSHJ5clNhTTg2NGthUEM5UmNkYU95UENtUFdWTzRBUWJ3TDJ6ZE1Ibk55V3pGaU9nM2JoNVVaa2tmQ2RCb1haRnlRNUhqMkRHVkJPc2ZOcjJPV0pQbWROanNOWEtTYXJRbzJXTXh5c0FFdFFhZW1WaEJ2UEJxYzVCRm13YUFNMlZ2ZFQ4U1gxWVpJOE1IN3dRb1NmanJrMTA?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "地緣政治",
+          "time": "2026-10-29 15:33",
+          "impact": 5,
+          "title": "EU Energy Ministers to Discuss Winter Energy Security as Gas Prices Surge - Egypt Oil & Gas",
+          "fact": "EU Energy Ministers to Discuss Winter Energy Security as Gas Prices Surge - Egypt Oil & Gas",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQdHN0R1czbXNTZkpaRi1EdG8wT25wNjVNZmNOblNmLUlnUlBRS2pwZHAtZTRnNE1ZX1lvVUF5OWlkQjdGUk55VG9aalRhWWVXZUFyS2pMQWhIUl9CSEh2MkdWQ3dudXFINFd1SG10Mnp2ZmVUQjJjLWVnbHlueTd5MDZ2Vmp3NXB0RzZBR2c0UTBrc2laS3loYW9Fb3NucWFhNlljVHdGZw?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "地緣政治",
+          "time": "2026-10-29 13:47",
+          "impact": 4,
+          "title": "Estonia to build 150 bunkers along Russian border - The Kyiv Independent",
+          "fact": "Estonia to build 150 bunkers along Russian border - The Kyiv Independent",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 歐洲安全",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPYmc2eEREWEo5WXcxR0lwUzFxOUlaOThIOVFOeEtUdEEzX1JIYlphaGR1VmRRYVJMTzBjZ1VBeEN6Z2NQbTZmc29NSVFwLW9JZmx2bTg3azBCTjFfQ3U1RGpWbHo3TTNBaGlyM1JGc2VIWkFhZHdTV253SjJ2Mi15a0ViYVk?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "總體市場",
+          "time": "2026-10-29 11:23",
+          "impact": 3,
+          "title": "US Treasuries face a 3% inflation trap as the stock-bond hedge breaks down - Equiti Global",
+          "fact": "US Treasuries face a 3% inflation trap as the stock-bond hedge breaks down - Equiti Global",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMThCcTJsU2RqZHlYZ0ZEZ3VMeVZJNWxUQ1VYMWhkQ3RQa2VmbGUyeFBNaUFlTUtkUlAyV05feFl2dHRsX0hEenVVY3JleWUtUVg3WkZtWnd0d2JLZFdzNV9fVEFuc0VjZmY4WnFjN2xXMC02YnFlaVBXbGhfdXRJd0ZFb3RTQktQOXR5TklIUzFubnlmZThoT0hLQzZmd0Q1c2Y4bkpaRW1MdTR3cmh5T0FLSQ?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "地緣政治",
+          "time": "2026-10-29 09:56",
+          "impact": 5,
+          "title": "PERSPECTIVE: Oil Prices Unlikely to Fall as Houthi Attacks Threaten Saudi Export Routes, Middle East Expert Warns - EnergyNow.com",
+          "fact": "PERSPECTIVE: Oil Prices Unlikely to Fall as Houthi Attacks Threaten Saudi Export Routes, Middle East Expert Warns - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOYno4ZG1kRXdsN1E5STFFZHFnZHZENl9helRxQ2JzT0F1dlQyYks1cTRsM1RwM29PaGF3WlJ6VDd3cm5WcWlmQldKMlpKdlNHR2RLMG9CYXBLdEFQRzA4YmRQUWVUTVluMEhLSVpyU09id3VYeGp3Ni1qMlVGY20zdjZkQnRKN3dzcFRGMkRIRGw4YjI0clUwaFNfMXFRQU9EUk1DSVljZ0VtcFFCYW9mR2ZmQXBkeldBYTU1RUxVREFPRDNLNHlmRFVn?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "能源",
+          "time": "2026-10-29 09:53",
+          "impact": 3,
+          "title": "How a Houthi Blockade in the Red Sea Tightens Iran’s Grip on Global Energy Supplies - EnergyNow.com",
+          "fact": "How a Houthi Blockade in the Red Sea Tightens Iran’s Grip on Global Energy Supplies - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNcEJndXMtbHRQb1Q1YnhKMk1vdGtSUG5GWGdDZHRMOUFwbVVDM3V0OHVCTzVhemt2clNmZFFTUjRKa05kdFNLYUNrTU9fQ1dHQnpCLWJ5YzFqazJESlhBOGtCU1F0MlVaVHBzbG5Bcmx3b1ZNS0E3X2pkNTF5TXVIUC1KMVJqNUNHZThmNF83T05jUHN5QzFlMmU1SzBpMkJQVWdUSFJlbGNXUVgxdGJ3cFN1dw?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "能源",
+          "time": "2026-10-29 09:38",
+          "impact": 5,
+          "title": "New Report of Attack on Strait of Hormuz Shipping Fans fears of Threats to Oil Supplies - EnergyNow.com",
+          "fact": "New Report of Attack on Strait of Hormuz Shipping Fans fears of Threats to Oil Supplies - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPVzRLRi1zMVhKaWpLdDZLOTlMN3pvWXF0Z0p5ZnVEWkdNOUs0NXZseHE0UXNxcVFEM0Z4RU1DOG51a2diRmdyX3pSYU13MWpVVUtwdng0RVh4OFZ2NnZZRm8zb04wS1hWTFRxMm03UFdpV0RnTnZTUFU2djVzM3FjajVJSUt4SmlLYTdJUVhCTmFXMEJjcGFoWXl5b1dnTFhzdWFCeE5uRmIwS0dST2wzNEtLZExDbVMwNVE?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "能源",
+          "time": "2026-10-29 09:11",
+          "impact": 3,
+          "title": "Middle East Crude Premiums Surge, Asian Refiners Seeking Alternatives - EnergyNow.com",
+          "fact": "Middle East Crude Premiums Surge, Asian Refiners Seeking Alternatives - EnergyNow.com",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 能源航運",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZjlEMy1kcTFPQkRmLUp6cmlpdjV6YlhoMHF5cVBQRXdJUkVmdGVPMVQzM2xMQk5vY1ZsLWJPMlZmeHZBRTZFaHZvS2pTQXZCTlliSGltUGhHVEM3VTJFczFkdUcwM29RQWtwZnlOd3Uyc2FJR1RjMlBuUDJnZmg5Y3IyWjNmS0RmTGZKbHNRbHYxRVVuam9aNjIyZ0t0N2R6?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "地緣政治",
+          "time": "2026-10-29 05:04",
+          "impact": 4,
+          "title": "Europe’s Defense Dilemma - Council on Foreign Relations",
+          "fact": "Europe’s Defense Dilemma - Council on Foreign Relations",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 歐洲安全",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9xRmF0N0RzSmtSZUxoNzBaTWk4UVdoZy04eFNqMkNQcmhDVW9VemtUbVBqeHVwRFhmd1lvb1VvMDdLSU1UMTA4QmhqTk93S3pYZGZRdlkzNDQzWHFGNUM4TA?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "總體市場",
+          "time": "2026-10-29 04:48",
+          "impact": 3,
+          "title": "U.S. Stocks Up, Treasury Yields Mixed After Fed Hold - WSJ",
+          "fact": "U.S. Stocks Up, Treasury Yields Mixed After Fed Hold - WSJ",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQLVpkc0tPSDBPVHptQ0w1dG1CTjVvTXpYZTAwbWlJOVpJUHc3UTN5R2pPeTA0QnoyVWpRVGpLS3JFd0xSeDdoWjJtRlJBNHZXVm5kcTBRaUdxQTNNeGdNQmFxYWE0MjBoZG80SVlscnJSaGRDdDBmUFRsT3BtWnd5TjlwZ3dqWDNDRnFVamJ4RlVqZThYTm5tVTJB?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "半導體",
+          "time": "2026-10-29 04:25",
+          "impact": 5,
+          "title": "The bond market swings, but stocks remain steady after the Fed says it won't raise interest rates - Los Angeles Times",
+          "fact": "The bond market swings, but stocks remain steady after the Fed says it won't raise interest rates - Los Angeles Times",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOMS15TGh0RC00ZWcyMUhwdTJVVU5DcFNyWTlzcXpkVEhiWXJaT2Qwc2VXVERFM29kcGJtallidHBJU2ZYSnd1cVg2aUkxbk5WYkhpYlFhR2hnU2hBb2RmV2tUTFNjM09Hd1BhRmRWbkwtamNDMmgtRldTRnVzNVNfNl9XeDVJLXFrbjEwclVHNUp5V3dhb2x2RzdnaFFRdnJMSHhTczhfa2FyU1VIWHNTQUlGZElsYXA1X2NFY1drNmhWcDEtUFFoWVJYeVhpSlRyakdF?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "半導體",
+          "time": "2026-10-29 02:28",
+          "impact": 5,
+          "title": "US stocks remains steady after the Federal Reserve says it won't raise interest rates - The Globe and Mail",
+          "fact": "US stocks remains steady after the Federal Reserve says it won't raise interest rates - The Globe and Mail",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMigAJBVV95cUxPR1R2LU1QdDBpSWgtZHEyZlJVTVJYRFZzZmdPeVczUDRlVUowcm9yb1oyMDAzNXZRSDhxTHVQSHpYSFJsQm1RNGtHRVpWRnBvd0ItQ055bl9mWjNIWVFfN1VoN3B4bUs0OThSMUxvNm94MjVyREpfbHV5M3hSeFNhN3VlNENiMTMyb09IYXdrZjgwOS1hcWxRYWtiYkRvNUNxcTNjYUZoTi0ySmNOWGVKTEtuMndVYU92Zml5M0V5WW5ZeFFRdVZmY1RELXdaRmlLelhQVmtwNXdBdG5TYUpjRUpwVnZQUXhkSmdHVDJQRDBVdDZrSVd5RUFEd0dMZDR3?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
           "category": "貨幣政策",
           "time": "2026-10-29 02:00",
           "impact": 5,
           "title": "Federal Reserve issues FOMC statement",
           "fact": "Federal Reserve issues FOMC statement",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "主要透過美債殖利率、美元與科技股估值影響台股。",
           "sourceKeys": [],
           "source": "Federal Reserve",
@@ -479,172 +596,55 @@
           "verification": "官方來源"
         },
         {
+          "category": "貨幣政策",
+          "time": "2026-10-28 22:08",
+          "impact": 5,
+          "title": "US stocks hold steady as the countdown ticks to a Federal Reserve decision on interest rates - Sun Sentinel",
+          "fact": "US stocks hold steady as the countdown ticks to a Federal Reserve decision on interest rates - Sun Sentinel",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE53WUlrM1FILVF6Qlh6R0pYR21DZEhDazBCYVFNUThoZVozOVJBUEJKMzY3WTZFM3I2aDZVbTJYU1dnUlY3LXhTaS1TYjRNdWQzX2hEaThubjRPeUV4QVZkV0lMVm5jWVJKbGd0V2psTnUwV1VDZ1Q5Q053?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "半導體",
+          "time": "2026-10-28 21:33",
+          "impact": 5,
+          "title": "US stocks edge higher ahead of Federal Reserve decision on interest rates - Daily Jefferson County Union",
+          "fact": "US stocks edge higher ahead of Federal Reserve decision on interest rates - Daily Jefferson County Union",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 總體市場",
+          "link": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxPVGdfejA5aVFDZWFSSTVqbFVIclozX3RhdkVHRzdLN3A1X2VsRi1XU2FJQzk4ME9GeEVwX0JqU0lBb3U5OWNsbGFZRFNVUFJ2YnJ3U2VYZ0t6dTlxWDd2M0p6VnQzVlpYZ3FpMjNPWkRWQTVxUzUtVWdJY3BjMlhXX2RKY0Zhb3ZLeGoyWkFlOHl1bnJvRnF4Q21ITnA0c3B4bU1zOEVfZlhId0RfdzI3QnJKRUJxQ3VrQVUwdDZ0ZUM1RDdYeEc1OUpRdFlEQ3VWZVNkTXYwYldkV2VZN0hVUDBpQTlUWkdNLUIzZ3JJX2kzbFRJamNCY0otbWs?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "category": "地緣政治",
+          "time": "2026-10-28 20:28",
+          "impact": 5,
+          "title": "Finland’s defense minister talks NATO, Ukraine and fishing - Defense News",
+          "fact": "Finland’s defense minister talks NATO, Ukraine and fishing - Defense News",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "sourceKeys": [],
+          "source": "Google News discovery · 歐洲安全",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNMUx3ei1pQTNHUkRpZ0FuVlFzUko1Yy11Sk96Sm1SR0pYZzZzMC1pSlRqemlEUTJHcEl4OTZueGpHTEFYYXVKQjVYSURVc3ZrMVBCTXZWS0hnMldObkFXUWtseC16dE9nbTE2dHRrQUJ3cE1ONVhKNlhSWTk4d3FGZjNGNTVHSnFPWFAxQnNhVF9Sd2lJbk5OU1B4bFBCNThwOGxqYnNDeDFjaGVZSXB3?oc=5",
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
           "category": "台股市場",
           "time": "2026-10-28 17:41",
           "impact": 3,
           "title": "證交所舉辦「證券商後量子密碼學(PQC)遷移作業研討會」",
           "fact": "證交所舉辦「證券商後量子密碼學(PQC)遷移作業研討會」",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX -1.50%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "sourceKeys": [],
           "source": "TWSE",
           "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a181e36011029d",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-28 17:35",
-          "impact": 3,
-          "title": "臺灣證券交易所有價證券上市審議委員會審議通過仲恩生醫科技股份有限公司初次申請股票上市案",
-          "fact": "臺灣證券交易所有價證券上市審議委員會審議通過仲恩生醫科技股份有限公司初次申請股票上市案",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a181dd71c90299",
-          "verification": "官方來源"
-        },
-        {
-          "category": "地緣政治",
-          "time": "2026-10-28 15:14",
-          "impact": 5,
-          "title": "「2026臺灣週：資安韌性與戰略」訂於11月4日舉行，聚焦金融資安韌性發展及新型態AI威脅",
-          "fact": "「2026臺灣週：資安韌性與戰略」訂於11月4日舉行，聚焦金融資安韌性發展及新型態AI威脅",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a1815cf18a027d",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-28 14:00",
-          "impact": 3,
-          "title": "證交所參與彭博日本週論壇，分享ETF發展",
-          "fact": "證交所參與彭博日本週論壇，分享ETF發展",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a18060525d0243",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-27 18:35",
-          "impact": 3,
-          "title": "深化臺美資本市場交流 北美華人會計師協會來訪證交所 攜手拓展企業來臺上市契機",
-          "fact": "深化臺美資本市場交流 北美華人會計師協會來訪證交所 攜手拓展企業來臺上市契機",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cee408a022e",
-          "verification": "官方來源"
-        },
-        {
-          "category": "半導體",
-          "time": "2026-10-27 18:05",
-          "impact": 3,
-          "title": "「TiBOOST創新大步計畫」鏈結396家全球AI新創 12強出爐 助攻臺灣從科技島邁向資本島",
-          "fact": "「TiBOOST創新大步計畫」鏈結396家全球AI新創 12強出爐 助攻臺灣從科技島邁向資本島",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cd2bd9e022a",
-          "verification": "官方來源"
-        },
-        {
-          "category": "半導體",
-          "time": "2026-10-27 17:48",
-          "impact": 3,
-          "title": "富蘭克林華美投信募集發行之「富蘭克林華美核心AI電力算力ETF」及兆豐國際投信募集發行之「兆豐美國黃金礦業ETF」，自115年10月29日起掛牌上市，並得辦理融資融券",
-          "fact": "富蘭克林華美投信募集發行之「富蘭克林華美核心AI電力算力ETF」及兆豐國際投信募集發行之「兆豐美國黃金礦業ETF」，自115年10月29日起掛牌上市，並得辦理融資融券",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cc412020226",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-27 17:42",
-          "impact": 3,
-          "title": "證交所攜手SIT前進新加坡SWITCH 2026，深化國際新創鏈結，拓展臺灣創新板(tib-創)上市契機",
-          "fact": "證交所攜手SIT前進新加坡SWITCH 2026，深化國際新創鏈結，拓展臺灣創新板(tib-創)上市契機",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cbe03480222",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-27 15:05",
-          "impact": 3,
-          "title": "上週發行量加權股價指數跌幅約為2.27%，上市股票總市值達150.72兆元",
-          "fact": "上週發行量加權股價指數跌幅約為2.27%，上市股票總市值達150.72兆元",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17c2da57e0219",
-          "verification": "官方來源"
-        },
-        {
-          "category": "台股市場",
-          "time": "2026-10-27 15:00",
-          "impact": 3,
-          "title": "臺灣證券交易所訂於10月28日召開有價證券上市審議委員會第901次會議，將審議仲恩生醫科技(股)公司之申請股票上市案",
-          "fact": "臺灣證券交易所訂於10月28日召開有價證券上市審議委員會第901次會議，將審議仲恩生醫科技(股)公司之申請股票上市案",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "sourceKeys": [],
-          "source": "TWSE",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17c09d1f20211",
-          "verification": "官方來源"
-        },
-        {
-          "category": "貨幣政策",
-          "time": "2026-10-27 08:00",
-          "impact": 4,
-          "title": "October 2026 euro area bank lending survey",
-          "fact": "October 2026 euro area bank lending survey",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "sourceKeys": [],
-          "source": "ECB",
-          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261027~506ef03145.en.html",
-          "verification": "官方來源"
-        },
-        {
-          "category": "貨幣政策",
-          "time": "2026-10-26 17:00",
-          "impact": 4,
-          "title": "Survey on the Access to Finance of Enterprises: lending conditions tightened",
-          "fact": "Survey on the Access to Finance of Enterprises: lending conditions tightened",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "sourceKeys": [],
-          "source": "ECB",
-          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261026~bde7b6d11a.en.html",
-          "verification": "官方來源"
-        },
-        {
-          "category": "貨幣政策",
-          "time": "2026-10-26 13:00",
-          "impact": 4,
-          "title": "Frank Elderson: Taking action for nature – investing in economic resilience and prosperity",
-          "fact": "Frank Elderson: Taking action for nature – investing in economic resilience and prosperity",
-          "reaction": "同期市場觀察：S&P 500 +0.28%、Nasdaq +0.27%、SOX +1.75%、美10Y +6 bp、Brent -3.92%、USD/TWD 32.492。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "sourceKeys": [],
-          "source": "ECB",
-          "link": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261026~d903d7ad85.en.html",
           "verification": "官方來源"
         }
       ],
@@ -664,7 +664,7 @@
           ],
           [
             "投信",
-            "+86.49 億",
+            "+70.44 億",
             "2026-10-29",
             "TWSE BFI82U"
           ],
@@ -679,8 +679,8 @@
       "derivatives": [
         {
           "label": "外資 TX 淨部位",
-          "value": "-84,917 口",
-          "note": "多 10,510 / 空 95,427 · 2026-10-28",
+          "value": "-89,522 口",
+          "note": "多 8,362 / 空 97,884 · 2026-10-29",
           "tone": "bad"
         },
         {
@@ -711,14 +711,14 @@
         },
         {
           "label": "融資",
-          "value": "上市 6,323.00 億",
-          "note": "上櫃 2,332,946 張 · 2026-10-28",
+          "value": "上市 6,339.11 億",
+          "note": "上櫃 2,335,130 張 · 2026-10-29",
           "tone": "neutral"
         },
         {
           "label": "融券 / 借券賣出",
-          "value": "融券 N/A",
-          "note": "借券賣出 N/A · N/A；兩者單位與機制不同，不相加。",
+          "value": "融券 189,002 張",
+          "note": "借券賣出 124.55 億股 · 2026-10-29；兩者單位與機制不同，不相加。",
           "tone": "neutral"
         }
       ],
@@ -848,7 +848,7 @@
         },
         {
           "type": "BASE",
-          "weight": 46,
+          "weight": 44,
           "title": "高檔震盪／訊號分歧",
           "tone": "warn",
           "conditions": [
@@ -860,7 +860,7 @@
         },
         {
           "type": "BEAR",
-          "weight": 44,
+          "weight": 46,
           "title": "風險條件惡化",
           "tone": "bad",
           "conditions": [
@@ -874,18 +874,9 @@
       "invalidation": [
         "Risk Score 回升至 45 以上並連續維持兩次更新。",
         "市場廣度回到 50% 以上，且櫃買相對強度同步改善。",
-        "外資現貨轉為淨買超，並等待外資 TX 更新至最新交易日後確認。"
+        "外資現貨轉為淨買超，外資 TX 淨空顯著收斂。"
       ],
       "events": [
-        {
-          "source": "U.S. BLS",
-          "title": "Consumer Expenditures",
-          "scheduledAt": "2026-10-29T22:00+08:00",
-          "category": "官方事件",
-          "impact": 3,
-          "watch": "觀察利率、美元與風險偏好的實際反應。",
-          "link": "https://www.bls.gov/schedule/"
-        },
         {
           "source": "U.S. BLS",
           "title": "Employment Cost Index",
@@ -992,8 +983,8 @@
         },
         {
           "name": "外資 TX",
-          "date": "2026-10-28",
-          "state": "stale",
+          "date": "2026-10-29",
+          "state": "latest",
           "source": "TAIFEX"
         },
         {
@@ -1010,21 +1001,21 @@
         },
         {
           "name": "融資",
-          "date": "2026-10-28",
-          "state": "stale",
+          "date": "2026-10-29",
+          "state": "latest",
           "source": "TWSE / TPEx（不同單位）"
         },
         {
           "name": "融券",
-          "date": "N/A",
-          "state": "missing",
-          "source": "N/A"
+          "date": "2026-10-29",
+          "state": "latest",
+          "source": "TWSE MI_MARGN"
         },
         {
           "name": "借券賣出",
-          "date": "N/A",
-          "state": "missing",
-          "source": "N/A"
+          "date": "2026-10-29",
+          "state": "latest",
+          "source": "TWSE TWT93U"
         },
         {
           "name": "市場廣度",
@@ -1064,7 +1055,7 @@
         },
         {
           "name": "SOX",
-          "date": "2026-10-28",
+          "date": "2026-10-29",
           "state": "latest",
           "source": "Nasdaq Global Indexes (SOX)"
         }
@@ -1080,36 +1071,15 @@
         "note": "僅在成交值異常且存在可驗證市場結構事件時提供原因候選；無證據時維持 N/A，不把相關性當因果。"
       },
       "diagnostics": {
-        "stale": 3,
-        "missing": 2,
+        "stale": 1,
+        "missing": 0,
         "globalErrors": [
           {
             "source": "Federal Reserve FOMC calendar repair",
             "message": "no validated current-year FOMC section (expected 6-10 meetings)"
           }
         ],
-        "intelligenceErrors": [
-          {
-            "source": "Google News discovery · 歐洲安全",
-            "message": "HTTP Error 503: Service Unavailable"
-          },
-          {
-            "source": "Google News discovery · 能源航運",
-            "message": "HTTP Error 503: Service Unavailable"
-          },
-          {
-            "source": "Google News discovery · 市場結構",
-            "message": "HTTP Error 503: Service Unavailable"
-          },
-          {
-            "source": "Google News discovery · 半導體",
-            "message": "HTTP Error 503: Service Unavailable"
-          },
-          {
-            "source": "Google News discovery · 總體市場",
-            "message": "HTTP Error 503: Service Unavailable"
-          }
-        ],
+        "intelligenceErrors": [],
         "version": "2.2.1"
       },
       "sources": [
@@ -1177,7 +1147,7 @@
     },
     "data/global.json": {
       "schemaVersion": 1,
-      "generatedAt": "2026-10-29T19:41:47+08:00",
+      "generatedAt": "2026-10-29T22:23:47+08:00",
       "macro": {
         "us2y": {
           "value": 4.67,
@@ -1302,10 +1272,10 @@
           "state": "official_secondary"
         },
         "sox": {
-          "value": 11684.0,
-          "display": "11,684.00",
-          "change": "+1.75%",
-          "asOf": "2026-10-28",
+          "value": 11509.13,
+          "display": "11,509.13",
+          "change": "-1.50%",
+          "asOf": "2026-10-29",
           "source": "Nasdaq Global Indexes (SOX)",
           "state": "official"
         },
@@ -1397,15 +1367,6 @@
         }
       ],
       "events": [
-        {
-          "source": "U.S. BLS",
-          "title": "Consumer Expenditures",
-          "scheduledAt": "2026-10-29T22:00+08:00",
-          "category": "官方事件",
-          "impact": 3,
-          "watch": "觀察利率、美元與風險偏好的實際反應。",
-          "link": "https://www.bls.gov/schedule/"
-        },
         {
           "source": "U.S. BLS",
           "title": "Employment Cost Index",
@@ -1517,22 +1478,22 @@
         {
           "name": "Federal Reserve monetary-policy RSS",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:48+08:00"
+          "asOf": "2026-10-29T22:23:49+08:00"
         },
         {
           "name": "U.S. BLS RSS",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:49+08:00"
+          "asOf": "2026-10-29T22:23:49+08:00"
         },
         {
           "name": "U.S. BLS official release calendar",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:49+08:00"
+          "asOf": "2026-10-29T22:23:49+08:00"
         },
         {
           "name": "Federal Reserve FOMC calendar",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:49+08:00"
+          "asOf": "2026-10-29T22:23:49+08:00"
         },
         {
           "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -1558,14 +1519,79 @@
         "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
       },
       "v221": {
-        "repairedAt": "2026-10-29T19:41:51+08:00",
+        "repairedAt": "2026-10-29T22:23:53+08:00",
         "version": "2.2.1"
       }
     },
     "data/intelligence.json": {
       "schemaVersion": 2,
-      "generatedAt": "2026-10-29T19:41:56+08:00",
+      "generatedAt": "2026-10-29T22:23:58+08:00",
       "news": [
+        {
+          "source": "ECB",
+          "title": "Christine Lagarde, Boris Vujčić: Monetary policy statement",
+          "link": "https://www.ecb.europa.eu//press/press_conference/monetary-policy-statement/2026/html/ecb.is261029~5c5ffe99e5.en.html",
+          "publishedAt": "2026-10-29T22:00+08:00",
+          "category": "貨幣政策",
+          "impact": 4,
+          "fact": "Christine Lagarde, Boris Vujčić: Monetary policy statement",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
+          "discovery": false,
+          "verification": "官方來源"
+        },
+        {
+          "source": "EIA Today in Energy",
+          "title": "LNG imports make up increasing share of Colombia's natural gas supply",
+          "link": "https://www.eia.gov/todayinenergy/detail.php?id=68364",
+          "publishedAt": "2026-10-29T22:00+08:00",
+          "category": "能源",
+          "impact": 3,
+          "fact": "LNG imports make up increasing share of Colombia's natural gas supply",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": false,
+          "verification": "官方來源"
+        },
+        {
+          "source": "ECB",
+          "title": "Monetary policy decisions",
+          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+          "publishedAt": "2026-10-29T21:15+08:00",
+          "category": "貨幣政策",
+          "impact": 4,
+          "fact": "Monetary policy decisions",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
+          "discovery": false,
+          "verification": "官方來源"
+        },
+        {
+          "source": "Google News discovery · 歐洲安全",
+          "title": "Bundeswehr General: NATO Must Increase Readiness for a Possible Surprise Attack - LIGA.net",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQeDQ2YjNiWGZrUFJOWE9xelU0clVRY1pPNzRqejctcFJocVVqS1Z2MGJrbE4xNkMwM2VaZGZBNzhoelNPVHY0RnF1OGhKYTZnWW9JMWkzVklzaC1CZ0UtMklORmpMekNGZVVUVm1UT3pwSGM0cmJBWTFTX1dOQ2VEZWE0V0tHQnZXeEdDZmluWmMwV1lnQmFidG1XODRsMDFUX1A5dFRpalRkVHhndndibUVxMmTSAboBQVVfeXFMTTkxWGJiYzhZejFUYUlla2llWUt5eHdoVlNDRVB5dkxWLXdWaHAzMGk3WXcxUVhjQm5KWF95S2JIbWtNSTRYakx5dW45QzdqOFZRenhKWm5CdVJtVVVfWF96SWtJdGN2R0dhTDhMaTlla0xTOVNSTV9FWkZoTHJhR2hjbnRsb2JDUUJKVDBDS0lzeGFkZ21fRmVVaDZ6ZGJNaS1WeFhWSWlKS2Fpei1OakR5anMtZEJCcV9n?oc=5",
+          "publishedAt": "2026-10-29T19:59+08:00",
+          "category": "地緣政治",
+          "impact": 5,
+          "fact": "Bundeswehr General: NATO Must Increase Readiness for a Possible Surprise Attack - LIGA.net",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "10-year Treasury yield hovers above 5% after strong GDP report, rising inflation data - CNBC",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9tUkpYWmlUR3kwRzB5cTZuejFRaTloS09XeThKc3hXUnVVem12eHNkN0ZnV2VpemJ2N09sZWNkenlUNGhHVUo4RmdxaDFIUFhSU0JmMHlKckhSbXhxWXpMUGNsZ0dWOVVmd25nNnRpTE1lbEpTbWhkNk9VTnRpeGPSAYQBQVVfeXFMUE1seWVoTlViUzNtNmZyRk1NekFwcWN2ZkZSMUhWOUY2UHJQWnVZcTB2d1NPRXNzcmhzWlFGWlNNYUd2RTlEbUR1WEZlLWVCQzhjclZPdjlVX29STXVDVW1GOFVaeVUxeUoxSk9GRkhEeGg4RmlXclBlb1ZGZFgydFl0SjJN?oc=5",
+          "publishedAt": "2026-10-29T18:48+08:00",
+          "category": "總體市場",
+          "impact": 3,
+          "fact": "10-year Treasury yield hovers above 5% after strong GDP report, rising inflation data - CNBC",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
         {
           "source": "TWSE",
           "title": "資本市場服務團攜手KPMG 推動優質企業邁向資本市場座談會圓滿落",
@@ -1591,6 +1617,32 @@
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
           "discovery": false,
           "verification": "官方來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "“Inventories at Rock Bottom Despite Higher Oil Output”: Shipping Disruptions in Hormuz and the Red Sea Threaten Global Energy Supply Chains, Intensify Western Inflation Pressures - https://economy.ac/",
+          "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE5zbXJyX01qdzFYQTQ2bG9Ha2N3WlF4V2JaUnAtai0xdkFTbkhhVURLVDJPM0R0RUdIUmJGYURaM2E4MFo4SFcwTFVBckZRbWQ1VTFockRscw?oc=5",
+          "publishedAt": "2026-10-29T18:11+08:00",
+          "category": "能源",
+          "impact": 5,
+          "fact": "“Inventories at Rock Bottom Despite Higher Oil Output”: Shipping Disruptions in Hormuz and the Red Sea Threaten Global Energy Supply Chains, Intensify Western Inflation Pressures - https://economy.ac/",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "Oil’s New Problem Isn’t Supply. It’s Logistics: Bousso - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNMXQ2YTBfVVVFbFYyWlIwaEZ1VlA0WHg0R1RKX2dfNWpRZndtQi02eE9wd2VIRWE5aVpZSW9qVnpraWdZMzY4c2NqZmtNT3JRdVVXc3U4VTBOUTNFRDNRdGdwVHlPSU9JdE5iYW1ub3pEZnd5MWo5NU1rdDUxSW5pZGlSZTQwaVE?oc=5",
+          "publishedAt": "2026-10-29T18:08+08:00",
+          "category": "能源",
+          "impact": 5,
+          "fact": "Oil’s New Problem Isn’t Supply. It’s Logistics: Bousso - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
         },
         {
           "source": "TWSE",
@@ -1645,6 +1697,201 @@
           "verification": "官方來源"
         },
         {
+          "source": "Google News discovery · 能源航運",
+          "title": "US EIA Hikes Oil Price Forecasts Again as Iran War Drains Global Stockpile - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPLUtNdFF5SVVvSHJ5clNhTTg2NGthUEM5UmNkYU95UENtUFdWTzRBUWJ3TDJ6ZE1Ibk55V3pGaU9nM2JoNVVaa2tmQ2RCb1haRnlRNUhqMkRHVkJPc2ZOcjJPV0pQbWROanNOWEtTYXJRbzJXTXh5c0FFdFFhZW1WaEJ2UEJxYzVCRm13YUFNMlZ2ZFQ4U1gxWVpJOE1IN3dRb1NmanJrMTA?oc=5",
+          "publishedAt": "2026-10-29T16:29+08:00",
+          "category": "地緣政治",
+          "impact": 5,
+          "fact": "US EIA Hikes Oil Price Forecasts Again as Iran War Drains Global Stockpile - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "EU Energy Ministers to Discuss Winter Energy Security as Gas Prices Surge - Egypt Oil & Gas",
+          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQdHN0R1czbXNTZkpaRi1EdG8wT25wNjVNZmNOblNmLUlnUlBRS2pwZHAtZTRnNE1ZX1lvVUF5OWlkQjdGUk55VG9aalRhWWVXZUFyS2pMQWhIUl9CSEh2MkdWQ3dudXFINFd1SG10Mnp2ZmVUQjJjLWVnbHlueTd5MDZ2Vmp3NXB0RzZBR2c0UTBrc2laS3loYW9Fb3NucWFhNlljVHdGZw?oc=5",
+          "publishedAt": "2026-10-29T15:33+08:00",
+          "category": "地緣政治",
+          "impact": 5,
+          "fact": "EU Energy Ministers to Discuss Winter Energy Security as Gas Prices Surge - Egypt Oil & Gas",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 歐洲安全",
+          "title": "Estonia to build 150 bunkers along Russian border - The Kyiv Independent",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPYmc2eEREWEo5WXcxR0lwUzFxOUlaOThIOVFOeEtUdEEzX1JIYlphaGR1VmRRYVJMTzBjZ1VBeEN6Z2NQbTZmc29NSVFwLW9JZmx2bTg3azBCTjFfQ3U1RGpWbHo3TTNBaGlyM1JGc2VIWkFhZHdTV253SjJ2Mi15a0ViYVk?oc=5",
+          "publishedAt": "2026-10-29T13:47+08:00",
+          "category": "地緣政治",
+          "impact": 4,
+          "fact": "Estonia to build 150 bunkers along Russian border - The Kyiv Independent",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "US Treasuries face a 3% inflation trap as the stock-bond hedge breaks down - Equiti Global",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMThCcTJsU2RqZHlYZ0ZEZ3VMeVZJNWxUQ1VYMWhkQ3RQa2VmbGUyeFBNaUFlTUtkUlAyV05feFl2dHRsX0hEenVVY3JleWUtUVg3WkZtWnd0d2JLZFdzNV9fVEFuc0VjZmY4WnFjN2xXMC02YnFlaVBXbGhfdXRJd0ZFb3RTQktQOXR5TklIUzFubnlmZThoT0hLQzZmd0Q1c2Y4bkpaRW1MdTR3cmh5T0FLSQ?oc=5",
+          "publishedAt": "2026-10-29T11:23+08:00",
+          "category": "總體市場",
+          "impact": 3,
+          "fact": "US Treasuries face a 3% inflation trap as the stock-bond hedge breaks down - Equiti Global",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "PERSPECTIVE: Oil Prices Unlikely to Fall as Houthi Attacks Threaten Saudi Export Routes, Middle East Expert Warns - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOYno4ZG1kRXdsN1E5STFFZHFnZHZENl9helRxQ2JzT0F1dlQyYks1cTRsM1RwM29PaGF3WlJ6VDd3cm5WcWlmQldKMlpKdlNHR2RLMG9CYXBLdEFQRzA4YmRQUWVUTVluMEhLSVpyU09id3VYeGp3Ni1qMlVGY20zdjZkQnRKN3dzcFRGMkRIRGw4YjI0clUwaFNfMXFRQU9EUk1DSVljZ0VtcFFCYW9mR2ZmQXBkeldBYTU1RUxVREFPRDNLNHlmRFVn?oc=5",
+          "publishedAt": "2026-10-29T09:56+08:00",
+          "category": "地緣政治",
+          "impact": 5,
+          "fact": "PERSPECTIVE: Oil Prices Unlikely to Fall as Houthi Attacks Threaten Saudi Export Routes, Middle East Expert Warns - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "How a Houthi Blockade in the Red Sea Tightens Iran’s Grip on Global Energy Supplies - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNcEJndXMtbHRQb1Q1YnhKMk1vdGtSUG5GWGdDZHRMOUFwbVVDM3V0OHVCTzVhemt2clNmZFFTUjRKa05kdFNLYUNrTU9fQ1dHQnpCLWJ5YzFqazJESlhBOGtCU1F0MlVaVHBzbG5Bcmx3b1ZNS0E3X2pkNTF5TXVIUC1KMVJqNUNHZThmNF83T05jUHN5QzFlMmU1SzBpMkJQVWdUSFJlbGNXUVgxdGJ3cFN1dw?oc=5",
+          "publishedAt": "2026-10-29T09:53+08:00",
+          "category": "能源",
+          "impact": 3,
+          "fact": "How a Houthi Blockade in the Red Sea Tightens Iran’s Grip on Global Energy Supplies - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "New Report of Attack on Strait of Hormuz Shipping Fans fears of Threats to Oil Supplies - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPVzRLRi1zMVhKaWpLdDZLOTlMN3pvWXF0Z0p5ZnVEWkdNOUs0NXZseHE0UXNxcVFEM0Z4RU1DOG51a2diRmdyX3pSYU13MWpVVUtwdng0RVh4OFZ2NnZZRm8zb04wS1hWTFRxMm03UFdpV0RnTnZTUFU2djVzM3FjajVJSUt4SmlLYTdJUVhCTmFXMEJjcGFoWXl5b1dnTFhzdWFCeE5uRmIwS0dST2wzNEtLZExDbVMwNVE?oc=5",
+          "publishedAt": "2026-10-29T09:38+08:00",
+          "category": "能源",
+          "impact": 5,
+          "fact": "New Report of Attack on Strait of Hormuz Shipping Fans fears of Threats to Oil Supplies - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 能源航運",
+          "title": "Middle East Crude Premiums Surge, Asian Refiners Seeking Alternatives - EnergyNow.com",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZjlEMy1kcTFPQkRmLUp6cmlpdjV6YlhoMHF5cVBQRXdJUkVmdGVPMVQzM2xMQk5vY1ZsLWJPMlZmeHZBRTZFaHZvS2pTQXZCTlliSGltUGhHVEM3VTJFczFkdUcwM29RQWtwZnlOd3Uyc2FJR1RjMlBuUDJnZmg5Y3IyWjNmS0RmTGZKbHNRbHYxRVVuam9aNjIyZ0t0N2R6?oc=5",
+          "publishedAt": "2026-10-29T09:11+08:00",
+          "category": "能源",
+          "impact": 3,
+          "fact": "Middle East Crude Premiums Surge, Asian Refiners Seeking Alternatives - EnergyNow.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 歐洲安全",
+          "title": "Europe’s Defense Dilemma - Council on Foreign Relations",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9xRmF0N0RzSmtSZUxoNzBaTWk4UVdoZy04eFNqMkNQcmhDVW9VemtUbVBqeHVwRFhmd1lvb1VvMDdLSU1UMTA4QmhqTk93S3pYZGZRdlkzNDQzWHFGNUM4TA?oc=5",
+          "publishedAt": "2026-10-29T05:04+08:00",
+          "category": "地緣政治",
+          "impact": 4,
+          "fact": "Europe’s Defense Dilemma - Council on Foreign Relations",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "U.S. Stocks Up, Treasury Yields Mixed After Fed Hold - WSJ",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQLVpkc0tPSDBPVHptQ0w1dG1CTjVvTXpYZTAwbWlJOVpJUHc3UTN5R2pPeTA0QnoyVWpRVGpLS3JFd0xSeDdoWjJtRlJBNHZXVm5kcTBRaUdxQTNNeGdNQmFxYWE0MjBoZG80SVlscnJSaGRDdDBmUFRsT3BtWnd5TjlwZ3dqWDNDRnFVamJ4RlVqZThYTm5tVTJB?oc=5",
+          "publishedAt": "2026-10-29T04:48+08:00",
+          "category": "總體市場",
+          "impact": 3,
+          "fact": "U.S. Stocks Up, Treasury Yields Mixed After Fed Hold - WSJ",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "The bond market swings, but stocks remain steady after the Fed says it won't raise interest rates - Los Angeles Times",
+          "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOMS15TGh0RC00ZWcyMUhwdTJVVU5DcFNyWTlzcXpkVEhiWXJaT2Qwc2VXVERFM29kcGJtallidHBJU2ZYSnd1cVg2aUkxbk5WYkhpYlFhR2hnU2hBb2RmV2tUTFNjM09Hd1BhRmRWbkwtamNDMmgtRldTRnVzNVNfNl9XeDVJLXFrbjEwclVHNUp5V3dhb2x2RzdnaFFRdnJMSHhTczhfa2FyU1VIWHNTQUlGZElsYXA1X2NFY1drNmhWcDEtUFFoWVJYeVhpSlRyakdF?oc=5",
+          "publishedAt": "2026-10-29T04:25+08:00",
+          "category": "半導體",
+          "impact": 5,
+          "fact": "The bond market swings, but stocks remain steady after the Fed says it won't raise interest rates - Los Angeles Times",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "US stocks remains steady after the Federal Reserve says it won't raise interest rates - The Globe and Mail",
+          "link": "https://news.google.com/rss/articles/CBMigAJBVV95cUxPR1R2LU1QdDBpSWgtZHEyZlJVTVJYRFZzZmdPeVczUDRlVUowcm9yb1oyMDAzNXZRSDhxTHVQSHpYSFJsQm1RNGtHRVpWRnBvd0ItQ055bl9mWjNIWVFfN1VoN3B4bUs0OThSMUxvNm94MjVyREpfbHV5M3hSeFNhN3VlNENiMTMyb09IYXdrZjgwOS1hcWxRYWtiYkRvNUNxcTNjYUZoTi0ySmNOWGVKTEtuMndVYU92Zml5M0V5WW5ZeFFRdVZmY1RELXdaRmlLelhQVmtwNXdBdG5TYUpjRUpwVnZQUXhkSmdHVDJQRDBVdDZrSVd5RUFEd0dMZDR3?oc=5",
+          "publishedAt": "2026-10-29T02:28+08:00",
+          "category": "半導體",
+          "impact": 5,
+          "fact": "US stocks remains steady after the Federal Reserve says it won't raise interest rates - The Globe and Mail",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "US stocks hold steady as the countdown ticks to a Federal Reserve decision on interest rates - Sun Sentinel",
+          "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE53WUlrM1FILVF6Qlh6R0pYR21DZEhDazBCYVFNUThoZVozOVJBUEJKMzY3WTZFM3I2aDZVbTJYU1dnUlY3LXhTaS1TYjRNdWQzX2hEaThubjRPeUV4QVZkV0lMVm5jWVJKbGd0V2psTnUwV1VDZ1Q5Q053?oc=5",
+          "publishedAt": "2026-10-28T22:08+08:00",
+          "category": "貨幣政策",
+          "impact": 5,
+          "fact": "US stocks hold steady as the countdown ticks to a Federal Reserve decision on interest rates - Sun Sentinel",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 總體市場",
+          "title": "US stocks edge higher ahead of Federal Reserve decision on interest rates - Daily Jefferson County Union",
+          "link": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxPVGdfejA5aVFDZWFSSTVqbFVIclozX3RhdkVHRzdLN3A1X2VsRi1XU2FJQzk4ME9GeEVwX0JqU0lBb3U5OWNsbGFZRFNVUFJ2YnJ3U2VYZ0t6dTlxWDd2M0p6VnQzVlpYZ3FpMjNPWkRWQTVxUzUtVWdJY3BjMlhXX2RKY0Zhb3ZLeGoyWkFlOHl1bnJvRnF4Q21ITnA0c3B4bU1zOEVfZlhId0RfdzI3QnJKRUJxQ3VrQVUwdDZ0ZUM1RDdYeEc1OUpRdFlEQ3VWZVNkTXYwYldkV2VZN0hVUDBpQTlUWkdNLUIzZ3JJX2kzbFRJamNCY0otbWs?oc=5",
+          "publishedAt": "2026-10-28T21:33+08:00",
+          "category": "半導體",
+          "impact": 5,
+          "fact": "US stocks edge higher ahead of Federal Reserve decision on interest rates - Daily Jefferson County Union",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
+          "source": "Google News discovery · 歐洲安全",
+          "title": "Finland’s defense minister talks NATO, Ukraine and fishing - Defense News",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNMUx3ei1pQTNHUkRpZ0FuVlFzUko1Yy11Sk96Sm1SR0pYZzZzMC1pSlRqemlEUTJHcEl4OTZueGpHTEFYYXVKQjVYSURVc3ZrMVBCTXZWS0hnMldObkFXUWtseC16dE9nbTE2dHRrQUJ3cE1ONVhKNlhSWTk4d3FGZjNGNTVHSnFPWFAxQnNhVF9Sd2lJbk5OU1B4bFBCNThwOGxqYnNDeDFjaGVZSXB3?oc=5",
+          "publishedAt": "2026-10-28T20:28+08:00",
+          "category": "地緣政治",
+          "impact": 5,
+          "fact": "Finland’s defense minister talks NATO, Ukraine and fishing - Defense News",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
           "source": "TWSE",
           "title": "證交所舉辦「證券商後量子密碼學(PQC)遷移作業研討會」",
           "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a181e36011029d",
@@ -1684,6 +1931,19 @@
           "verification": "官方來源"
         },
         {
+          "source": "Google News discovery · 半導體",
+          "title": "TSMC Hunts for Rare-Earth-Free Tools After a Record $46.7 Billion Quarter - TIKR.com",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNZ2xEbUgxQ1QwdlhORDU3UEpmRlZFbWhuZzJVT1J5TTduMjlYNllJU1JqOXc0Z016cUlqZm95TUtzV0d1WlZMWjJWYjRmaFFFRkJZZXdFX1FVWEwwQ09mWVBZVUdUckgyVmpJX3dLTFhBTm5xamFwWlhHTXF1ZDEzU0FTYWEzUWNxTmgtSURpeWRDbThucmp6dmY4SjJmQUw5Vk4xa2t5NWx5dU9Kdl96R0JzMXQ1QQ?oc=5",
+          "publishedAt": "2026-10-28T15:00+08:00",
+          "category": "半導體",
+          "impact": 3,
+          "fact": "TSMC Hunts for Rare-Earth-Free Tools After a Record $46.7 Billion Quarter - TIKR.com",
+          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
+          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
+        },
+        {
           "source": "TWSE",
           "title": "證交所參與彭博日本週論壇，分享ETF發展",
           "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a18060525d0243",
@@ -1697,342 +1957,43 @@
           "verification": "官方來源"
         },
         {
-          "source": "TWSE",
-          "title": "深化臺美資本市場交流 北美華人會計師協會來訪證交所 攜手拓展企業來臺上市契機",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cee408a022e",
-          "publishedAt": "2026-10-27T18:35+08:00",
-          "category": "台股市場",
+          "source": "Google News discovery · 歐洲安全",
+          "title": "Readiness 2030: Are We Heading in the Right Direction? - IRIS - Institut de relations internationales et stratégiques",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxORlBXU3NDU2doX1pWRXNZalhDczZJYzhKbURyV25oczdnVDRTQlo1ajN0LTVQQlNZeW05ZVhMOFoyaUZkVDdWWElLenJnRTJINjRXVlk1dG1DV0J6UTBhUGRfeUJGektOTUR1UTRWU0g2UC1jRmVVMDJHTnVLekt5Qmx1M1Z6cjlwbDFvMGV5TllFNFBj?oc=5",
+          "publishedAt": "2026-10-28T02:21+08:00",
+          "category": "歐洲安全",
           "impact": 3,
-          "fact": "深化臺美資本市場交流 北美華人會計師協會來訪證交所 攜手拓展企業來臺上市契機",
+          "fact": "Readiness 2030: Are We Heading in the Right Direction? - IRIS - Institut de relations internationales et stratégiques",
           "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
           "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "discovery": false,
-          "verification": "官方來源"
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
         },
         {
-          "source": "TWSE",
-          "title": "「TiBOOST創新大步計畫」鏈結396家全球AI新創 12強出爐 助攻臺灣從科技島邁向資本島",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cd2bd9e022a",
-          "publishedAt": "2026-10-27T18:05+08:00",
+          "source": "Google News discovery · 半導體",
+          "title": "The U.S.-Taiwan ART’s Export Control Puzzle - Lawfare",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPVkhxSlNNd1gtOE1GcWhBbHczaWZrYnBJMWUzQzg0ajBqMUtNMko3a0dXanFjYzlsX05WM2ZPVEo1VUxVcGo5OXFoeHdzek5pbUJDVG1UZUJ6ZUV4TGNhMEJnV2xISU5SUWNpNDhIaW5icWFIejk4ck9nM3dYLUhDT2VoZkhjbTQ?oc=5",
+          "publishedAt": "2026-10-28T02:05+08:00",
           "category": "半導體",
-          "impact": 3,
-          "fact": "「TiBOOST創新大步計畫」鏈結396家全球AI新創 12強出爐 助攻臺灣從科技島邁向資本島",
+          "impact": 5,
+          "fact": "The U.S.-Taiwan ART’s Export Control Puzzle - Lawfare",
           "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
           "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
-          "discovery": false,
-          "verification": "官方來源"
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
         },
         {
-          "source": "TWSE",
-          "title": "富蘭克林華美投信募集發行之「富蘭克林華美核心AI電力算力ETF」及兆豐國際投信募集發行之「兆豐美國黃金礦業ETF」，自115年10月29日起掛牌上市，並得辦理融資融券",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cc412020226",
-          "publishedAt": "2026-10-27T17:48+08:00",
-          "category": "半導體",
-          "impact": 3,
-          "fact": "富蘭克林華美投信募集發行之「富蘭克林華美核心AI電力算力ETF」及兆豐國際投信募集發行之「兆豐美國黃金礦業ETF」，自115年10月29日起掛牌上市，並得辦理融資融券",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "TWSE",
-          "title": "證交所攜手SIT前進新加坡SWITCH 2026，深化國際新創鏈結，拓展臺灣創新板(tib-創)上市契機",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17cbe03480222",
-          "publishedAt": "2026-10-27T17:42+08:00",
-          "category": "台股市場",
-          "impact": 3,
-          "fact": "證交所攜手SIT前進新加坡SWITCH 2026，深化國際新創鏈結，拓展臺灣創新板(tib-創)上市契機",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "TWSE",
-          "title": "上週發行量加權股價指數跌幅約為2.27%，上市股票總市值達150.72兆元",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17c2da57e0219",
-          "publishedAt": "2026-10-27T15:05+08:00",
-          "category": "台股市場",
-          "impact": 3,
-          "fact": "上週發行量加權股價指數跌幅約為2.27%，上市股票總市值達150.72兆元",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "TWSE",
-          "title": "臺灣證券交易所訂於10月28日召開有價證券上市審議委員會第901次會議，將審議仲恩生醫科技(股)公司之申請股票上市案",
-          "link": "/rwd/zh/news/newsDetail/8a8216d6a0fa351b01a17c09d1f20211",
-          "publishedAt": "2026-10-27T15:00+08:00",
-          "category": "台股市場",
-          "impact": 3,
-          "fact": "臺灣證券交易所訂於10月28日召開有價證券上市審議委員會第901次會議，將審議仲恩生醫科技(股)公司之申請股票上市案",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "先觀察市場價格、外資與匯率反應，不以單一新聞直接推導台股方向。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "October 2026 euro area bank lending survey",
-          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261027~506ef03145.en.html",
-          "publishedAt": "2026-10-27T08:00+08:00",
+          "source": "Google News discovery · 總體市場",
+          "title": "What the Fed's interest rate decision means for your bank accounts, loans, credit cards, and investments - Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOaDlWS0VRSklaemMzd3V4dllmTlZRbTQtOVV6WlA2SjlkcTI2LTl4RU1PTk93OHpIelZWUWczX1RfS0xCRHVnN0FlWUZBOFUtc2dWdjE1OXFaekxLWjR0b243b1VWRENCeko4OVFnSXBEVFhCeUhGVFQxMFZVby1CY3dNMG1ZR3JEd0dRWGgyblV2UjIxQkwxZXNjakpHV0dBWUtoeXJlUUpJR2pkaVFlRGEtMEZqd1M2UXlwT1RfRWlxbzhYQU1WdUxXWkh0MHZNa1J6QVl2SFliSVIzVmgwSjBoZ1V1RlZjUGloa2xIWmVBeURVSHNLcFNtM21LMXY2RHNTOQ?oc=5",
+          "publishedAt": "2026-10-27T21:55+08:00",
           "category": "貨幣政策",
-          "impact": 4,
-          "fact": "October 2026 euro area bank lending survey",
+          "impact": 5,
+          "fact": "What the Fed's interest rate decision means for your bank accounts, loans, credit cards, and investments - Yahoo Finance",
           "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
           "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Survey on the Access to Finance of Enterprises: lending conditions tightened",
-          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261026~bde7b6d11a.en.html",
-          "publishedAt": "2026-10-26T17:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Survey on the Access to Finance of Enterprises: lending conditions tightened",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Frank Elderson: Taking action for nature – investing in economic resilience and prosperity",
-          "link": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261026~d903d7ad85.en.html",
-          "publishedAt": "2026-10-26T13:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Frank Elderson: Taking action for nature – investing in economic resilience and prosperity",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Piero Cipollone: Interview with Milano Finanza",
-          "link": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in261024~ee2ba73cf3.en.html",
-          "publishedAt": "2026-10-24T14:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Piero Cipollone: Interview with Milano Finanza",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "ECB Consumer Expectations Survey results – September 2026",
-          "link": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261023~a3d201c97c.en.html",
-          "publishedAt": "2026-10-23T16:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "ECB Consumer Expectations Survey results – September 2026",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EIA Today in Energy",
-          "title": "U.S. refineries have been running at very high rates in 2026",
-          "link": "https://www.eia.gov/todayinenergy/detail.php?id=68344",
-          "publishedAt": "2026-10-22T22:00+08:00",
-          "category": "能源",
-          "impact": 3,
-          "fact": "U.S. refineries have been running at very high rates in 2026",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Piero Cipollone: Pontes and Appia: unlocking opportunities for banks",
-          "link": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261021_1~d190f2c349.en.pdf",
-          "publishedAt": "2026-10-21T16:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Piero Cipollone: Pontes and Appia: unlocking opportunities for banks",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Philip R. Lane: Euro liquidity lines and the international monetary system",
-          "link": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp261021~401d6c4b70.en.html",
-          "publishedAt": "2026-10-21T12:15+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Philip R. Lane: Euro liquidity lines and the international monetary system",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "ECB",
-          "title": "Frank Elderson: Interview with Die Presse",
-          "link": "https://www.ecb.europa.eu//press/inter/date/2026/html/ecb.in261020~97e2e4bc38.en.html",
-          "publishedAt": "2026-10-20T15:00+08:00",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Frank Elderson: Interview with Die Presse",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EIA Today in Energy",
-          "title": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
-          "link": "https://www.eia.gov/todayinenergy/detail.php?id=68325",
-          "publishedAt": "2026-10-19T22:00+08:00",
-          "category": "市場結構",
-          "impact": 4,
-          "fact": "Hybrid sales rise while battery electric sales remain lower after tax credit expiration",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "可能造成收盤集合競價、被動資金與權值股成交量異常；應與主動外資流向分開解讀。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Council publishes 2025 international climate finance figures",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/council-publishes-2025-international-climate-finance-figures/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "Council publishes 2025 international climate finance figures",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Press statement by Eurogroup President Kyriakos Pierrakakis following the announcement of the President of the European Central Bank, Christine Lagarde, to step down on 7 February 2027",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/press-statement-by-eurogroup-president-kyriakos-pierrakakis-following-the-announcement-of-the-president-of-the-european-central-bank-christine-lagarde-to-step-down-on-7-february-2027/",
-          "publishedAt": "",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Press statement by Eurogroup President Kyriakos Pierrakakis following the announcement of the President of the European Central Bank, Christine Lagarde, to step down on 7 February 2027",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Statement by President António Costa on the forthcoming departure of Christine Lagarde from the European Central Bank",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/29/statement-by-president-antonio-costa-on-the-forthcoming-departure-of-christine-lagarde-from-the-european-central-bank/",
-          "publishedAt": "",
-          "category": "貨幣政策",
-          "impact": 4,
-          "fact": "Statement by President António Costa on the forthcoming departure of Christine Lagarde from the European Central Bank",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過利率、美元、殖利率曲線與科技股估值傳導至台股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Media advisory - Transport, Telecommunications and Energy Council (Energy) 29 October 2026",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/28/media-advisory-transport-telecommunications-and-energy-council-energy-29-october-2026/",
-          "publishedAt": "",
-          "category": "能源",
-          "impact": 3,
-          "fact": "Media advisory - Transport, Telecommunications and Energy Council (Energy) 29 October 2026",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Media advisory - Accreditation for the EU-UK Summit on 20 November 2026",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/27/media-advisory-accreditation-for-the-eu-uk-summit-on-20-november-2026/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "Media advisory - Accreditation for the EU-UK Summit on 20 November 2026",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "President Costa travels to Montreal for the EU-Canada Summit",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/27/president-costa-travels-to-montreal-for-the-eu-canada-summit/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "President Costa travels to Montreal for the EU-Canada Summit",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "MFF 2028-2034: Council secures negotiating position for a strong and future-oriented common agricultural policy",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/mff-2028-2034-council-secures-negotiating-position-for-a-strong-and-future-oriented-common-agricultural-policy/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "MFF 2028-2034: Council secures negotiating position for a strong and future-oriented common agricultural policy",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "Baltic Sea: Council reaches agreement on fishing opportunities for 2027",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/baltic-sea-council-reaches-agreement-on-fishing-opportunities-for-2027/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "Baltic Sea: Council reaches agreement on fishing opportunities for 2027",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "EU support for Ukraine: Council mobilises €4.9 billion under the European Peace Facility",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/eu-support-for-ukraine-council-mobilises-49-billion-under-the-european-peace-facility/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "EU support for Ukraine: Council mobilises €4.9 billion under the European Peace Facility",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
-        },
-        {
-          "source": "EU Council",
-          "title": "One-year badge 2027 - accreditation is open",
-          "link": "https://www.consilium.europa.eu/en/press/press-releases/2026/10/26/one-year-badge-2027-accreditation-is-open/",
-          "publishedAt": "",
-          "category": "地緣政治",
-          "impact": 4,
-          "fact": "One-year badge 2027 - accreditation is open",
-          "reaction": "等待價格、殖利率、匯率或成交量驗證；系統不以標題自行推估已發生的市場反應。",
-          "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-          "discovery": false,
-          "verification": "官方來源"
+          "discovery": true,
+          "verification": "背景資訊／需查核原始來源"
         }
       ],
       "events": [
@@ -2060,55 +2021,59 @@
           "name": "TWSE",
           "url": "https://www.twse.com.tw/rwd/zh/news/feed?type=rss",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:57+08:00"
+          "asOf": "2026-10-29T22:24:00+08:00"
         },
         {
           "name": "EU Council",
           "url": "https://www.consilium.europa.eu/en/rss/pressreleases.ashx",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:57+08:00"
+          "asOf": "2026-10-29T22:24:00+08:00"
         },
         {
           "name": "ECB",
           "url": "https://www.ecb.europa.eu/rss/press.html",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:58+08:00"
+          "asOf": "2026-10-29T22:24:00+08:00"
         },
         {
           "name": "EIA Today in Energy",
           "url": "https://www.eia.gov/rss/todayinenergy.xml",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:58+08:00"
+          "asOf": "2026-10-29T22:24:01+08:00"
         },
         {
           "name": "EIA Press",
           "url": "https://www.eia.gov/rss/press_rss.xml",
           "status": "ok",
-          "asOf": "2026-10-29T19:41:58+08:00"
+          "asOf": "2026-10-29T22:24:01+08:00"
+        },
+        {
+          "name": "Google News discovery · 歐洲安全",
+          "status": "ok",
+          "asOf": "2026-10-29T22:24:01+08:00"
+        },
+        {
+          "name": "Google News discovery · 能源航運",
+          "status": "ok",
+          "asOf": "2026-10-29T22:24:01+08:00"
+        },
+        {
+          "name": "Google News discovery · 市場結構",
+          "status": "ok",
+          "asOf": "2026-10-29T22:24:02+08:00"
+        },
+        {
+          "name": "Google News discovery · 半導體",
+          "status": "ok",
+          "asOf": "2026-10-29T22:24:02+08:00"
+        },
+        {
+          "name": "Google News discovery · 總體市場",
+          "status": "ok",
+          "asOf": "2026-10-29T22:24:02+08:00"
         }
       ],
-      "errors": [
-        {
-          "source": "Google News discovery · 歐洲安全",
-          "message": "HTTP Error 503: Service Unavailable"
-        },
-        {
-          "source": "Google News discovery · 能源航運",
-          "message": "HTTP Error 503: Service Unavailable"
-        },
-        {
-          "source": "Google News discovery · 市場結構",
-          "message": "HTTP Error 503: Service Unavailable"
-        },
-        {
-          "source": "Google News discovery · 半導體",
-          "message": "HTTP Error 503: Service Unavailable"
-        },
-        {
-          "source": "Google News discovery · 總體市場",
-          "message": "HTTP Error 503: Service Unavailable"
-        }
-      ]
+      "errors": []
     },
     "data/intraday-feed.example.json": {
       "asOf": "2026-09-14T10:07:00+08:00",
@@ -70896,14 +70861,267 @@
           ],
           "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
         }
+      },
+      {
+        "schemaVersion": 1,
+        "generatedAt": "2026-10-29T22:22:38+08:00",
+        "runKind": "afterhours",
+        "marketPhase": "盤後",
+        "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
+        "intradayFeed": {
+          "state": "not_configured",
+          "label": "盤中授權資料源尚未設定",
+          "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
+        },
+        "metrics": {
+          "taiex": {
+            "value": "46,368.33",
+            "change": "-1.42%",
+            "asOf": "2026-10-29",
+            "state": "official_close",
+            "source": "TWSE"
+          },
+          "otc": {
+            "value": "387.37",
+            "change": "-1.83%",
+            "asOf": "2026-10-29",
+            "state": "official_close",
+            "source": "TPEx"
+          },
+          "turnover": {
+            "value": "8,238 億",
+            "change": "",
+            "asOf": "2026-10-29",
+            "state": "official_close",
+            "source": "TWSE"
+          },
+          "breadth": {
+            "value": "427↑ / 1335↓",
+            "change": "平盤 183",
+            "asOf": "2026-10-29",
+            "state": "official_close",
+            "source": "TWSE/TPEx 股票"
+          },
+          "usdTwd": {
+            "value": "32.492",
+            "change": "",
+            "asOf": "2026-10-29",
+            "state": "official_daily",
+            "source": "CBC"
+          },
+          "tx": {
+            "value": "47,244",
+            "change": "+2.47%",
+            "asOf": "2026-10-28",
+            "state": "official_close",
+            "source": "TAIFEX"
+          },
+          "foreignSpot": {
+            "value": "-688.15 億",
+            "change": "上市市場",
+            "asOf": "2026-10-29",
+            "state": "official_afterhours",
+            "source": "TWSE"
+          },
+          "foreignTx": {
+            "value": "-89,522 口",
+            "change": "多 8,362 / 空 97,884",
+            "asOf": "2026-10-29",
+            "state": "official_afterhours",
+            "source": "TAIFEX"
+          },
+          "putCall": {
+            "value": "成交 92.29%",
+            "change": "OI 69.38%",
+            "asOf": "2026-10-28",
+            "state": "official_afterhours",
+            "source": "TAIFEX"
+          },
+          "margin": {
+            "value": "上市 6,339.11 億",
+            "change": "上櫃 2,335,130 張",
+            "asOf": "2026-10-29",
+            "state": "official_afterhours",
+            "source": "TWSE / TPEx（不同單位）"
+          }
+        },
+        "errors": [],
+        "sourceStatus": [
+          {
+            "name": "TWSE MI_INDEX",
+            "state": "ok",
+            "asOf": "2026-10-28",
+            "detail": ""
+          },
+          {
+            "name": "TWSE turnover",
+            "state": "ok",
+            "asOf": "2026-10-28",
+            "detail": ""
+          },
+          {
+            "name": "TWSE stock breadth",
+            "state": "ok",
+            "asOf": "2026-10-28",
+            "detail": ""
+          },
+          {
+            "name": "TWSE same-day TAIEX",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "date-targeted official RWD"
+          },
+          {
+            "name": "TWSE same-day breadth",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "date-targeted official RWD"
+          },
+          {
+            "name": "TWSE same-day turnover",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "date-targeted official RWD"
+          },
+          {
+            "name": "TPEx daily trading index",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "OpenAPI"
+          },
+          {
+            "name": "TPEx market highlight",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "OpenAPI close-quotes derived stock breadth"
+          },
+          {
+            "name": "CBC USD/TWD",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "CBC latest daily closing-rate page"
+          },
+          {
+            "name": "TAIFEX institutional TX",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "official HTML fallback"
+          },
+          {
+            "name": "TAIFEX Put/Call",
+            "state": "ok",
+            "asOf": "2026-10-28",
+            "detail": ""
+          },
+          {
+            "name": "TAIFEX TX daily",
+            "state": "ok",
+            "asOf": "2026-10-28",
+            "detail": ""
+          },
+          {
+            "name": "TWSE BFI82U",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "official JSON"
+          },
+          {
+            "name": "TWSE margin market total",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "融資金額(仟元)→億元"
+          },
+          {
+            "name": "TPEx margin",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "OpenAPI per-security financing balance; official unit 張"
+          },
+          {
+            "name": "TWSE same-day BFI82U",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "date-targeted official RWD"
+          },
+          {
+            "name": "TWSE same-day margin",
+            "state": "ok",
+            "asOf": "2026-10-29",
+            "detail": "date-targeted official CSV"
+          }
+        ],
+        "risk": {
+          "score": 22.9,
+          "label": "Risk-Off",
+          "confidence": 90,
+          "components": [
+            {
+              "name": "TAIEX",
+              "score": 33.0,
+              "weight": 18,
+              "reason": "收盤 -1.42%"
+            },
+            {
+              "name": "櫃買",
+              "score": 31.7,
+              "weight": 12,
+              "reason": "收盤 -1.83%"
+            },
+            {
+              "name": "市場廣度",
+              "score": 24.2,
+              "weight": 20,
+              "reason": "上漲比 24.2%"
+            },
+            {
+              "name": "外資現貨",
+              "score": 15.6,
+              "weight": 22,
+              "reason": "-688 億"
+            },
+            {
+              "name": "外資TX",
+              "score": 14.2,
+              "weight": 18,
+              "reason": "-89,522 口"
+            }
+          ],
+          "drivers": [
+            {
+              "name": "外資現貨",
+              "direction": "negative",
+              "reason": "-688 億",
+              "score": 15.6
+            },
+            {
+              "name": "外資TX",
+              "direction": "negative",
+              "reason": "-89,522 口",
+              "score": 14.2
+            },
+            {
+              "name": "市場廣度",
+              "direction": "negative",
+              "reason": "上漲比 24.2%",
+              "score": 24.2
+            },
+            {
+              "name": "TAIEX",
+              "direction": "negative",
+              "reason": "收盤 -1.42%",
+              "score": 33.0
+            }
+          ],
+          "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
+        }
       }
     ],
     "data/live.json": {
       "schemaVersion": 1,
-      "generatedAt": "2026-10-29T19:41:16+08:00",
+      "generatedAt": "2026-10-29T22:22:38+08:00",
       "runKind": "afterhours",
       "marketPhase": "盤後",
-      "nextExpected": "下一個排程約 1 小時 36 分鐘後",
+      "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
       "intradayFeed": {
         "state": "not_configured",
         "label": "盤中授權資料源尚未設定",
@@ -70961,9 +71179,9 @@
           "rawValueYi": -688.1528
         },
         "foreignTx": {
-          "value": "-84,917 口",
-          "change": "多 10,510 / 空 95,427",
-          "asOf": "2026-10-28",
+          "value": "-89,522 口",
+          "change": "多 8,362 / 空 97,884",
+          "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TAIFEX"
         },
@@ -70975,9 +71193,9 @@
           "source": "TAIFEX"
         },
         "margin": {
-          "value": "上市 6,323.00 億",
-          "change": "上櫃 2,332,946 張",
-          "asOf": "2026-10-28",
+          "value": "上市 6,339.11 億",
+          "change": "上櫃 2,335,130 張",
+          "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE / TPEx（不同單位）"
         },
@@ -70990,20 +71208,20 @@
           "rawValueYi": -688.1528
         },
         "trustSpot": {
-          "value": "+86.49 億",
+          "value": "+70.44 億",
           "change": "上市市場",
           "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE BFI82U",
-          "rawValueYi": 86.4924
+          "rawValueYi": 70.443
         },
         "investmentTrust": {
-          "value": "+86.49 億",
+          "value": "+70.44 億",
           "change": "上市市場",
           "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE BFI82U",
-          "rawValueYi": 86.4924
+          "rawValueYi": 70.443
         },
         "dealerSpot": {
           "value": "-215.00 億",
@@ -71011,7 +71229,7 @@
           "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE BFI82U",
-          "rawValueYi": -215.0029
+          "rawValueYi": -215.0002
         },
         "dealer": {
           "value": "-215.00 億",
@@ -71019,7 +71237,7 @@
           "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE BFI82U",
-          "rawValueYi": -215.0029
+          "rawValueYi": -215.0002
         },
         "dealerSelfSpot": {
           "value": "-1.84 億",
@@ -71034,6 +71252,20 @@
           "asOf": "2026-10-29",
           "state": "official_afterhours",
           "source": "TWSE BFI82U"
+        },
+        "shortBalance": {
+          "value": "189,002 張",
+          "change": "較前日 -4,038 張",
+          "asOf": "2026-10-29",
+          "state": "official_afterhours",
+          "source": "TWSE MI_MARGN"
+        },
+        "borrowShortBalance": {
+          "value": "124.55 億股",
+          "change": "1068 檔加總；單位為股",
+          "asOf": "2026-10-29",
+          "state": "official_afterhours",
+          "source": "TWSE TWT93U"
         }
       },
       "errors": [],
@@ -71095,8 +71327,8 @@
         {
           "name": "TAIFEX institutional TX",
           "state": "ok",
-          "asOf": "2026-10-28",
-          "detail": "OpenAPI"
+          "asOf": "2026-10-29",
+          "detail": "official HTML fallback"
         },
         {
           "name": "TAIFEX Put/Call",
@@ -71119,13 +71351,13 @@
         {
           "name": "TWSE margin market total",
           "state": "ok",
-          "asOf": "2026-10-28",
+          "asOf": "2026-10-29",
           "detail": "融資金額(仟元)→億元"
         },
         {
           "name": "TPEx margin",
           "state": "ok",
-          "asOf": "2026-10-28",
+          "asOf": "2026-10-29",
           "detail": "OpenAPI per-security financing balance; official unit 張"
         },
         {
@@ -71136,9 +71368,9 @@
         },
         {
           "name": "TWSE same-day margin",
-          "state": "pending",
-          "asOf": "",
-          "detail": "MI_MARGN returned unknown, expected 2026-10-29"
+          "state": "ok",
+          "asOf": "2026-10-29",
+          "detail": "date-targeted official CSV"
         },
         {
           "name": "TWSE V2.2.1 institutional totals",
@@ -71148,15 +71380,15 @@
         },
         {
           "name": "TWSE V2.2.1 short balance",
-          "state": "error",
+          "state": "ok",
           "asOf": "2026-10-29",
-          "detail": "TWSE market short-balance row not found"
+          "detail": "MI_MARGN market total"
         },
         {
           "name": "TWSE V2.2.1 securities-lending short balance",
-          "state": "error",
+          "state": "ok",
           "asOf": "2026-10-29",
-          "detail": "TWT93U rows/columns not recognized"
+          "detail": "TWT93U per-security balances summed in shares"
         },
         {
           "name": "TWSE V2.2.1 sector strength",
@@ -71166,9 +71398,9 @@
         }
       ],
       "risk": {
-        "score": 25.0,
+        "score": 22.9,
         "label": "Risk-Off",
-        "confidence": 72,
+        "confidence": 90,
         "components": [
           {
             "name": "TAIEX",
@@ -71193,6 +71425,12 @@
             "score": 15.6,
             "weight": 22,
             "reason": "-688 億"
+          },
+          {
+            "name": "外資TX",
+            "score": 14.2,
+            "weight": 18,
+            "reason": "-89,522 口"
           }
         ],
         "drivers": [
@@ -71201,6 +71439,12 @@
             "direction": "negative",
             "reason": "-688 億",
             "score": 15.6
+          },
+          {
+            "name": "外資TX",
+            "direction": "negative",
+            "reason": "-89,522 口",
+            "score": 14.2
           },
           {
             "name": "市場廣度",
@@ -71213,12 +71457,6 @@
             "direction": "negative",
             "reason": "收盤 -1.42%",
             "score": 33.0
-          },
-          {
-            "name": "櫃買",
-            "direction": "negative",
-            "reason": "收盤 -1.83%",
-            "score": 31.7
           }
         ],
         "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -71227,10 +71465,10 @@
         "asOf": "2026-10-29",
         "source": "TWSE BFI82U",
         "foreign": -68815276510.0,
-        "trust": 8649243635.0,
+        "trust": 7044302296.0,
         "dealer_self": -184132886.0,
-        "dealer_hedge": -21316158813.0,
-        "dealer_total": -21500291699.0
+        "dealer_hedge": -21315886027.0,
+        "dealer_total": -21500018913.0
       },
       "sectorPerformance": [
         {
@@ -71299,25 +71537,23 @@
         }
       ],
       "v22": {
-        "enrichedAt": "2026-10-29T19:41:56+08:00",
+        "enrichedAt": "2026-10-29T22:23:58+08:00",
         "version": "2.2.1"
       }
     },
     "data/system-health.json": {
-      "generatedAt": "2026-10-29T19:42:43+08:00",
+      "generatedAt": "2026-10-29T22:24:03+08:00",
       "mode": "afterhours",
       "status": "degraded",
-      "liveGeneratedAt": "2026-10-29T19:41:16+08:00",
-      "globalGeneratedAt": "2026-10-29T19:41:47+08:00",
-      "briefGeneratedAt": "2026-10-29T19:41:16+08:00",
-      "sourceWarningCount": 5,
+      "liveGeneratedAt": "2026-10-29T22:22:38+08:00",
+      "globalGeneratedAt": "2026-10-29T22:23:47+08:00",
+      "briefGeneratedAt": "2026-10-29T22:22:38+08:00",
+      "sourceWarningCount": 3,
       "staleMetrics": [],
       "missingMetrics": [],
       "warnings": [
         "tx 資料為 T-1；目前=2026-10-28，市場基準=2026-10-29。",
-        "foreignTx 資料為 T-1；目前=2026-10-28，市場基準=2026-10-29。",
         "putCall 資料為 T-1；目前=2026-10-28，市場基準=2026-10-29。",
-        "margin 資料為 T-1；目前=2026-10-28，市場基準=2026-10-29。",
         "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
       ],
       "liveValidation": {
