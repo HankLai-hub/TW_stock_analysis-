@@ -1,47 +1,47 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T14:52:12+08:00",
-  "runKind": "intraday",
-  "marketPhase": "收盤資料產製中",
-  "nextExpected": "下一個排程約 25 分鐘後",
+  "generatedAt": "2026-10-29T18:27:56+08:00",
+  "runKind": "afterhours",
+  "marketPhase": "盤後",
+  "nextExpected": "下一個排程約 2 小時 50 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
-    "label": "授權盤中資料源尚未設定",
-    "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
+    "label": "盤中授權資料源尚未設定",
+    "note": "自動排程會每小時執行，但公開網站的盤中即時／延遲行情應使用具有重新散布權限的資料源。未設定前，盤中價位不以非授權抓取方式補值。"
   },
   "metrics": {
     "taiex": {
-      "value": "47,035.58",
-      "change": "+2.04%",
-      "asOf": "2026-10-28",
+      "value": "46,368.33",
+      "change": "-1.42%",
+      "asOf": "2026-10-29",
       "state": "official_close",
       "source": "TWSE"
     },
     "otc": {
-      "value": "394.61",
-      "change": "+4.06%",
-      "asOf": "2026-10-28",
+      "value": "387.37",
+      "change": "-1.83%",
+      "asOf": "2026-10-29",
       "state": "official_close",
       "source": "TPEx"
     },
     "turnover": {
-      "value": "7,503 億",
+      "value": "8,238 億",
       "change": "",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_close",
       "source": "TWSE"
     },
     "breadth": {
-      "value": "1304↑ / 482↓",
-      "change": "平盤 166",
-      "asOf": "2026-10-28",
+      "value": "427↑ / 1335↓",
+      "change": "平盤 183",
+      "asOf": "2026-10-29",
       "state": "official_close",
       "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
-      "value": "32.418",
+      "value": "32.492",
       "change": "",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_daily",
       "source": "CBC"
     },
@@ -53,12 +53,12 @@
       "source": "TAIFEX"
     },
     "foreignSpot": {
-      "value": "+159.57 億",
+      "value": "-688.15 億",
       "change": "上市市場",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 159.5662
+      "rawValueYi": -688.1528
     },
     "foreignTx": {
       "value": "-89,522 口",
@@ -76,78 +76,64 @@
     },
     "margin": {
       "value": "上市 6,323.00 億",
-      "change": "上櫃 2,332,946 張 · 本次抓取未更新",
+      "change": "上櫃 2,332,946 張",
       "asOf": "2026-10-28",
-      "state": "stale",
+      "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
     "foreignSpotOfficial": {
-      "value": "+159.57 億",
+      "value": "-688.15 億",
       "change": "上市市場",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 159.5662
+      "rawValueYi": -688.1528
     },
     "trustSpot": {
-      "value": "+143.20 億",
+      "value": "+86.49 億",
       "change": "上市市場",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 143.1965
+      "rawValueYi": 86.4924
     },
     "investmentTrust": {
-      "value": "+143.20 億",
+      "value": "+86.49 億",
       "change": "上市市場",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 143.1965
+      "rawValueYi": 86.4924
     },
     "dealerSpot": {
-      "value": "+21.65 億",
-      "change": "自行 +24.48 億 / 避險 -2.83 億",
-      "asOf": "2026-10-28",
+      "value": "-215.00 億",
+      "change": "自行 -1.84 億 / 避險 -213.16 億",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 21.6528
+      "rawValueYi": -215.0029
     },
     "dealer": {
-      "value": "+21.65 億",
-      "change": "自行 +24.48 億 / 避險 -2.83 億",
-      "asOf": "2026-10-28",
+      "value": "-215.00 億",
+      "change": "自行 -1.84 億 / 避險 -213.16 億",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 21.6528
+      "rawValueYi": -215.0029
     },
     "dealerSelfSpot": {
-      "value": "+24.48 億",
+      "value": "-1.84 億",
       "change": "自行買賣",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
     },
     "dealerHedgeSpot": {
-      "value": "-2.83 億",
+      "value": "-213.16 億",
       "change": "避險",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
-    },
-    "shortBalance": {
-      "value": "193,040 張",
-      "change": "較前日 -24,668 張",
-      "asOf": "2026-10-28",
-      "state": "official_afterhours",
-      "source": "TWSE MI_MARGN"
-    },
-    "borrowShortBalance": {
-      "value": "124.65 億股",
-      "change": "1068 檔加總；單位為股",
-      "asOf": "2026-10-28",
-      "state": "official_afterhours",
-      "source": "TWSE TWT93U"
     }
   },
   "errors": [],
@@ -171,21 +157,39 @@
       "detail": ""
     },
     {
+      "name": "TWSE same-day TAIEX",
+      "state": "ok",
+      "asOf": "2026-10-29",
+      "detail": "date-targeted official RWD"
+    },
+    {
+      "name": "TWSE same-day breadth",
+      "state": "ok",
+      "asOf": "2026-10-29",
+      "detail": "date-targeted official RWD"
+    },
+    {
+      "name": "TWSE same-day turnover",
+      "state": "ok",
+      "asOf": "2026-10-29",
+      "detail": "date-targeted official RWD"
+    },
+    {
       "name": "TPEx daily trading index",
       "state": "ok",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "detail": "OpenAPI"
     },
     {
       "name": "TPEx market highlight",
       "state": "ok",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
       "state": "ok",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "detail": "CBC latest daily closing-rate page"
     },
     {
@@ -207,58 +211,88 @@
       "detail": ""
     },
     {
-      "name": "TWSE V2.2.1 institutional totals",
+      "name": "TWSE BFI82U",
+      "state": "ok",
+      "asOf": "2026-10-29",
+      "detail": "official JSON"
+    },
+    {
+      "name": "TWSE margin market total",
       "state": "ok",
       "asOf": "2026-10-28",
+      "detail": "融資金額(仟元)→億元"
+    },
+    {
+      "name": "TPEx margin",
+      "state": "ok",
+      "asOf": "2026-10-28",
+      "detail": "OpenAPI per-security financing balance; official unit 張"
+    },
+    {
+      "name": "TWSE same-day BFI82U",
+      "state": "ok",
+      "asOf": "2026-10-29",
+      "detail": "date-targeted official RWD"
+    },
+    {
+      "name": "TWSE same-day margin",
+      "state": "pending",
+      "asOf": "",
+      "detail": "MI_MARGN returned unknown, expected 2026-10-29"
+    },
+    {
+      "name": "TWSE V2.2.1 institutional totals",
+      "state": "ok",
+      "asOf": "2026-10-29",
       "detail": "BFI82U foreign / trust / dealer self+hedge"
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "ok",
-      "asOf": "2026-10-28",
-      "detail": "MI_MARGN market total"
+      "state": "error",
+      "asOf": "2026-10-29",
+      "detail": "TWSE market short-balance row not found"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "ok",
-      "asOf": "2026-10-28",
-      "detail": "TWT93U per-security balances summed in shares"
+      "state": "error",
+      "asOf": "2026-10-29",
+      "detail": "TWT93U rows/columns not recognized"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
       "state": "ok",
-      "asOf": "2026-10-28",
+      "asOf": "2026-10-29",
       "detail": "7 verified price-strength series; no fabricated industry fund-flow"
     }
   ],
   "risk": {
-    "score": 62.7,
-    "label": "偏多",
-    "confidence": 78,
+    "score": 22.9,
+    "label": "Risk-Off",
+    "confidence": 90,
     "components": [
       {
         "name": "TAIEX",
-        "score": 74.5,
+        "score": 33.0,
         "weight": 18,
-        "reason": "收盤 +2.04%"
+        "reason": "收盤 -1.42%"
       },
       {
         "name": "櫃買",
-        "score": 90.6,
+        "score": 31.7,
         "weight": 12,
-        "reason": "收盤 +4.06%"
-      },
-      {
-        "name": "臺指期",
-        "score": 74.7,
-        "weight": 10,
-        "reason": "TX +2.47%"
+        "reason": "收盤 -1.83%"
       },
       {
         "name": "市場廣度",
-        "score": 73.0,
+        "score": 24.2,
         "weight": 20,
-        "reason": "上漲比 73.0%"
+        "reason": "上漲比 24.2%"
+      },
+      {
+        "name": "外資現貨",
+        "score": 15.6,
+        "weight": 22,
+        "reason": "-688 億"
       },
       {
         "name": "外資TX",
@@ -269,109 +303,109 @@
     ],
     "drivers": [
       {
+        "name": "外資現貨",
+        "direction": "negative",
+        "reason": "-688 億",
+        "score": 15.6
+      },
+      {
         "name": "外資TX",
         "direction": "negative",
         "reason": "-89,522 口",
         "score": 14.2
       },
       {
-        "name": "櫃買",
-        "direction": "positive",
-        "reason": "收盤 +4.06%",
-        "score": 90.6
-      },
-      {
         "name": "市場廣度",
-        "direction": "positive",
-        "reason": "上漲比 73.0%",
-        "score": 73.0
+        "direction": "negative",
+        "reason": "上漲比 24.2%",
+        "score": 24.2
       },
       {
         "name": "TAIEX",
-        "direction": "positive",
-        "reason": "收盤 +2.04%",
-        "score": 74.5
+        "direction": "negative",
+        "reason": "收盤 -1.42%",
+        "score": 33.0
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
   },
   "institutionalFlow": {
-    "asOf": "2026-10-28",
+    "asOf": "2026-10-29",
     "source": "TWSE BFI82U",
-    "foreign": 15956619788.0,
-    "trust": 14319652303.0,
-    "dealer_self": 2448373766.0,
-    "dealer_hedge": -283088783.0,
-    "dealer_total": 2165284983.0
+    "foreign": -68815276510.0,
+    "trust": 8649243635.0,
+    "dealer_self": -184132886.0,
+    "dealer_hedge": -21316158813.0,
+    "dealer_total": -21500291699.0
   },
   "sectorPerformance": [
     {
       "name": "半導體",
       "officialName": "半導體類指數",
-      "changePct": 2.29,
-      "relativePctPoint": 0.25,
-      "indexValue": 1564.79,
-      "asOf": "2026-10-28",
+      "changePct": -1.24,
+      "relativePctPoint": 0.17999999999999994,
+      "indexValue": 1545.34,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "電子零組件",
       "officialName": "電子零組件類指數",
-      "changePct": 4.38,
-      "relativePctPoint": 2.34,
-      "indexValue": 897.03,
-      "asOf": "2026-10-28",
+      "changePct": -3.05,
+      "relativePctPoint": -1.63,
+      "indexValue": 869.66,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "金融",
       "officialName": "金融保險類指數",
-      "changePct": -0.56,
-      "relativePctPoint": -2.6,
-      "indexValue": 3749.31,
-      "asOf": "2026-10-28",
+      "changePct": 1.05,
+      "relativePctPoint": 2.4699999999999998,
+      "indexValue": 3788.69,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "航運",
       "officialName": "航運類指數",
-      "changePct": 0.22,
-      "relativePctPoint": -1.82,
-      "indexValue": 217.98,
-      "asOf": "2026-10-28",
+      "changePct": -0.78,
+      "relativePctPoint": 0.6399999999999999,
+      "indexValue": 216.28,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "資訊服務",
       "officialName": "資訊服務類指數",
-      "changePct": -0.46,
-      "relativePctPoint": -2.5,
-      "indexValue": 252.56,
-      "asOf": "2026-10-28",
+      "changePct": -0.73,
+      "relativePctPoint": 0.69,
+      "indexValue": 250.71,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "電子工業",
       "officialName": "電子工業類指數",
-      "changePct": 2.48,
-      "relativePctPoint": 0.43999999999999995,
-      "indexValue": 2938.42,
-      "asOf": "2026-10-28",
+      "changePct": -1.74,
+      "relativePctPoint": -0.32000000000000006,
+      "indexValue": 2887.23,
+      "asOf": "2026-10-29",
       "source": "TWSE MI_INDEX (type=IND)"
     },
     {
       "name": "櫃買（中小型代理）",
       "officialName": "櫃買指數",
-      "changePct": 4.06,
-      "relativePctPoint": 2.0199999999999996,
-      "indexValue": 394.61,
-      "asOf": "2026-10-28",
+      "changePct": -1.83,
+      "relativePctPoint": -0.41000000000000014,
+      "indexValue": 387.37,
+      "asOf": "2026-10-29",
       "source": "TPEx",
       "proxy": true
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-29T14:53:10+08:00",
+    "enrichedAt": "2026-10-29T18:29:32+08:00",
     "version": "2.2.1"
   }
 }
