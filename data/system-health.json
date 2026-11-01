@@ -1,14 +1,18 @@
 {
-  "generatedAt": "2026-10-31T09:37:49+08:00",
-  "mode": "afterhours",
+  "generatedAt": "2026-11-01T23:30:53+08:00",
+  "mode": "weekly",
   "status": "degraded",
-  "liveGeneratedAt": "2026-10-31T09:36:35+08:00",
-  "globalGeneratedAt": "2026-10-31T09:37:33+08:00",
-  "briefGeneratedAt": "2026-10-31T09:36:35+08:00",
-  "sourceWarningCount": 1,
-  "staleMetrics": [],
+  "liveGeneratedAt": "2026-11-01T23:29:44+08:00",
+  "globalGeneratedAt": "2026-11-01T23:30:38+08:00",
+  "briefGeneratedAt": "2026-11-01T23:29:44+08:00",
+  "sourceWarningCount": 2,
+  "staleMetrics": [
+    "otc"
+  ],
   "missingMetrics": [],
   "warnings": [
+    "資料延遲指標：otc",
+    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-11-01 is not same-day target 2026-10-30; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {

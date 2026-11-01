@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T09:36:35+08:00",
+  "generatedAt": "2026-11-01T23:29:44+08:00",
   "runKind": "afterhours",
   "marketPhase": "週末／休市",
-  "nextExpected": "下一個排程約 31 分鐘後",
+  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -19,9 +19,9 @@
     },
     "otc": {
       "value": "370.26",
-      "change": "-4.42%",
+      "change": "-4.42% · 本次抓取未更新",
       "asOf": "2026-10-30",
-      "state": "official_close",
+      "state": "stale",
       "source": "TPEx"
     },
     "turnover": {
@@ -150,7 +150,12 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "source": "TPEx daily trading index",
+      "message": "OpenAPI: TPEx OpenAPI latest date 2026-11-01 is not same-day target 2026-10-30; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>"
+    }
+  ],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -172,9 +177,9 @@
     },
     {
       "name": "TPEx daily trading index",
-      "state": "ok",
-      "asOf": "2026-10-30",
-      "detail": "OpenAPI"
+      "state": "error",
+      "asOf": "",
+      "detail": "OpenAPI: TPEx OpenAPI latest date 2026-11-01 is not same-day target 2026-10-30; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service no"
     },
     {
       "name": "TPEx market highlight",
@@ -250,21 +255,15 @@
     }
   ],
   "risk": {
-    "score": 11.3,
+    "score": 12.1,
     "label": "Risk-Off",
-    "confidence": 100,
+    "confidence": 88,
     "components": [
       {
         "name": "TAIEX",
         "score": 20.1,
         "weight": 18,
         "reason": "收盤 -2.49%"
-      },
-      {
-        "name": "櫃買",
-        "score": 5.8,
-        "weight": 12,
-        "reason": "收盤 -4.42%"
       },
       {
         "name": "臺指期",
@@ -395,7 +394,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-10-31T09:37:43+08:00",
+    "enrichedAt": "2026-11-01T23:30:47+08:00",
     "version": "2.2.1"
   }
 }
