@@ -1,26 +1,23 @@
 {
-  "generatedAt": "2026-11-02T15:31:43+08:00",
-  "mode": "intraday",
+  "generatedAt": "2026-11-02T21:46:46+08:00",
+  "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-11-02T15:30:29+08:00",
-  "globalGeneratedAt": "2026-11-02T15:31:25+08:00",
-  "briefGeneratedAt": "2026-11-02T15:30:29+08:00",
+  "liveGeneratedAt": "2026-11-02T21:46:05+08:00",
+  "globalGeneratedAt": "2026-11-02T21:46:30+08:00",
+  "briefGeneratedAt": "2026-11-02T21:46:05+08:00",
   "sourceWarningCount": 4,
-  "staleMetrics": [
-    "otc",
-    "margin"
-  ],
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "目前資料的市場基準日為 2026-10-30，早於本次產生日期 2026-11-02。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：otc, margin",
-    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-11-02 is not same-day target 2026-10-30; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F10&o=json: <urlopen error [Errno -2] Name or service not known>'}；{'source': 'TPEx market highlight', 'message': 'IncompleteRead(1539689 bytes read, 3671191 more expected)'}",
+    "tx 資料為 T-1；目前=2026-10-30，市場基準=2026-11-02。",
+    "foreignTx 資料為 T-1；目前=2026-10-30，市場基準=2026-11-02。",
+    "putCall 資料為 T-1；目前=2026-10-30，市場基準=2026-11-02。",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-10-30",
-    "turnoverAsOf": "2026-10-30",
+    "taiexAsOf": "2026-11-02",
+    "turnoverAsOf": "2026-11-02",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
