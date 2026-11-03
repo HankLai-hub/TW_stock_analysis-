@@ -1,44 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T23:11:50+08:00",
+  "generatedAt": "2026-11-04T05:19:06+08:00",
   "macro": {
     "us2y": {
-      "value": 4.59,
-      "display": "4.59%",
-      "change": "+3 bp",
-      "asOf": "2026-11-02",
+      "value": 4.61,
+      "display": "4.61%",
+      "change": "+2 bp",
+      "asOf": "2026-11-03",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us10y": {
-      "value": 4.91,
-      "display": "4.91%",
-      "change": "-3 bp",
-      "asOf": "2026-11-02",
+      "value": 4.95,
+      "display": "4.95%",
+      "change": "+4 bp",
+      "asOf": "2026-11-03",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "us30y": {
-      "value": 5.28,
-      "display": "5.28%",
-      "change": "-3 bp",
-      "asOf": "2026-11-02",
+      "value": 5.32,
+      "display": "5.32%",
+      "change": "+4 bp",
+      "asOf": "2026-11-03",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "spread2s10s": {
-      "value": 32.00000000000003,
-      "display": "+32 bp",
+      "value": 33.999999999999986,
+      "display": "+34 bp",
       "change": "10Y - 2Y",
-      "asOf": "2026-11-02",
+      "asOf": "2026-11-03",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
     "real10y": {
-      "value": 2.62,
-      "display": "2.62%",
+      "value": 2.65,
+      "display": "2.65%",
       "change": "10Y real yield",
-      "asOf": "2026-11-02",
+      "asOf": "2026-11-03",
       "source": "U.S. Treasury",
       "state": "official_daily"
     },
@@ -109,10 +109,10 @@
   },
   "equity": {
     "sp500": {
-      "value": 7580.07,
-      "display": "7,580.07",
-      "change": "-1.82%",
-      "asOf": "2026-10-30",
+      "value": 7541.4,
+      "display": "7,541.40",
+      "change": "-0.51%",
+      "asOf": "2026-11-02",
       "source": "FRED SP500",
       "state": "official_secondary"
     },
@@ -125,9 +125,9 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 10627.23,
-      "display": "10,627.23",
-      "change": "+2.89%",
+      "value": 10600.4,
+      "display": "10,600.40",
+      "change": "+2.63%",
       "asOf": "2026-11-03",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
@@ -280,7 +280,7 @@
     "tone": "neutral",
     "note": "官方跨資產資料尚未形成單一方向，應搭配授權股票指數與台股資金面。",
     "bullets": [
-      "美10Y單日下降 3bp。",
+      "美10Y單日上升 4bp。",
       "Fed Broad Dollar最新週資料走弱 0.06%。"
     ]
   },
@@ -292,12 +292,12 @@
       {
         "name": "美債10Y",
         "direction": "negative",
-        "reason": "4.91%：偏不利科技估值"
+        "reason": "4.95%：偏不利科技估值"
       },
       {
         "name": "10Y實質利率",
         "direction": "negative",
-        "reason": "2.62%：長久期資產壓力"
+        "reason": "2.65%：長久期資產壓力"
       },
       {
         "name": "美國CPI",
@@ -311,12 +311,12 @@
     {
       "name": "U.S. Treasury yield curve",
       "status": "ok",
-      "asOf": "2026-11-02"
+      "asOf": "2026-11-03"
     },
     {
       "name": "U.S. Treasury real yields",
       "status": "ok",
-      "asOf": "2026-11-02"
+      "asOf": "2026-11-03"
     },
     {
       "name": "Federal Reserve H.10 broad dollar",
@@ -331,22 +331,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-11-03T23:11:52+08:00"
+      "asOf": "2026-11-04T05:19:08+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-11-03T23:11:52+08:00"
+      "asOf": "2026-11-04T05:19:08+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-11-03T23:11:52+08:00"
+      "asOf": "2026-11-04T05:19:08+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-11-03T23:11:52+08:00"
+      "asOf": "2026-11-04T05:19:08+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -357,7 +357,7 @@
     {
       "name": "Federal Reserve FOMC calendar V2.2.1",
       "status": "error",
-      "asOf": "2026-11-03",
+      "asOf": "2026-11-04",
       "detail": "FOMC events removed because the official current-year section could not be validated"
     }
   ],
@@ -372,7 +372,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-11-03T23:12:00+08:00",
+    "repairedAt": "2026-11-04T05:19:10+08:00",
     "version": "2.2.1"
   }
 }
