@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-03T08:04:59+08:00",
+  "generatedAt": "2026-11-03T09:36:07+08:00",
   "runKind": "afterhours",
-  "marketPhase": "海外時段",
-  "nextExpected": "下一個排程約 1 小時 3 分鐘後",
+  "marketPhase": "盤中",
+  "nextExpected": "下一個排程約 31 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -61,16 +61,16 @@
       "rawValueYi": -735.2081
     },
     "foreignTx": {
-      "value": "-92,241 口",
-      "change": "多 6,528 / 空 98,769",
-      "asOf": "2026-10-30",
+      "value": "-89,379 口",
+      "change": "多 8,952 / 空 98,331",
+      "asOf": "2026-11-02",
       "state": "official_afterhours",
       "source": "TAIFEX"
     },
     "putCall": {
-      "value": "成交 90.91%",
-      "change": "OI 62.59%",
-      "asOf": "2026-10-30",
+      "value": "成交 93.75%",
+      "change": "OI 61.58%",
+      "asOf": "2026-11-02",
       "state": "official_afterhours",
       "source": "TAIFEX"
     },
@@ -191,13 +191,13 @@
     {
       "name": "TAIFEX institutional TX",
       "state": "ok",
-      "asOf": "2026-10-30",
+      "asOf": "2026-11-02",
       "detail": "OpenAPI"
     },
     {
       "name": "TAIFEX Put/Call",
       "state": "ok",
-      "asOf": "2026-10-30",
+      "asOf": "2026-11-02",
       "detail": ""
     },
     {
@@ -250,9 +250,9 @@
     }
   ],
   "risk": {
-    "score": 38.4,
+    "score": 34.0,
     "label": "偏空",
-    "confidence": 82,
+    "confidence": 100,
     "components": [
       {
         "name": "TAIEX",
@@ -283,6 +283,12 @@
         "score": 13.2,
         "weight": 22,
         "reason": "-735 億"
+      },
+      {
+        "name": "外資TX",
+        "score": 14.2,
+        "weight": 18,
+        "reason": "-89,379 口"
       }
     ],
     "drivers": [
@@ -291,6 +297,12 @@
         "direction": "negative",
         "reason": "-735 億",
         "score": 13.2
+      },
+      {
+        "name": "外資TX",
+        "direction": "negative",
+        "reason": "-89,379 口",
+        "score": 14.2
       },
       {
         "name": "TAIEX",
@@ -303,12 +315,6 @@
         "direction": "neutral",
         "reason": "上漲比 52.1%",
         "score": 52.1
-      },
-      {
-        "name": "櫃買",
-        "direction": "neutral",
-        "reason": "收盤 -0.28%",
-        "score": 47.2
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -389,7 +395,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-03T08:05:30+08:00",
+    "enrichedAt": "2026-11-03T09:36:48+08:00",
     "version": "2.2.1"
   }
 }
