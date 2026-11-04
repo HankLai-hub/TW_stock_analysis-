@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-04T23:27:14+08:00",
+  "generatedAt": "2026-11-05T05:54:01+08:00",
   "runKind": "afterhours",
-  "marketPhase": "盤後",
-  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
+  "marketPhase": "海外時段",
+  "nextExpected": "下一個排程約 3 小時 13 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "438↑ / 544↓",
-      "change": "平盤 99",
+      "value": "835↑ / 960↓",
+      "change": "平盤 167",
       "asOf": "2026-11-04",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "32.821",
@@ -150,48 +150,25 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(3702377 bytes read, 1611374 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
       "state": "ok",
-      "asOf": "2026-11-03",
+      "asOf": "2026-11-04",
       "detail": ""
     },
     {
       "name": "TWSE turnover",
       "state": "ok",
-      "asOf": "2026-11-03",
+      "asOf": "2026-11-04",
       "detail": ""
     },
     {
       "name": "TWSE stock breadth",
       "state": "ok",
-      "asOf": "2026-11-03",
+      "asOf": "2026-11-04",
       "detail": ""
-    },
-    {
-      "name": "TWSE same-day TAIEX",
-      "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "date-targeted official RWD"
-    },
-    {
-      "name": "TWSE same-day breadth",
-      "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "date-targeted official RWD"
-    },
-    {
-      "name": "TWSE same-day turnover",
-      "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "date-targeted official RWD"
     },
     {
       "name": "TPEx daily trading index",
@@ -201,9 +178,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(3702377 bytes read, 1611374 more expected)"
+      "state": "ok",
+      "asOf": "2026-11-04",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -248,18 +225,6 @@
       "detail": "OpenAPI per-security financing balance; official unit 張"
     },
     {
-      "name": "TWSE same-day BFI82U",
-      "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "date-targeted official RWD"
-    },
-    {
-      "name": "TWSE same-day margin",
-      "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "date-targeted official CSV"
-    },
-    {
       "name": "TWSE V2.2.1 institutional totals",
       "state": "ok",
       "asOf": "2026-11-04",
@@ -285,8 +250,8 @@
     }
   ],
   "risk": {
-    "score": 29.8,
-    "label": "Risk-Off",
+    "score": 30.3,
+    "label": "偏空",
     "confidence": 72,
     "components": [
       {
@@ -303,9 +268,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 44.6,
+        "score": 46.5,
         "weight": 20,
-        "reason": "上漲比 44.6%"
+        "reason": "上漲比 46.5%"
       },
       {
         "name": "外資現貨",
@@ -329,9 +294,9 @@
       },
       {
         "name": "市場廣度",
-        "direction": "negative",
-        "reason": "上漲比 44.6%",
-        "score": 44.6
+        "direction": "neutral",
+        "reason": "上漲比 46.5%",
+        "score": 46.5
       },
       {
         "name": "櫃買",
@@ -418,7 +383,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-04T23:28:05+08:00",
+    "enrichedAt": "2026-11-05T05:54:29+08:00",
     "version": "2.2.1"
   }
 }
