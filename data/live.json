@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-05T19:39:43+08:00",
+  "generatedAt": "2026-11-05T21:26:49+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 1 小時 38 分鐘後",
+  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -61,9 +61,9 @@
       "rawValueYi": -1024.6062
     },
     "foreignTx": {
-      "value": "-93,647 口",
-      "change": "多 11,103 / 空 104,750",
-      "asOf": "2026-11-04",
+      "value": "-95,651 口",
+      "change": "多 13,388 / 空 109,039",
+      "asOf": "2026-11-05",
       "state": "official_afterhours",
       "source": "TAIFEX"
     },
@@ -75,9 +75,9 @@
       "source": "TAIFEX"
     },
     "margin": {
-      "value": "上市 5,969.46 億",
+      "value": "上市 5,764.09 億",
       "change": "上櫃 2,250,593 張",
-      "asOf": "2026-11-04",
+      "asOf": "2026-11-05",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
@@ -90,20 +90,20 @@
       "rawValueYi": -1024.6062
     },
     "trustSpot": {
-      "value": "+225.32 億",
+      "value": "+225.94 億",
       "change": "上市市場",
       "asOf": "2026-11-05",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 225.3159
+      "rawValueYi": 225.9445
     },
     "investmentTrust": {
-      "value": "+225.32 億",
+      "value": "+225.94 億",
       "change": "上市市場",
       "asOf": "2026-11-05",
       "state": "official_afterhours",
       "source": "TWSE BFI82U",
-      "rawValueYi": 225.3159
+      "rawValueYi": 225.9445
     },
     "dealerSpot": {
       "value": "-435.27 億",
@@ -134,6 +134,20 @@
       "asOf": "2026-11-05",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
+    },
+    "shortBalance": {
+      "value": "277,051 張",
+      "change": "較前日 +30,239 張",
+      "asOf": "2026-11-05",
+      "state": "official_afterhours",
+      "source": "TWSE MI_MARGN"
+    },
+    "borrowShortBalance": {
+      "value": "130.15 億股",
+      "change": "1069 檔加總；單位為股",
+      "asOf": "2026-11-05",
+      "state": "official_afterhours",
+      "source": "TWSE TWT93U"
     }
   },
   "errors": [],
@@ -195,8 +209,8 @@
     {
       "name": "TAIFEX institutional TX",
       "state": "ok",
-      "asOf": "2026-11-04",
-      "detail": "OpenAPI"
+      "asOf": "2026-11-05",
+      "detail": "official HTML fallback"
     },
     {
       "name": "TAIFEX Put/Call",
@@ -219,7 +233,7 @@
     {
       "name": "TWSE margin market total",
       "state": "ok",
-      "asOf": "2026-11-04",
+      "asOf": "2026-11-05",
       "detail": "融資金額(仟元)→億元"
     },
     {
@@ -236,9 +250,9 @@
     },
     {
       "name": "TWSE same-day margin",
-      "state": "pending",
-      "asOf": "",
-      "detail": "MI_MARGN returned unknown, expected 2026-11-05"
+      "state": "ok",
+      "asOf": "2026-11-05",
+      "detail": "date-targeted official CSV"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -248,15 +262,15 @@
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-11-05",
-      "detail": "TWSE market short-balance row not found"
+      "detail": "MI_MARGN market total"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-11-05",
-      "detail": "TWT93U rows/columns not recognized"
+      "detail": "TWT93U per-security balances summed in shares"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
@@ -266,9 +280,9 @@
     }
   ],
   "risk": {
-    "score": 7.2,
+    "score": 8.1,
     "label": "Risk-Off",
-    "confidence": 72,
+    "confidence": 90,
     "components": [
       {
         "name": "TAIEX",
@@ -293,6 +307,12 @@
         "score": 0.0,
         "weight": 22,
         "reason": "-1025 億"
+      },
+      {
+        "name": "外資TX",
+        "score": 11.7,
+        "weight": 18,
+        "reason": "-95,651 口"
       }
     ],
     "drivers": [
@@ -315,10 +335,10 @@
         "score": 11.6
       },
       {
-        "name": "櫃買",
+        "name": "外資TX",
         "direction": "negative",
-        "reason": "收盤 -6.41%",
-        "score": 0.0
+        "reason": "-95,651 口",
+        "score": 11.7
       }
     ],
     "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
@@ -327,7 +347,7 @@
     "asOf": "2026-11-05",
     "source": "TWSE BFI82U",
     "foreign": -102460621838.0,
-    "trust": 22531591838.0,
+    "trust": 22594451141.0,
     "dealer_self": -3916070922.0,
     "dealer_hedge": -39611424736.0,
     "dealer_total": -43527495658.0
@@ -399,7 +419,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-05T19:40:18+08:00",
+    "enrichedAt": "2026-11-05T21:27:34+08:00",
     "version": "2.2.1"
   }
 }
