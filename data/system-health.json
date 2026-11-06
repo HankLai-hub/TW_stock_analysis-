@@ -1,30 +1,24 @@
 {
-  "generatedAt": "2026-11-06T15:07:41+08:00",
-  "mode": "premarket",
+  "generatedAt": "2026-11-06T15:49:53+08:00",
+  "mode": "intraday",
   "status": "degraded",
-  "liveGeneratedAt": "2026-11-06T15:05:26+08:00",
-  "globalGeneratedAt": "2026-11-06T15:07:27+08:00",
-  "briefGeneratedAt": "2026-11-06T15:05:26+08:00",
-  "sourceWarningCount": 9,
+  "liveGeneratedAt": "2026-11-06T15:49:19+08:00",
+  "globalGeneratedAt": "2026-11-06T15:49:38+08:00",
+  "briefGeneratedAt": "2026-11-06T15:49:19+08:00",
+  "sourceWarningCount": 2,
   "staleMetrics": [
-    "otc"
+    "margin"
   ],
   "missingMetrics": [],
   "warnings": [
-    "otc 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "tx 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "foreignSpot 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "foreignTx 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "putCall 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "margin 資料為 T-1；目前=2026-11-05，市場基準=2026-11-06。",
-    "資料延遲指標：otc",
-    "台股資料來源警告：{'source': 'TPEx daily trading index', 'message': 'OpenAPI: TPEx OpenAPI latest date 2026-11-05 is not same-day target 2026-11-06; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F11&o=json: <urlopen error [Errno -2] Name or service not known>'}；{'source': 'TWSE V2.2.1 institutional totals', 'message': 'BFI82U official JSON unavailable'}",
+    "目前資料的市場基準日為 2026-11-05，早於本次產生日期 2026-11-06。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
+    "資料延遲指標：margin",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-11-06",
-    "turnoverAsOf": "2026-11-06",
+    "taiexAsOf": "2026-11-05",
+    "turnoverAsOf": "2026-11-05",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
