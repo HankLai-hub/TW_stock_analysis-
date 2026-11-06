@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T21:10:17+08:00",
+  "generatedAt": "2026-11-06T23:04:37+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 7 分鐘後",
+  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -32,11 +32,11 @@
       "source": "TWSE"
     },
     "breadth": {
-      "value": "105↑ / 952↓",
-      "change": "平盤 27",
+      "value": "209↑ / 1685↓",
+      "change": "平盤 65",
       "asOf": "2026-11-06",
       "state": "official_close",
-      "source": "TWSE 股票"
+      "source": "TWSE/TPEx 股票"
     },
     "usdTwd": {
       "value": "32.768",
@@ -76,7 +76,7 @@
     },
     "margin": {
       "value": "上市 5,340.53 億",
-      "change": "上櫃 2,220,606 張",
+      "change": "上櫃 2,142,723 張",
       "asOf": "2026-11-06",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
@@ -150,12 +150,7 @@
       "source": "TWSE TWT93U"
     }
   },
-  "errors": [
-    {
-      "source": "TPEx market highlight",
-      "message": "IncompleteRead(3505769 bytes read, 1793430 more expected)"
-    }
-  ],
+  "errors": [],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -201,9 +196,9 @@
     },
     {
       "name": "TPEx market highlight",
-      "state": "error",
-      "asOf": "",
-      "detail": "IncompleteRead(3505769 bytes read, 1793430 more expected)"
+      "state": "ok",
+      "asOf": "2026-11-06",
+      "detail": "OpenAPI close-quotes derived stock breadth"
     },
     {
       "name": "CBC USD/TWD",
@@ -244,7 +239,7 @@
     {
       "name": "TPEx margin",
       "state": "ok",
-      "asOf": "2026-11-05",
+      "asOf": "2026-11-06",
       "detail": "OpenAPI per-security financing balance; official unit 張"
     },
     {
@@ -285,7 +280,7 @@
     }
   ],
   "risk": {
-    "score": 4.1,
+    "score": 4.4,
     "label": "Risk-Off",
     "confidence": 72,
     "components": [
@@ -303,9 +298,9 @@
       },
       {
         "name": "市場廣度",
-        "score": 9.9,
+        "score": 11.0,
         "weight": 20,
-        "reason": "上漲比 9.9%"
+        "reason": "上漲比 11.0%"
       },
       {
         "name": "外資現貨",
@@ -330,8 +325,8 @@
       {
         "name": "市場廣度",
         "direction": "negative",
-        "reason": "上漲比 9.9%",
-        "score": 9.9
+        "reason": "上漲比 11.0%",
+        "score": 11.0
       },
       {
         "name": "櫃買",
@@ -418,7 +413,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-06T21:10:58+08:00",
+    "enrichedAt": "2026-11-06T23:05:15+08:00",
     "version": "2.2.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-06T21:10:49+08:00",
+  "generatedAt": "2026-11-06T23:05:05+08:00",
   "macro": {
     "us2y": {
       "value": 4.46,
@@ -67,26 +67,26 @@
       "state": "official_monthly"
     },
     "unemployment": {
-      "value": 4.2,
-      "display": "4.2%",
+      "value": 4.1,
+      "display": "4.1%",
       "change": "Unemployment rate",
-      "asOf": "2026-09",
+      "asOf": "2026-10",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
     "payrolls": {
-      "value": 29.0,
-      "display": "+29k",
+      "value": 165.0,
+      "display": "+165k",
       "change": "Nonfarm payroll monthly change",
-      "asOf": "2026-09",
+      "asOf": "2026-10",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
     "ahe": {
-      "value": 3.0245231607629375,
-      "display": "3.0% YoY",
-      "change": "+0.1% MoM",
-      "asOf": "2026-09",
+      "value": 3.1207598371777445,
+      "display": "3.1% YoY",
+      "change": "+0.4% MoM",
+      "asOf": "2026-10",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
@@ -125,10 +125,10 @@
       "state": "official_secondary"
     },
     "sox": {
-      "value": 9011.14,
-      "display": "9,011.14",
-      "change": "-12.25%",
-      "asOf": "2026-11-05",
+      "value": 9488.25,
+      "display": "9,488.25",
+      "change": "+5.29%",
+      "asOf": "2026-11-06",
       "source": "Nasdaq Global Indexes (SOX)",
       "state": "official"
     },
@@ -222,15 +222,6 @@
   "events": [
     {
       "source": "U.S. BLS",
-      "title": "Employment Situation",
-      "scheduledAt": "2026-11-06T21:30+08:00",
-      "category": "就業",
-      "impact": 5,
-      "watch": "非農、失業率、平均時薪與Fed定價。",
-      "link": "https://www.bls.gov/schedule/"
-    },
-    {
-      "source": "U.S. BLS",
       "title": "Real Earnings",
       "scheduledAt": "2026-11-10T21:30+08:00",
       "category": "官方事件",
@@ -269,6 +260,15 @@
       "source": "U.S. BLS",
       "title": "Employer-Reported Workplace Injuries and Illnesses (Annual)",
       "scheduledAt": "2026-11-18T23:00+08:00",
+      "category": "官方事件",
+      "impact": 3,
+      "watch": "觀察利率、美元與風險偏好的實際反應。",
+      "link": "https://www.bls.gov/schedule/"
+    },
+    {
+      "source": "U.S. BLS",
+      "title": "State Employment and Unemployment (Monthly)",
+      "scheduledAt": "2026-11-20T23:00+08:00",
       "category": "官方事件",
       "impact": 3,
       "watch": "觀察利率、美元與風險偏好的實際反應。",
@@ -326,27 +326,27 @@
     {
       "name": "U.S. BLS Public Data API",
       "status": "ok",
-      "asOf": "2026-09"
+      "asOf": "2026-10"
     },
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-11-06T21:10:50+08:00"
+      "asOf": "2026-11-06T23:05:07+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-11-06T21:10:50+08:00"
+      "asOf": "2026-11-06T23:05:07+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-11-06T21:10:50+08:00"
+      "asOf": "2026-11-06T23:05:07+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-11-06T21:10:50+08:00"
+      "asOf": "2026-11-06T23:05:08+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -372,7 +372,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-11-06T21:10:53+08:00",
+    "repairedAt": "2026-11-06T23:05:10+08:00",
     "version": "2.2.1"
   }
 }
