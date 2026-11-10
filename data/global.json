@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-10T16:09:02+08:00",
+  "generatedAt": "2026-11-10T21:43:09+08:00",
   "macro": {
     "us2y": {
       "value": 4.56,
@@ -51,18 +51,18 @@
       "state": "official_weekly"
     },
     "cpi": {
-      "value": 3.737684729064039,
-      "display": "3.7% YoY",
-      "change": "+0.6% MoM",
-      "asOf": "2026-09",
+      "value": null,
+      "display": "N/A",
+      "change": "+0.4% MoM",
+      "asOf": "2026-10",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
     "coreCpi": {
-      "value": 2.5643583511686607,
-      "display": "2.6% YoY",
+      "value": null,
+      "display": "N/A",
       "change": "+0.3% MoM",
-      "asOf": "2026-09",
+      "asOf": "2026-10",
       "source": "U.S. BLS",
       "state": "official_monthly"
     },
@@ -222,24 +222,6 @@
   "events": [
     {
       "source": "U.S. BLS",
-      "title": "Real Earnings",
-      "scheduledAt": "2026-11-10T21:30+08:00",
-      "category": "官方事件",
-      "impact": 3,
-      "watch": "觀察利率、美元與風險偏好的實際反應。",
-      "link": "https://www.bls.gov/schedule/"
-    },
-    {
-      "source": "U.S. BLS",
-      "title": "Consumer Price Index",
-      "scheduledAt": "2026-11-10T21:30+08:00",
-      "category": "通膨",
-      "impact": 5,
-      "watch": "Core CPI、服務通膨與美債殖利率反應。",
-      "link": "https://www.bls.gov/schedule/"
-    },
-    {
-      "source": "U.S. BLS",
       "title": "Producer Price Index",
       "scheduledAt": "2026-11-13T21:30+08:00",
       "category": "通膨",
@@ -285,9 +267,9 @@
     ]
   },
   "risk": {
-    "score": 18,
+    "score": 28,
     "label": "Risk-Off",
-    "confidence": 75,
+    "confidence": 50,
     "drivers": [
       {
         "name": "美債10Y",
@@ -298,11 +280,6 @@
         "name": "10Y實質利率",
         "direction": "negative",
         "reason": "2.66%：長久期資產壓力"
-      },
-      {
-        "name": "美國CPI",
-        "direction": "negative",
-        "reason": "3.7% YoY：通膨偏高"
       }
     ],
     "note": "全球宏觀分數只使用美債、實質利率、能源與通膨；未將未授權的股價指數硬塞入模型。"
@@ -331,22 +308,22 @@
     {
       "name": "Federal Reserve monetary-policy RSS",
       "status": "ok",
-      "asOf": "2026-11-10T16:09:04+08:00"
+      "asOf": "2026-11-10T21:43:11+08:00"
     },
     {
       "name": "U.S. BLS RSS",
       "status": "ok",
-      "asOf": "2026-11-10T16:09:04+08:00"
+      "asOf": "2026-11-10T21:43:11+08:00"
     },
     {
       "name": "U.S. BLS official release calendar",
       "status": "ok",
-      "asOf": "2026-11-10T16:09:04+08:00"
+      "asOf": "2026-11-10T21:43:11+08:00"
     },
     {
       "name": "Federal Reserve FOMC calendar",
       "status": "ok",
-      "asOf": "2026-11-10T16:09:04+08:00"
+      "asOf": "2026-11-10T21:43:12+08:00"
     },
     {
       "name": "FRED EIA crude-oil fallback V2.2.1",
@@ -372,7 +349,7 @@
     "note": "V2.2.1 single-series recent-window fallback. Set FRED_EQUITY_FALLBACK=NO to keep S&P/Nasdaq as N/A."
   },
   "v221": {
-    "repairedAt": "2026-11-10T16:09:07+08:00",
+    "repairedAt": "2026-11-10T21:43:14+08:00",
     "version": "2.2.1"
   }
 }
