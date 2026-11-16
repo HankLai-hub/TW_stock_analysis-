@@ -1,18 +1,21 @@
 {
-  "generatedAt": "2026-11-16T20:08:34+08:00",
+  "generatedAt": "2026-11-16T21:56:38+08:00",
   "mode": "afterhours",
   "status": "degraded",
-  "liveGeneratedAt": "2026-11-16T20:07:49+08:00",
-  "globalGeneratedAt": "2026-11-16T20:08:19+08:00",
-  "briefGeneratedAt": "2026-11-16T20:07:49+08:00",
+  "liveGeneratedAt": "2026-11-16T21:55:59+08:00",
+  "globalGeneratedAt": "2026-11-16T21:56:25+08:00",
+  "briefGeneratedAt": "2026-11-16T21:55:59+08:00",
   "sourceWarningCount": 5,
-  "staleMetrics": [],
+  "staleMetrics": [
+    "tx"
+  ],
   "missingMetrics": [],
   "warnings": [
     "tx 資料為 T-1；目前=2026-11-13，市場基準=2026-11-16。",
     "foreignTx 資料為 T-1；目前=2026-11-13，市場基準=2026-11-16。",
     "putCall 資料為 T-1；目前=2026-11-13，市場基準=2026-11-16。",
-    "margin 資料為 T-1；目前=2026-11-13，市場基準=2026-11-16。",
+    "資料延遲指標：tx",
+    "台股資料來源警告：{'source': 'TAIFEX TX daily', 'message': 'invalid JSON from https://openapi.taifex.com.tw/v1/DailyMarketReportFut: Expecting value: line 1 column 1 (char 0)'}",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {

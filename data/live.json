@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T20:07:49+08:00",
+  "generatedAt": "2026-11-16T21:55:59+08:00",
   "runKind": "afterhours",
   "marketPhase": "盤後",
-  "nextExpected": "下一個排程約 1 小時 10 分鐘後",
+  "nextExpected": "下一個夜間排程依 GitHub Actions 時程",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -47,9 +47,9 @@
     },
     "tx": {
       "value": "43,834",
-      "change": "+1.64%",
+      "change": "+1.64% · 本次抓取未更新",
       "asOf": "2026-11-13",
-      "state": "official_close",
+      "state": "stale",
       "source": "TAIFEX"
     },
     "foreignSpot": {
@@ -75,9 +75,9 @@
       "source": "TAIFEX"
     },
     "margin": {
-      "value": "上市 5,365.99 億",
+      "value": "上市 5,244.98 億",
       "change": "上櫃 2,152,744 張",
-      "asOf": "2026-11-13",
+      "asOf": "2026-11-16",
       "state": "official_afterhours",
       "source": "TWSE / TPEx（不同單位）"
     },
@@ -134,9 +134,28 @@
       "asOf": "2026-11-16",
       "state": "official_afterhours",
       "source": "TWSE BFI82U"
+    },
+    "shortBalance": {
+      "value": "217,384 張",
+      "change": "較前日 +8,611 張",
+      "asOf": "2026-11-16",
+      "state": "official_afterhours",
+      "source": "TWSE MI_MARGN"
+    },
+    "borrowShortBalance": {
+      "value": "133.17 億股",
+      "change": "1070 檔加總；單位為股",
+      "asOf": "2026-11-16",
+      "state": "official_afterhours",
+      "source": "TWSE TWT93U"
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "source": "TAIFEX TX daily",
+      "message": "invalid JSON from https://openapi.taifex.com.tw/v1/DailyMarketReportFut: Expecting value: line 1 column 1 (char 0)"
+    }
+  ],
   "sourceStatus": [
     {
       "name": "TWSE MI_INDEX",
@@ -206,9 +225,9 @@
     },
     {
       "name": "TAIFEX TX daily",
-      "state": "ok",
-      "asOf": "2026-11-13",
-      "detail": ""
+      "state": "error",
+      "asOf": "",
+      "detail": "invalid JSON from https://openapi.taifex.com.tw/v1/DailyMarketReportFut: Expecting value: line 1 column 1 (char 0)"
     },
     {
       "name": "TWSE BFI82U",
@@ -219,7 +238,7 @@
     {
       "name": "TWSE margin market total",
       "state": "ok",
-      "asOf": "2026-11-13",
+      "asOf": "2026-11-16",
       "detail": "融資金額(仟元)→億元"
     },
     {
@@ -236,9 +255,9 @@
     },
     {
       "name": "TWSE same-day margin",
-      "state": "pending",
-      "asOf": "",
-      "detail": "MI_MARGN returned unknown, expected 2026-11-16"
+      "state": "ok",
+      "asOf": "2026-11-16",
+      "detail": "date-targeted official CSV"
     },
     {
       "name": "TWSE V2.2.1 institutional totals",
@@ -248,15 +267,15 @@
     },
     {
       "name": "TWSE V2.2.1 short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-11-16",
-      "detail": "TWSE market short-balance row not found"
+      "detail": "MI_MARGN market total"
     },
     {
       "name": "TWSE V2.2.1 securities-lending short balance",
-      "state": "error",
+      "state": "ok",
       "asOf": "2026-11-16",
-      "detail": "TWT93U rows/columns not recognized"
+      "detail": "TWT93U per-security balances summed in shares"
     },
     {
       "name": "TWSE V2.2.1 sector strength",
@@ -399,7 +418,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-16T20:08:29+08:00",
+    "enrichedAt": "2026-11-16T21:56:33+08:00",
     "version": "2.2.1"
   }
 }
