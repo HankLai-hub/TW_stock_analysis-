@@ -1,24 +1,23 @@
 {
-  "generatedAt": "2026-11-17T12:49:55+08:00",
-  "mode": "intraday",
+  "generatedAt": "2026-11-17T16:13:53+08:00",
+  "mode": "premarket",
   "status": "degraded",
-  "liveGeneratedAt": "2026-11-17T12:49:18+08:00",
-  "globalGeneratedAt": "2026-11-17T12:49:39+08:00",
-  "briefGeneratedAt": "2026-11-17T12:49:18+08:00",
-  "sourceWarningCount": 2,
-  "staleMetrics": [
-    "margin"
-  ],
+  "liveGeneratedAt": "2026-11-17T16:12:24+08:00",
+  "globalGeneratedAt": "2026-11-17T16:13:35+08:00",
+  "briefGeneratedAt": "2026-11-17T16:12:24+08:00",
+  "sourceWarningCount": 4,
+  "staleMetrics": [],
   "missingMetrics": [],
   "warnings": [
-    "目前資料的市場基準日為 2026-11-16，早於本次產生日期 2026-11-17。可能為休市、官方資料尚未更新，或市場資料仍停留在上一交易日。",
-    "資料延遲指標：margin",
+    "tx 資料為 T-1；目前=2026-11-16，市場基準=2026-11-17。",
+    "putCall 資料為 T-1；目前=2026-11-16，市場基準=2026-11-17。",
+    "margin 資料為 T-1；目前=2026-11-16，市場基準=2026-11-17。",
     "全球資料來源警告：{'source': 'Federal Reserve FOMC calendar repair', 'message': 'no validated current-year FOMC section (expected 6-10 meetings)'}"
   ],
   "liveValidation": {
     "status": "degraded",
-    "taiexAsOf": "2026-11-16",
-    "turnoverAsOf": "2026-11-16",
+    "taiexAsOf": "2026-11-17",
+    "turnoverAsOf": "2026-11-17",
     "turnoverFreshness": "fresh",
     "turnoverFreshnessMessage": "TAIEX 與成交金額為同一交易日。"
   },
