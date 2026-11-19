@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T05:38:25+08:00",
+  "generatedAt": "2026-11-19T09:13:55+08:00",
   "runKind": "afterhours",
-  "marketPhase": "海外時段",
-  "nextExpected": "下一個排程約 3 小時 29 分鐘後",
+  "marketPhase": "盤中",
+  "nextExpected": "下一個排程約 54 分鐘後",
   "intradayFeed": {
     "state": "not_configured",
     "label": "盤中授權資料源尚未設定",
@@ -46,9 +46,9 @@
       "source": "CBC"
     },
     "tx": {
-      "value": "40,073",
-      "change": "-1.74%",
-      "asOf": "2026-11-17",
+      "value": "40,025",
+      "change": "+0.03%",
+      "asOf": "2026-11-18",
       "state": "official_close",
       "source": "TAIFEX"
     },
@@ -61,16 +61,16 @@
       "rawValueYi": -765.6368
     },
     "foreignTx": {
-      "value": "-97,896 口",
-      "change": "多 17,052 / 空 114,948",
-      "asOf": "2026-11-17",
+      "value": "-99,438 口",
+      "change": "多 9,922 / 空 109,360",
+      "asOf": "2026-11-18",
       "state": "official_afterhours",
       "source": "TAIFEX"
     },
     "putCall": {
-      "value": "成交 78.95%",
-      "change": "OI 54.08%",
-      "asOf": "2026-11-17",
+      "value": "成交 91.97%",
+      "change": "OI 39.80%",
+      "asOf": "2026-11-18",
       "state": "official_afterhours",
       "source": "TAIFEX"
     },
@@ -191,19 +191,19 @@
     {
       "name": "TAIFEX institutional TX",
       "state": "ok",
-      "asOf": "2026-11-17",
-      "detail": "OpenAPI"
+      "asOf": "2026-11-18",
+      "detail": "official HTML fallback"
     },
     {
       "name": "TAIFEX Put/Call",
       "state": "ok",
-      "asOf": "2026-11-17",
+      "asOf": "2026-11-18",
       "detail": ""
     },
     {
       "name": "TAIFEX TX daily",
       "state": "ok",
-      "asOf": "2026-11-17",
+      "asOf": "2026-11-18",
       "detail": ""
     },
     {
@@ -250,9 +250,9 @@
     }
   ],
   "risk": {
-    "score": 38.8,
+    "score": 34.8,
     "label": "偏空",
-    "confidence": 72,
+    "confidence": 100,
     "components": [
       {
         "name": "TAIEX",
@@ -267,6 +267,12 @@
         "reason": "收盤 +0.31%"
       },
       {
+        "name": "臺指期",
+        "score": 50.3,
+        "weight": 10,
+        "reason": "TX +0.03%"
+      },
+      {
         "name": "市場廣度",
         "score": 47.0,
         "weight": 20,
@@ -277,6 +283,12 @@
         "score": 11.7,
         "weight": 22,
         "reason": "-766 億"
+      },
+      {
+        "name": "外資TX",
+        "score": 10.2,
+        "weight": 18,
+        "reason": "-99,438 口"
       }
     ],
     "drivers": [
@@ -285,6 +297,12 @@
         "direction": "negative",
         "reason": "-766 億",
         "score": 11.7
+      },
+      {
+        "name": "外資TX",
+        "direction": "negative",
+        "reason": "-99,438 口",
+        "score": 10.2
       },
       {
         "name": "市場廣度",
@@ -296,12 +314,6 @@
         "name": "TAIEX",
         "direction": "neutral",
         "reason": "收盤 +0.26%",
-        "score": 53.1
-      },
-      {
-        "name": "櫃買",
-        "direction": "neutral",
-        "reason": "收盤 +0.31%",
         "score": 53.1
       }
     ],
@@ -383,7 +395,7 @@
     }
   ],
   "v22": {
-    "enrichedAt": "2026-11-19T05:38:57+08:00",
+    "enrichedAt": "2026-11-19T09:15:10+08:00",
     "version": "2.2.1"
   }
 }
