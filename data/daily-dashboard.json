@@ -1,24 +1,24 @@
 {
   "schemaVersion": "2.2.1",
-  "generatedAt": "2026-11-24T18:10:23+08:00",
+  "generatedAt": "2026-11-24T18:46:44+08:00",
   "meta": {
     "reportType": "每日盤前分析",
     "title": "2026/11/24 台股盤前作戰儀表板 V2.2.1",
-    "updatedAt": "2026/11/24 18:12",
+    "updatedAt": "2026/11/24 18:47",
     "timezone": "Asia/Taipei",
-    "twDate": "2026-11-24",
+    "twDate": "2026-11-23",
     "usDate": "2026-11-23",
-    "dataStatus": "自動日報｜Single Source of Truth｜3 stale / 2 N/A"
+    "dataStatus": "自動日報｜Single Source of Truth"
   },
-  "score": 76.2,
-  "scoreLabel": "Risk-On",
-  "confidence": "72%",
+  "score": 53.4,
+  "scoreLabel": "Neutral",
+  "confidence": "66%",
   "regime": "Risk-Off",
-  "headline": "價格、資金與市場廣度形成 Risk-On 共振，但仍需防範槓桿快速升溫。",
+  "headline": "市場多空分歧，指數與資金訊號尚未形成一致方向。",
   "quickTake": [
-    "價格面：TAIEX +8.99%、櫃買 +8.24%。",
-    "法人曝險：外資現貨 -504 億；外資 TX -103,432 口（資料至 2026-11-23，不納入今日方向）。",
-    "市場廣度：上漲家數占漲跌家數約 96.9%，廣度偏強。",
+    "價格面：TAIEX +2.16%、櫃買 +8.24%。",
+    "法人曝險：外資現貨 -289 億；外資 TX -103,432 口。",
+    "市場廣度：上漲家數占漲跌家數約 64.3%，廣度偏強。",
     "全球宏觀：美10Y 4.92%、Brent $92.94；全球宏觀 Risk-Off 28分。"
   ],
   "kpis": [
@@ -30,15 +30,15 @@
     },
     {
       "label": "台股風險分數",
-      "value": "76.2",
-      "tone": "good",
-      "note": "Risk-On"
+      "value": "53.4",
+      "tone": "warn",
+      "note": "Neutral"
     },
     {
       "label": "外資現貨",
-      "value": "-503.90 億",
+      "value": "-289.48 億",
       "tone": "neutral",
-      "note": "2026-11-24"
+      "note": "2026-11-23"
     },
     {
       "label": "外資 TX",
@@ -48,15 +48,15 @@
     },
     {
       "label": "市場廣度",
-      "value": "1893↑ / 60↓",
+      "value": "652↑ / 362↓",
       "tone": "neutral",
-      "note": "2026-11-24"
+      "note": "2026-11-23"
     },
     {
       "label": "資料稽核",
-      "value": "STALE",
-      "tone": "bad",
-      "note": "N/A 2 項"
+      "value": "OK",
+      "tone": "good",
+      "note": "N/A 0 項"
     }
   ],
   "marketThemes": [
@@ -85,7 +85,7 @@
         "USD/TWD",
         "市場廣度"
       ],
-      "thesis": "外資現貨 -503.90 億；外資 TX -103,432 口。",
+      "thesis": "外資現貨 -289.48 億；外資 TX -103,432 口。",
       "watch": "需觀察現貨與期貨是否連續同向，而不是只看單日。"
     },
     {
@@ -175,10 +175,10 @@
     {
       "rank": 4,
       "name": "外資現貨",
-      "value": "-503.90 億",
+      "value": "-289.48 億",
       "tone": "neutral",
       "why": "現貨方向可確認外資是否真正增加台股曝險。",
-      "trigger": "連續 3 日同方向且規模擴大。｜資料日 2026-11-24"
+      "trigger": "連續 3 日同方向且規模擴大。｜資料日 2026-11-23"
     },
     {
       "rank": 5,
@@ -191,6 +191,19 @@
   ],
   "news": [
     {
+      "category": "地緣政治",
+      "time": "2026-11-24 18:04",
+      "impact": 5,
+      "title": "Treasury yields steady after inflation warning from New York Fed's Williams, investors await 5-year auction - CNBC",
+      "fact": "Treasury yields steady after inflation warning from New York Fed's Williams, investors await 5-year auction - CNBC",
+      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+      "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+      "sourceKeys": [],
+      "source": "Google News discovery · 總體市場",
+      "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9kVk10NWJKZmMxSHlDRjExaTRUbnMtRmhRTGFta21UaHg4NGNSZndMYTRxczhZSmg5TllvWi1LekdUcGc2c2hfcnVrQnhPR0NTSjI0QU0yZHpFZldCSndPWENKaXNKV0VubXYtTW9ndVllY3hRek1B0gF8QVVfeXFMUGg3N2J0czVpMHZ6dzNPbjdfb2dmYk9NQUw2ZmVQUG00UWlJeDdEaUkzSjJQMU5DOVVXQXg4YzBkYlJldkV0aFRjNXZJM2hKckRRR3lYc2xhemdhMk9rLTk4Q2Uxc3k0Xy1yOE9QZWVpM095amUwdk1BLXlHXw?oc=5",
+      "verification": "背景資訊／需查核原始來源"
+    },
+    {
       "category": "台股市場",
       "time": "2026-11-24 18:00",
       "impact": 3,
@@ -202,6 +215,32 @@
       "source": "TWSE",
       "link": "/rwd/zh/news/newsDetail/8a8216d6a19afd9c01a20d009de205c9",
       "verification": "官方來源"
+    },
+    {
+      "category": "地緣政治",
+      "time": "2026-11-24 17:59",
+      "impact": 5,
+      "title": "NATO’s Eastern Flank Exposes Divisions Over Europe’s Collective Defence - EU Today",
+      "fact": "NATO’s Eastern Flank Exposes Divisions Over Europe’s Collective Defence - EU Today",
+      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+      "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+      "sourceKeys": [],
+      "source": "Google News discovery · 歐洲安全",
+      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNMDBybVo1QmJveGVkVzNLd0ZFUnZJdFNkM0dYdDFrZUV2aFFYREVTYTZJYzFqajFZOWZXdEVMNFlrMHRoTVV5NDhid2tIZzJrdk9DS2J4T0xKemExZmI0RzlTOXk2UkJubGwtS3ZtaFpfZENFOHk3U2I2SFhSQmY5c0xyaw?oc=5",
+      "verification": "背景資訊／需查核原始來源"
+    },
+    {
+      "category": "地緣政治",
+      "time": "2026-11-24 17:09",
+      "impact": 5,
+      "title": "US stock market outlook: Citadel warns of a repeat of the 2018 selloff - www.equiti.com",
+      "fact": "US stock market outlook: Citadel warns of a repeat of the 2018 selloff - www.equiti.com",
+      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
+      "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
+      "sourceKeys": [],
+      "source": "Google News discovery · 總體市場",
+      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOdm1veXZLaTBic1lON1dHcjBkZmxlSWc0S1I2RE4zTjIwLWIwZlltcnlvZVc4alNFZWlUOE9WQ2N1V251Q2U1SUhQZFRlLUE2aFhNcDdfS0pzdldQMUt5TjVNLWFreUFPRFgteTdVcnR2djYzOFFBcHFUTGpaVEZkNjF0T3EzLWUxZW53S0pESUc0MU8wYkhWeQ?oc=5",
+      "verification": "背景資訊／需查核原始來源"
     },
     {
       "category": "能源",
@@ -257,19 +296,6 @@
     },
     {
       "category": "半導體",
-      "time": "2026-11-24 15:34",
-      "impact": 3,
-      "title": "Chipmaker TSMC in Taiwan adds $158 billion in market value in a day — Fortune - UA.NEWS",
-      "fact": "Chipmaker TSMC in Taiwan adds $158 billion in market value in a day — Fortune - UA.NEWS",
-      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-      "twImpact": "影響台灣電子權值、AI 供應鏈與半導體風險偏好。",
-      "sourceKeys": [],
-      "source": "Google News discovery · 半導體",
-      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQVlYxSTZ5bU1NVERGNHNibUxpSmVXS0NpbWNDZXJjX3RkVUx3c29ieWFrN3p1NV9vYlVhb2d0OVRNc0o4N0tzQTg3SGhvLU91cDFoOTVwWWZSbHhWSUl0Mjg3TFhtcHVDMGdtdlB2RDMtNVZHcG81dVdsVHotczI4WW1SNlB0N3FybDRON3dfMElHOE9FUE03TEtmQ2hYMHNPYjJRaGJhenoyVTllV3c?oc=5",
-      "verification": "背景資訊／需查核原始來源"
-    },
-    {
-      "category": "半導體",
       "time": "2026-11-24 15:05",
       "impact": 3,
       "title": "TSMC gains $158 billion in value in one day as Jensen Huang returns as Nvidia CEO - Fortune",
@@ -292,19 +318,6 @@
       "sourceKeys": [],
       "source": "Google News discovery · 半導體",
       "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNWEhDdVZ3YlNOcXBQRnBpTmp2SG43ZW9qZU1faEN2NHpBSzYzT1JxWVJJN3pUMXd3U1VQQ0kzeG0tRTh4SlpLa0w5eTU2bW1HdU5vX09GWngtX2FCMzJzT2pJTU1QSmN0enB4bWFFOVZYa3EybV82REg3UkJsLTdlN0pIRFVBdWgzSnFueDVTSVRqQlViUkdZUWlDLUJ6SFFpSmRhVC1pdGtFWTFYd1NWYWIwYmJrSDFkM0ItNllJU1VBX3FjYU1mMFNpb1J1bjl3QlJUdTF6LUI2aWtVbTdHb2EzUkJLWlM5ZU44bDJ0QnJuNEVQRW5jYQ?oc=5",
-      "verification": "背景資訊／需查核原始來源"
-    },
-    {
-      "category": "能源",
-      "time": "2026-11-24 13:14",
-      "impact": 5,
-      "title": "WPI inflation, FII flows, crude oil prices to guide markets this week - The Times of India",
-      "fact": "WPI inflation, FII flows, crude oil prices to guide markets this week - The Times of India",
-      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-      "twImpact": "主要透過油價、通膨預期與美債殖利率影響高估值科技股。",
-      "sourceKeys": [],
-      "source": "Google News discovery · 總體市場",
-      "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOVzYxYW1wbXprRk5SNld0a1Q4cHRzWXhEZUxpSzFsNTI1d2cxOEhwUEgtMmZvUVlpREFrY2dzLWZQVDJiQ0Itb2JKUzBBU3ZSaGJiclRSWkttMkZCNW9jdkRXdnVjN1Y2YzJ0TmN3SXZXNGoxM0dONmktRi1ERFB5S3Z1cHpPaU1zaUxNUUdYR3NIc1Vsa1lMWEpmMlE0U2N0Z09pTHhRYzU4dDdhaXVYZXNkUnNIRlNKdXhDMlhsNnUxMHl6U0RiZndDOHVGSERJZGFSTG9mX0prVVZiN2hrcGpJTG5wTTA20gHuAUFVX3lxTE1OWmF3QXdrbktPbFhrVzFUUTA0ZlpnSXRlY004bDl2TXlyVERZeTFJSGFacTJDallZR3RGaXN6SFQwRmJiZVZTUkdnTHJUQ1dZZnNHZ21WNmw0ZVZJTUxBaWhNMW1FUlRGc2FsNGpYVGpKcTg0YVd5T2FTTTdDNXZTOFczSUNGYjZsS244eWtxTUZ2c2dpQmdMSGVVX2J5WDEtVzhTWGpyMG9rdXFJN1M3YkxXbHplRGlnVjB2bjV1VzhHZDdjYnVQdWFzN0MwQVMtTWRjVlNBOTRoR3Q1cFduejNhWlhOQmV1UE5iWmc?oc=5",
       "verification": "背景資訊／需查核原始來源"
     },
     {
@@ -331,19 +344,6 @@
       "sourceKeys": [],
       "source": "Google News discovery · 歐洲安全",
       "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFB5eC1RZUJ2YV9xSzh4c2N1NW0xdVV4WmNULXp5YVNwTS1JMUxMZW5UNF8xTi04anhSdzZrOFlua3BfX25jWktXeE5qWjVwWW5CRTZBZDB0bmI?oc=5",
-      "verification": "背景資訊／需查核原始來源"
-    },
-    {
-      "category": "地緣政治",
-      "time": "2026-11-24 08:30",
-      "impact": 4,
-      "title": "Zelensky urges four-way peace talks with Russia, Europe and US 'as soon as possible' - France 24",
-      "fact": "Zelensky urges four-way peace talks with Russia, Europe and US 'as soon as possible' - France 24",
-      "reaction": "同期市場觀察：S&P 500 -3.70%、Nasdaq -2.25%、SOX +14.03%、美10Y +0 bp、Brent +0.04%、USD/TWD 32.939。僅為同一資料窗口的價格／利率快照，不代表該新聞造成上述變動。",
-      "twImpact": "觀察能源、航運、國防支出與全球風險溢酬，並追蹤美債與美元是否同步升溫。",
-      "sourceKeys": [],
-      "source": "Google News discovery · 歐洲安全",
-      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNVEtqa25rSm4yYnMybWpTam9YNEVLTzFMbjQ4cDdqRkJoc1IxNUl2UWtGc0dkQXU0a3FjVGM1NTlYSXZoM1ZhakxfblhibjB1cXB2Mks1MWhITEVfZzVxYXVKQ1NGZDhvX2stbmNwU0NqdjhYWDFuVGp6SWZBTGJkejdOTVN6Q2MwN2tqSlpNLU93SU1NMndZeUhCY0NwQVRyR21PSkh6Z0NzZDNOLW5PemJGVFc3LVJ6NVJfRzFFWG1BY00?oc=5",
       "verification": "背景資訊／需查核原始來源"
     },
     {
@@ -591,21 +591,21 @@
     "rows": [
       [
         "外資",
-        "-503.90 億",
-        "2026-11-24",
+        "-289.48 億",
+        "2026-11-23",
         "TWSE BFI82U"
       ],
       [
         "投信",
-        "+84.04 億",
-        "2026-11-24",
+        "-41.55 億",
+        "2026-11-23",
         "TWSE BFI82U"
       ],
       [
         "自營商",
-        "-810.25 億",
-        "2026-11-24",
-        "TWSE BFI82U｜自行 +15.86 億 / 避險 -826.12 億"
+        "-190.01 億",
+        "2026-11-23",
+        "TWSE BFI82U｜自行 -28.99 億 / 避險 -161.02 億"
       ]
     ]
   },
@@ -624,14 +624,14 @@
     },
     {
       "label": "期現貨基差",
-      "value": "N/A",
+      "value": "-235.89 點",
       "note": "僅在 TX 與現貨資料日相同時自動計算。",
       "tone": "neutral"
     },
     {
       "label": "Put/Call",
       "value": "成交 54.21%",
-      "note": "OI 30.90% · 2026-11-23",
+      "note": "OI 30.90% · 本次抓取未更新 · 2026-11-23",
       "tone": "neutral"
     }
   ],
@@ -645,51 +645,46 @@
     {
       "label": "融資",
       "value": "上市 4,338.08 億",
-      "note": "上櫃 1,868,098 張 · 2026-11-23",
+      "note": "上櫃 1,868,098 張 · 本次抓取未更新 · 2026-11-23",
       "tone": "neutral"
     },
     {
       "label": "融券 / 借券賣出",
-      "value": "融券 N/A",
-      "note": "借券賣出 N/A · N/A；兩者單位與機制不同，不相加。",
+      "value": "融券 172,957 張",
+      "note": "借券賣出 132.33 億股 · 2026-11-23；兩者單位與機制不同，不相加。",
       "tone": "neutral"
     }
   ],
   "breadth": {
-    "advancers": 1893,
-    "decliners": 60,
-    "taiexChange": "+8.99%",
-    "otcChange": "+8.24%",
-    "note": "最新官方完整交易日 2026-11-24；若家數缺漏則顯示 N/A，不以 0 代替。"
+    "advancers": 652,
+    "decliners": 362,
+    "taiexChange": "+2.16%",
+    "otcChange": "+8.24% · 本次抓取未更新",
+    "note": "最新官方完整交易日 2026-11-23；若家數缺漏則顯示 N/A，不以 0 代替。"
   },
   "levels": {
-    "current": 40122.35,
+    "current": 36811.89,
     "resistance": [
       {
         "label": "近20日收盤壓力",
-        "price": "40,194.91",
+        "price": "38,426.89",
         "strength": "資料型"
       },
       {
         "label": "整數技術關卡",
-        "price": "40,500",
+        "price": "37,000",
         "strength": "技術參考"
       }
     ],
     "support": [
       {
         "label": "近20日收盤支撐",
-        "price": "40,092.11",
-        "strength": "資料型"
-      },
-      {
-        "label": "次支撐",
-        "price": "39,701.64",
+        "price": "36,033.29",
         "strength": "資料型"
       },
       {
         "label": "整數技術關卡",
-        "price": "40,000",
+        "price": "36,500",
         "strength": "技術參考"
       }
     ]
@@ -698,78 +693,68 @@
     {
       "name": "半導體",
       "direction": "領先大盤",
-      "change": "+9.78%",
-      "relative": "相對 TAIEX +0.79 個百分點",
+      "change": "+2.58%",
+      "relative": "相對 TAIEX +0.42 個百分點",
       "tone": "good",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX +0.79 個百分點；為產業指數價格強弱，不代表資金淨流入"
+      "desc": "相對 TAIEX +0.42 個百分點；為產業指數價格強弱，不代表資金淨流入"
     },
     {
       "name": "電子零組件",
       "direction": "領先大盤",
-      "change": "+9.64%",
-      "relative": "相對 TAIEX +0.65 個百分點",
+      "change": "+6.61%",
+      "relative": "相對 TAIEX +4.45 個百分點",
       "tone": "good",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX +0.65 個百分點；為產業指數價格強弱，不代表資金淨流入"
+      "desc": "相對 TAIEX +4.45 個百分點；為產業指數價格強弱，不代表資金淨流入"
     },
     {
       "name": "金融",
       "direction": "落後大盤",
-      "change": "+8.74%",
-      "relative": "相對 TAIEX -0.25 個百分點",
+      "change": "-2.65%",
+      "relative": "相對 TAIEX -4.81 個百分點",
       "tone": "bad",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX -0.25 個百分點；為產業指數價格強弱，不代表資金淨流入"
+      "desc": "相對 TAIEX -4.81 個百分點；為產業指數價格強弱，不代表資金淨流入"
     },
     {
       "name": "航運",
       "direction": "落後大盤",
-      "change": "+6.42%",
-      "relative": "相對 TAIEX -2.57 個百分點",
+      "change": "+0.87%",
+      "relative": "相對 TAIEX -1.29 個百分點",
       "tone": "bad",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX -2.57 個百分點；為產業指數價格強弱，不代表資金淨流入"
+      "desc": "相對 TAIEX -1.29 個百分點；為產業指數價格強弱，不代表資金淨流入"
     },
     {
       "name": "資訊服務",
       "direction": "落後大盤",
-      "change": "+5.68%",
-      "relative": "相對 TAIEX -3.31 個百分點",
+      "change": "-0.84%",
+      "relative": "相對 TAIEX -3.00 個百分點",
       "tone": "bad",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX -3.31 個百分點；為產業指數價格強弱，不代表資金淨流入"
+      "desc": "相對 TAIEX -3.00 個百分點；為產業指數價格強弱，不代表資金淨流入"
     },
     {
       "name": "電子工業",
       "direction": "領先大盤",
-      "change": "+9.49%",
-      "relative": "相對 TAIEX +0.50 個百分點",
+      "change": "+2.85%",
+      "relative": "相對 TAIEX +0.69 個百分點",
       "tone": "good",
-      "asOf": "2026-11-24",
+      "asOf": "2026-11-23",
       "source": "TWSE MI_INDEX (type=IND)",
-      "desc": "相對 TAIEX +0.50 個百分點；為產業指數價格強弱，不代表資金淨流入"
-    },
-    {
-      "name": "櫃買（中小型代理）",
-      "direction": "落後大盤",
-      "change": "+8.24%",
-      "relative": "相對 TAIEX -0.75 個百分點",
-      "tone": "bad",
-      "asOf": "2026-11-24",
-      "source": "TPEx",
-      "desc": "相對 TAIEX -0.75 個百分點；此卡為市場代理，不代表產業淨資金流"
+      "desc": "相對 TAIEX +0.69 個百分點；為產業指數價格強弱，不代表資金淨流入"
     }
   ],
   "scenarios": [
     {
       "type": "BULL",
-      "weight": 45,
+      "weight": 20,
       "title": "風險條件改善",
       "tone": "good",
       "conditions": [
@@ -781,7 +766,7 @@
     },
     {
       "type": "BASE",
-      "weight": 45,
+      "weight": 67,
       "title": "高檔震盪／訊號分歧",
       "tone": "warn",
       "conditions": [
@@ -793,7 +778,7 @@
     },
     {
       "type": "BEAR",
-      "weight": 10,
+      "weight": 13,
       "title": "風險條件惡化",
       "tone": "bad",
       "conditions": [
@@ -807,7 +792,7 @@
   "invalidation": [
     "Risk Score 跌破 45 並連續維持兩次更新。",
     "市場廣度跌破 40%，中小型股明顯轉弱。",
-    "外資現貨轉賣，且外資 TX 更新至最新交易日後仍偏空。"
+    "外資現貨轉賣且外資 TX 淨空同步擴大。"
   ],
   "events": [
     {
@@ -868,7 +853,7 @@
   "freshness": [
     {
       "name": "TAIEX",
-      "date": "2026-11-24",
+      "date": "2026-11-23",
       "state": "latest",
       "source": "TWSE"
     },
@@ -880,32 +865,32 @@
     },
     {
       "name": "外資現貨",
-      "date": "2026-11-24",
+      "date": "2026-11-23",
       "state": "latest",
       "source": "TWSE BFI82U"
     },
     {
       "name": "投信",
-      "date": "2026-11-24",
+      "date": "2026-11-23",
       "state": "latest",
       "source": "TWSE BFI82U"
     },
     {
       "name": "自營商",
-      "date": "2026-11-24",
+      "date": "2026-11-23",
       "state": "latest",
       "source": "TWSE BFI82U"
     },
     {
       "name": "外資 TX",
       "date": "2026-11-23",
-      "state": "stale",
+      "state": "latest",
       "source": "TAIFEX"
     },
     {
       "name": "Put/Call",
       "date": "2026-11-23",
-      "state": "stale",
+      "state": "latest",
       "source": "TAIFEX"
     },
     {
@@ -917,26 +902,26 @@
     {
       "name": "融資",
       "date": "2026-11-23",
-      "state": "stale",
+      "state": "latest",
       "source": "TWSE / TPEx（不同單位）"
     },
     {
       "name": "融券",
-      "date": "N/A",
-      "state": "missing",
-      "source": "N/A"
+      "date": "2026-11-23",
+      "state": "latest",
+      "source": "TWSE MI_MARGN"
     },
     {
       "name": "借券賣出",
-      "date": "N/A",
-      "state": "missing",
-      "source": "N/A"
+      "date": "2026-11-23",
+      "state": "latest",
+      "source": "TWSE TWT93U"
     },
     {
       "name": "市場廣度",
-      "date": "2026-11-24",
+      "date": "2026-11-23",
       "state": "latest",
-      "source": "TWSE/TPEx 股票"
+      "source": "TWSE 股票"
     },
     {
       "name": "US 10Y",
@@ -977,17 +962,17 @@
   ],
   "whyVolume": {
     "status": "normal",
-    "date": "2026-11-24",
-    "turnover": "4,326 億",
-    "ratioTo20dMedian": 0.45,
+    "date": "2026-11-23",
+    "turnover": "11,137 億",
+    "ratioTo20dMedian": 1.18,
     "label": "成交量未達 20 日中位數 1.3 倍異常門檻",
     "confidence": "資料型",
     "candidates": [],
     "note": "僅在成交值異常且存在可驗證市場結構事件時提供原因候選；無證據時維持 N/A，不把相關性當因果。"
   },
   "diagnostics": {
-    "stale": 3,
-    "missing": 2,
+    "stale": 0,
+    "missing": 0,
     "globalErrors": [
       {
         "source": "Federal Reserve FOMC calendar repair",

@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-24T18:46:44+08:00",
+  "runKind": "intraday",
+  "marketPhase": "盤後",
+  "nextExpected": "下一個排程約 2 小時 31 分鐘後",
+  "intradayFeed": {
+    "state": "not_configured",
+    "label": "授權盤中資料源尚未設定",
+    "note": "目前公開網站只顯示可驗證的官方盤後／日資料。"
+  },
+  "metrics": {
+    "taiex": {
+      "value": "36,811.89",
+      "change": "+2.16%",
+      "asOf": "2026-11-23",
+      "state": "official_close",
+      "source": "TWSE"
+    },
+    "otc": {
+      "value": "293.23",
+      "change": "+8.24% · 本次抓取未更新",
+      "asOf": "2026-11-24",
+      "state": "stale",
+      "source": "TPEx"
+    },
+    "turnover": {
+      "value": "11,137 億",
+      "change": "",
+      "asOf": "2026-11-23",
+      "state": "official_close",
+      "source": "TWSE"
+    },
+    "breadth": {
+      "value": "652↑ / 362↓",
+      "change": "平盤 72",
+      "asOf": "2026-11-23",
+      "state": "official_close",
+      "source": "TWSE 股票"
+    },
+    "usdTwd": {
+      "value": "32.939",
+      "change": "",
+      "asOf": "2026-11-24",
+      "state": "official_daily",
+      "source": "CBC"
+    },
+    "tx": {
+      "value": "36,576",
+      "change": "+2.17%",
+      "asOf": "2026-11-23",
+      "state": "official_close",
+      "source": "TAIFEX"
+    },
+    "foreignSpot": {
+      "value": "-503.90 億",
+      "change": "上市市場 · 本次抓取未更新",
+      "asOf": "2026-11-24",
+      "state": "stale",
+      "source": "TWSE BFI82U",
+      "rawValueYi": -503.8991
+    },
+    "foreignTx": {
+      "value": "-103,432 口",
+      "change": "多 14,599 / 空 118,031",
+      "asOf": "2026-11-23",
+      "state": "official_afterhours",
+      "source": "TAIFEX"
+    },
+    "putCall": {
+      "value": "成交 54.21%",
+      "change": "OI 30.90% · 本次抓取未更新",
+      "asOf": "2026-11-23",
+      "state": "stale",
+      "source": "TAIFEX"
+    },
+    "margin": {
+      "value": "上市 4,338.08 億",
+      "change": "上櫃 1,868,098 張 · 本次抓取未更新",
+      "asOf": "2026-11-23",
+      "state": "stale",
+      "source": "TWSE / TPEx（不同單位）"
+    }
+  },
+  "errors": [
+    {
+      "source": "TPEx daily trading index",
+      "message": "OpenAPI: TPEx OpenAPI latest date 2026-11-24 is not same-day target 2026-11-23; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F11&o=json: <urlopen error [Errno -2] Name or service not known>"
+    },
+    {
+      "source": "TAIFEX Put/Call",
+      "message": "invalid JSON from https://openapi.taifex.com.tw/v1/PutCallRatio: Expecting value: line 1 column 1 (char 0)"
+    }
+  ],
+  "sourceStatus": [
+    {
+      "name": "TWSE MI_INDEX",
+      "state": "ok",
+      "asOf": "2026-11-23",
+      "detail": ""
+    },
+    {
+      "name": "TWSE turnover",
+      "state": "ok",
+      "asOf": "2026-11-23",
+      "detail": ""
+    },
+    {
+      "name": "TWSE stock breadth",
+      "state": "ok",
+      "asOf": "2026-11-23",
+      "detail": ""
+    },
+    {
+      "name": "TPEx daily trading index",
+      "state": "error",
+      "asOf": "",
+      "detail": "OpenAPI: TPEx OpenAPI latest date 2026-11-24 is not same-day target 2026-11-23; fallback: fetch failed: https://wwwov.tpex.org.tw/web/stock/aftertrading/daily_trading_index/st41_result.php?l=zh-tw&d=115%2F11&o=json: <urlopen error [Errno -2] Name or service no"
+    },
+    {
+      "name": "TPEx market highlight",
+      "state": "ok",
+      "asOf": "2026-11-24",
+      "detail": "OpenAPI close-quotes derived stock breadth"
+    },
+    {
+      "name": "CBC USD/TWD",
+      "state": "ok",
+      "asOf": "2026-11-24",
+      "detail": "CBC latest daily closing-rate page"
+    },
+    {
+      "name": "TAIFEX institutional TX",
+      "state": "ok",
+      "asOf": "2026-11-23",
+      "detail": "OpenAPI"
+    },
+    {
+      "name": "TAIFEX Put/Call",
+      "state": "error",
+      "asOf": "",
+      "detail": "invalid JSON from https://openapi.taifex.com.tw/v1/PutCallRatio: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "name": "TAIFEX TX daily",
+      "state": "ok",
+      "asOf": "2026-11-23",
+      "detail": ""
+    }
+  ],
+  "risk": {
+    "score": 53.4,
+    "label": "Neutral",
+    "confidence": 66,
+    "components": [
+      {
+        "name": "TAIEX",
+        "score": 75.9,
+        "weight": 18,
+        "reason": "收盤 +2.16%"
+      },
+      {
+        "name": "臺指期",
+        "score": 71.7,
+        "weight": 10,
+        "reason": "TX +2.17%"
+      },
+      {
+        "name": "市場廣度",
+        "score": 64.3,
+        "weight": 20,
+        "reason": "上漲比 64.3%"
+      },
+      {
+        "name": "外資TX",
+        "score": 8.6,
+        "weight": 18,
+        "reason": "-103,432 口"
+      }
+    ],
+    "drivers": [
+      {
+        "name": "外資TX",
+        "direction": "negative",
+        "reason": "-103,432 口",
+        "score": 8.6
+      },
+      {
+        "name": "TAIEX",
+        "direction": "positive",
+        "reason": "收盤 +2.16%",
+        "score": 75.9
+      },
+      {
+        "name": "市場廣度",
+        "direction": "positive",
+        "reason": "上漲比 64.3%",
+        "score": 64.3
+      },
+      {
+        "name": "臺指期",
+        "direction": "positive",
+        "reason": "TX +2.17%",
+        "score": 71.7
+      }
+    ],
+    "note": "研究用綜合分數；Put/Call、匯率與槓桿不以單一絕對值機械計分。"
+  }
+}
